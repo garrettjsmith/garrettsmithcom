@@ -6,6 +6,7 @@ import { escapeHtml, renderChatHtml, visiblePartial } from "@/lib/garrett/format
 import { Hire } from "./Hire.tsx";
 import { LandingSections } from "./Landing.tsx";
 import { Mark } from "./Mark.tsx";
+import { HeroStage } from "./Stage.tsx";
 
 type Turn = { role: "user" | "assistant"; content: string };
 type BotMsg = {
@@ -34,7 +35,7 @@ function Wordmark() {
     <>
       <Mark />
       <span className="wordmark" translate="no">
-        Garrett Smith<span className="labs">Labs</span>
+        Garrett Smith <span className="labs">Labs</span>
       </span>
     </>
   );
@@ -307,27 +308,27 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
           </header>
           <main className="body">
             <div className="hero-wrap">
-              <div className="wrap">
+              <div className="wrap hero-grid">
                 <div className="hero">
+                  <p className="eyebrow">
+                    <span className="live-dot" aria-hidden="true" />
+                    {COPY.hero.eyebrow}
+                  </p>
                   <h1>
                     {COPY.hero.headline} <mark>{COPY.hero.highlight}</mark>
                   </h1>
-                  <p>{COPY.hero.subhead}</p>
+                  <p className="sub">{COPY.hero.subhead}</p>
+                  <Field value={draft} onChange={setDraft} onSubmit={() => ask(draft)} disabled={busy} placeholder={COPY.hero.placeholder} />
+                  <p className="try">{COPY.hero.tryLine}</p>
+                  <div className="chips">
+                    {COPY.questions.map((q) => (
+                      <button key={q} className="chip q" onClick={() => ask(q)}>
+                        {q}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <Field value={draft} onChange={setDraft} onSubmit={() => ask(draft)} disabled={busy} placeholder={COPY.hero.placeholder} />
-                <p className="try">{COPY.hero.tryLine}</p>
-                <div className="chips">
-                  {COPY.questions.map((q) => (
-                    <button key={q} className="chip q" onClick={() => ask(q)}>
-                      {q}
-                    </button>
-                  ))}
-                </div>
-                <ul className="proof" aria-label="About Garrett">
-                  {COPY.proof.map((p) => (
-                    <li key={p}>{p}</li>
-                  ))}
-                </ul>
+                <HeroStage />
               </div>
             </div>
             <LandingSections />

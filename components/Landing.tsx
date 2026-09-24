@@ -1,32 +1,102 @@
+import Image from "next/image";
 import { COPY } from "@/content/copy.ts";
 import { Hire } from "./Hire.tsx";
 import { Mark } from "./Mark.tsx";
+import { Portal } from "./Stage.tsx";
 
-// Everything below the hero: who Garrett is, how the AI version works, what it
-// costs next to the real thing, and the Slack pitch.
+const STATS = [
+  { value: "20+", label: "years in local search" },
+  { value: "25", label: "playbooks behind every answer" },
+  { value: "Live", label: "rankings, reviews & profiles" },
+  { value: "1/10th", label: "the cost of an hour with me" },
+];
+
+const PLAYBOOK_FILES = ["gbp-optimization", "review-management", "gbp-suspension-recovery", "ai-local-search"];
+
+// Everything below the hero.
 export function LandingSections() {
-  const { how, pricing, team } = COPY;
+  const { how, pricing, team, letter } = COPY;
   return (
     <>
-      <section className="sec how" aria-labelledby="how-title">
+      <section className="stats" aria-label="At a glance">
+        <div className="wrap stats-row">
+          {STATS.map((s) => (
+            <div key={s.label} className="stat">
+              <p className="v">{s.value}</p>
+              <p className="l">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="sec" aria-labelledby="letter-title">
+        <div className="wrap letter">
+          <div className="portrait">
+            <Image src="/garrett.webp" alt="Garrett Smith" width={800} height={800} sizes="(max-width: 820px) 70vw, 360px" />
+            <p className="portrait-tag">
+              <span className="live-dot" aria-hidden="true" /> The real one
+            </p>
+          </div>
+          <article className="note">
+            <p className="eyebrow" id="letter-title">
+              {letter.eyebrow}
+            </p>
+            {letter.paragraphs.map((p, i) => (
+              <p key={i} className={i === 0 ? "hello" : undefined}>
+                {p}
+              </p>
+            ))}
+            <div className="signoff">
+              <p className="sig" aria-hidden="true">
+                {letter.signature}
+              </p>
+              <p className="who">
+                <b>{letter.name}</b>
+                <span>{letter.role}</span>
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section className="sec sec-tint" aria-labelledby="how-title">
         <div className="wrap">
+          <p className="eyebrow">{how.eyebrow}</p>
           <h2 id="how-title">{how.title}</h2>
           <p className="lede">{how.intro}</p>
-          <div className="equation">
-            {how.parts.map((p, i) => (
-              <div key={p.name} className="eq-row">
-                <div className="part">
-                  <h3>
-                    <a href={p.href}>{p.name}</a>
-                  </h3>
-                  <p>{p.body}</p>
-                </div>
-                <span className="op" aria-hidden="true">
-                  {i === 0 ? "+" : "="}
-                </span>
+          <div className="formula">
+            <div className="card">
+              <div className="viz files" aria-hidden="true">
+                {PLAYBOOK_FILES.map((f) => (
+                  <span key={f}>{f}.md</span>
+                ))}
               </div>
-            ))}
-            <div className="part result">
+              <h3>
+                <a href={how.parts[0].href}>{how.parts[0].name}</a>
+              </h3>
+              <p>{how.parts[0].body}</p>
+            </div>
+            <span className="op" aria-hidden="true">
+              +
+            </span>
+            <div className="card">
+              <div className="viz bars" aria-hidden="true">
+                {[38, 64, 52, 80, 71, 92, 60].map((h, i) => (
+                  <i key={i} style={{ height: `${h}%` }} />
+                ))}
+              </div>
+              <h3>
+                <a href={how.parts[1].href}>{how.parts[1].name}</a>
+              </h3>
+              <p>{how.parts[1].body}</p>
+            </div>
+            <span className="op" aria-hidden="true">
+              =
+            </span>
+            <div className="card result">
+              <div className="viz">
+                <Portal className="mini" />
+              </div>
               <h3>{how.result.name}</h3>
               <p>{how.result.body}</p>
             </div>
@@ -34,8 +104,9 @@ export function LandingSections() {
         </div>
       </section>
 
-      <section className="sec pricing" aria-labelledby="pricing-title">
+      <section className="sec" aria-labelledby="pricing-title">
         <div className="wrap">
+          <p className="eyebrow">{pricing.eyebrow}</p>
           <h2 id="pricing-title">{pricing.title}</h2>
           <div className="prices">
             {[pricing.inPerson, pricing.ask].map((p, i) => (
@@ -51,9 +122,10 @@ export function LandingSections() {
         </div>
       </section>
 
-      <section className="sec team" aria-labelledby="team-title">
+      <section className="sec sec-tint" aria-labelledby="team-title">
         <div className="wrap team-grid">
           <div>
+            <p className="eyebrow">{team.eyebrow}</p>
             <h2 id="team-title">{team.title}</h2>
             <p className="lede">{team.intro}</p>
             <ul className="points">
@@ -71,6 +143,9 @@ export function LandingSections() {
 
       <footer className="foot">
         <div className="wrap">
+          <p className="foot-brand">
+            <Mark /> Garrett Smith Labs
+          </p>
           <p>{COPY.disclaimer}</p>
           <p>&copy; Garrett Smith</p>
         </div>
@@ -84,8 +159,13 @@ function SlackMock() {
   return (
     <figure className="slack" aria-label="Example: Garrett answering in a Slack thread">
       <div className="slack-bar">
+        <span className="dots" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </span>
         <span># local-seo</span>
-        <span className="tag">Example</span>
+        <span className="demo-tag">Example</span>
       </div>
       <div className="slack-msg">
         <span className="avatar sam" aria-hidden="true">
@@ -111,7 +191,9 @@ function SlackMock() {
             Checked the map pack. A competitor 0.4 mi closer to downtown verified last week, and your profile lost its
             Sunday hours on the 12th. Put the hours back first; that&rsquo;s the quick win.
           </p>
-          <p className="checked">Checked live: map pack · profile</p>
+          <p className="checked">
+            <span className="live-dot" aria-hidden="true" /> Checked live: map pack · profile
+          </p>
         </div>
       </div>
     </figure>
