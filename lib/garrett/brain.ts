@@ -8,9 +8,10 @@ import type {
   BetaToolResultBlockParam,
   BetaToolUnion,
 } from "@anthropic-ai/sdk/resources/beta/messages/messages";
-import { CHANNEL_RULES, PERSONA, type Channel } from "./persona.ts";
+import { BRIEF_RULES, CHANNEL_RULES, PERSONA, type Channel } from "./persona.ts";
 import { PLAYBOOK_INDEX, PLAYBOOK_NAMES, getPlaybook } from "./playbooks.ts";
 import { addTeamNote, getTeamNotes } from "./memory.ts";
+import { applyPatch, applyReminder, getBrief, renderBrief, saveBrief, type BriefPatch } from "./brief.ts";
 import { DECLINE_FOLLOWUPS, declineReply, logBlocked, screen, type Verdict } from "./guard.ts";
 import { callLsd, lsdAvailable } from "../lsd/client.ts";
 import { LSD_BY_NAME, lsdToolDefinitions } from "../lsd/tools.ts";
@@ -21,8 +22,10 @@ import { LSD_BY_NAME, lsdToolDefinitions } from "../lsd/tools.ts";
 const MODEL = process.env.GARRETT_MODEL || "claude-sonnet-5";
 const EFFORT = (process.env.GARRETT_EFFORT || "medium") as "low" | "medium" | "high";
 const MAX_ROUNDS = 6;
-// Live data calls allowed per answer (the prompt asks for at most 3).
+// Live data calls allowed per answer. The prompt asks for at most 3, or up to
+// 8 when a member asks for an audit or research; the code stops a little past that.
 const MAX_LIVE_CALLS = 4;
+const MAX_LIVE_CALLS_MEMBER = 10;
 
 const client = new Anthropic();
 
@@ -41,6 +44,8 @@ export interface ThinkInput {
   signal?: AbortSignal;
   /** Screen the newest message for scope before answering (default true). */
   guard?: boolean;
+  /** Show the brief but don't let the model change it (check-in previews). */
+  readOnly?: boolean;
 }
 
 export interface ThinkResult {
@@ -75,18 +80,68 @@ function buildTools(channel: Channel, teamId: string | undefined, live: boolean)
     },
   ];
   if (teamId) {
-    tools.push({
-      name: "save_team_note",
-      description:
-        "Remember a durable fact about this customer's business for future conversations: business names, locations, cities, competitors, goals, owners, preferences. One short sentence per note.",
-      input_schema: {
-        type: "object",
-        properties: { note: { type: "string", description: "One short sentence." } },
-        required: ["note"],
-        additionalProperties: false,
+    const list = { type: "array", items: { type: "string" } };
+    tools.push(
+      {
+        name: "update_brief",
+        description:
+          "Update this customer's brief: the business's details, what you found, the one next action, and a log line of what you just did. Creates the business on first use. Only the fields you pass change; list fields replace the old list. Call it after an audit or research, when you learn a business detail, and when a next step is agreed.",
+        input_schema: {
+          type: "object",
+          properties: {
+            business: { type: "string", description: "Business name (creates it if new)." },
+            city: { type: "string", description: "City and state, e.g. Buffalo, NY" },
+            address: { type: "string" },
+            phone: { type: "string" },
+            website: { type: "string" },
+            primary_category: { type: "string" },
+            business_type: { type: "string", enum: ["storefront", "service-area", "hybrid"] },
+            keywords: { ...list, description: "Target keywords, most important first (max 6)." },
+            service_area: { type: "string" },
+            competitors: { ...list, description: "Main competitors by name (max 6)." },
+            findings: {
+              type: "object",
+              description: "Current findings by severity. Each list replaces the old one; keep items short and specific.",
+              properties: { critical: list, important: list, monitor: list },
+              additionalProperties: false,
+            },
+            next_action: { type: "string", description: "The single most important next step." },
+            log: { type: "string", description: "One line: what you checked, found, or agreed today." },
+            checkins: { type: "boolean", description: "Turn weekly check-in emails on or off when the customer asks." },
+          },
+          required: ["business"],
+          additionalProperties: false,
+        },
       },
-      strict: true,
-    });
+      {
+        name: "set_reminder",
+        description:
+          "Set (or remove) a recurring reminder for the customer, like asking recent customers for reviews or adding new photos to the profile. Reminders go out in the weekly check-in email.",
+        input_schema: {
+          type: "object",
+          properties: {
+            business: { type: "string" },
+            text: { type: "string", description: "Short, doable reminder, e.g. 'Text last week's customers the review link'." },
+            every: { type: "string", enum: ["week", "2 weeks", "month"] },
+            remove: { type: "boolean" },
+          },
+          required: ["business", "text"],
+          additionalProperties: false,
+        },
+      },
+      {
+        name: "save_team_note",
+        description:
+          "Remember something durable that doesn't fit the brief: preferences, who's who on the team, goals, constraints. One short sentence per note.",
+        input_schema: {
+          type: "object",
+          properties: { note: { type: "string", description: "One short sentence." } },
+          required: ["note"],
+          additionalProperties: false,
+        },
+        strict: true,
+      },
+    );
   }
   if (live) tools.push(...(lsdToolDefinitions() as BetaToolUnion[]));
   return tools;
@@ -98,12 +153,14 @@ async function buildSystem(channel: Channel, teamId?: string): Promise<BetaTextB
     { type: "text", text: CHANNEL_RULES[channel], cache_control: { type: "ephemeral" } },
   ];
   if (teamId) {
-    const notes = await getTeamNotes(teamId);
+    const [notes, brief] = await Promise.all([getTeamNotes(teamId), getBrief(teamId)]);
     system.push({
       type: "text",
-      text: notes.length
-        ? "What you know about this customer (from your saved notes, oldest first):\n" + notes.map((n) => `- ${n}`).join("\n")
-        : "You haven't saved any notes about this customer yet. Learn their business as you go.",
+      text:
+        BRIEF_RULES +
+        "\n\n" +
+        renderBrief(brief, teamId.startsWith("email:")) +
+        (notes.length ? "\n\nOther notes (oldest first):\n" + notes.map((n) => `- ${n}`).join("\n") : ""),
     });
   }
   return system;
@@ -118,6 +175,16 @@ async function runClientTool(
   if (name === "open_playbook" && typeof args.name === "string") {
     const body = getPlaybook(args.name);
     return body ? { content: body } : { content: `No playbook named ${args.name}.`, isError: true };
+  }
+  if (name === "update_brief" && teamId) {
+    const { brief, result } = applyPatch(await getBrief(teamId), teamId, args as BriefPatch);
+    if (brief.businesses.length) await saveBrief(brief);
+    return { content: result };
+  }
+  if (name === "set_reminder" && teamId) {
+    const { brief, result } = applyReminder(await getBrief(teamId), args);
+    if (brief) await saveBrief(brief);
+    return { content: result };
   }
   if (name === "save_team_note" && teamId && typeof args.note === "string" && args.note.trim()) {
     await addTeamNote(teamId, args.note);
@@ -166,12 +233,15 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
   };
   const messages: BetaMessageParam[] = [...input.messages];
   const system = await buildSystem(channel, teamId);
-  const tools = buildTools(channel, teamId, live);
+  const tools = buildTools(channel, input.readOnly ? undefined : teamId, live);
   const checked = new Set<string>();
   const playbooks = new Set<string>();
   const parts: string[] = [];
   let emitted = false;
   let liveCalls = 0;
+  const liveCap = teamId ? MAX_LIVE_CALLS_MEMBER : MAX_LIVE_CALLS;
+  // Brief writes are read-modify-write; run them one at a time.
+  let briefQueue: Promise<unknown> = Promise.resolve();
   const scope = teamId ?? "anon";
   let emittedThisRound = false;
 
@@ -258,7 +328,7 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
   async function runTool(block: Extract<BetaContentBlock, { type: "tool_use" }>): Promise<BetaToolResultBlockParam> {
     const def = LSD_BY_NAME.get(block.name);
     if (def) {
-      if (++liveCalls > MAX_LIVE_CALLS) {
+      if (++liveCalls > liveCap) {
         return { type: "tool_result", tool_use_id: block.id, content: "Enough live checks for this answer. Answer with what you have.", is_error: true };
       }
       const r = await callLsd(block.name, block.input, scope);
@@ -270,7 +340,10 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
       playbooks.add(name);
       onEvent?.({ type: "status", label: name.replace(/-/g, " "), kind: "playbook" });
     }
-    const r = await runClientTool(block.name, block.input, teamId);
+    const run = () => runClientTool(block.name, block.input, teamId);
+    const next = briefQueue.catch(() => {}).then(run);
+    briefQueue = next;
+    const r = await next;
     return { type: "tool_result", tool_use_id: block.id, content: r.content, is_error: r.isError };
   }
 }
