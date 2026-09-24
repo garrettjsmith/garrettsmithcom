@@ -1,0 +1,36 @@
+{
+  "name": "garrettsmithcom",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "playbooks": "node --experimental-strip-types scripts/build-playbooks.ts",
+    "predev": "npm run playbooks",
+    "dev": "next dev",
+    "prebuild": "npm run playbooks",
+    "build": "next build",
+    "start": "next start",
+    "pretypecheck": "npm run playbooks",
+    "typecheck": "tsc --noEmit",
+    "pretest": "npm run playbooks",
+    "test": "node --experimental-strip-types --test \"lib/**/*.test.ts\"",
+    "invite": "node --experimental-strip-types scripts/invite.ts",
+    "member": "node --experimental-strip-types scripts/member.ts"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
+    "@upstash/redis": "^1.39.0",
+    "next": "^16.3.6",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  },
+  "type": "module"
+}

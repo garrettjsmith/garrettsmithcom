@@ -1,0 +1,35 @@
+# Paste into https://api.slack.com/apps -> Create New App -> From a manifest.
+# Replace garrettsmith.com if you deploy somewhere else.
+display_information:
+  name: Garrett
+  description: Virtual Garrett Smith. Local search, on your team.
+  background_color: "#000000"
+features:
+  app_home:
+    home_tab_enabled: false
+    messages_tab_enabled: true
+    messages_tab_read_only_enabled: false
+  bot_user:
+    display_name: Garrett
+    always_online: true
+oauth_config:
+  redirect_urls:
+    - https://garrettsmith.com/api/slack/oauth
+  scopes:
+    bot:
+      - app_mentions:read
+      - chat:write
+      - channels:history
+      - groups:history
+      - im:history
+settings:
+  event_subscriptions:
+    request_url: https://garrettsmith.com/api/slack/events
+    bot_events:
+      - app_mention
+      - message.im
+      - app_uninstalled
+      - tokens_revoked
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  token_rotation_enabled: false
