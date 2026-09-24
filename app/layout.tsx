@@ -7,17 +7,17 @@ const body = Archivo({ weight: ["400", "500", "700"], subsets: ["latin"], variab
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || "https://garrettsmith.com"),
-  title: "Garrett Smith Labs — ask me about local search",
+  title: "Ask Garrett: 20+ years of local search, on call",
   description:
-    "An AI version of Garrett Smith, built on 20+ years of local search work and wired to live ranking data. Ask it here, then add it to your team's Slack.",
+    "Ask Garrett about your local visibility. Garrett Smith's local search playbooks and live ranking data, for a fraction of what an hour of his time costs.",
   openGraph: {
-    title: "Ask me why you're not in the map pack.",
-    description: "Virtual Garrett: local search expertise you can add to your team's Slack.",
+    title: "Ask Garrett about your local visibility.",
+    description: "20+ years of local search experience, on call. Powered by Local SEO Skills and Local SEO Data.",
     type: "website",
   },
 };
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover" };
+export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#ffffff" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
