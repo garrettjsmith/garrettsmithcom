@@ -32,10 +32,18 @@ export function LandingSections() {
       <section className="sec" aria-labelledby="letter-title">
         <div className="wrap letter">
           <div className="portrait">
-            <Image src="/garrett.webp" alt="Garrett Smith" width={800} height={800} sizes="(max-width: 820px) 70vw, 360px" />
-            <p className="portrait-tag">
-              <span className="live-dot" aria-hidden="true" /> The real one
-            </p>
+            <figure className="shot real">
+              <Image src="/garrett.webp" alt="Garrett Smith" width={800} height={800} sizes="(max-width: 980px) 70vw, 360px" />
+              <figcaption className="portrait-tag">
+                <span className="live-dot" aria-hidden="true" /> The real one
+              </figcaption>
+            </figure>
+            <figure className="shot virtual" aria-label="Virtual Garrett, the AI version">
+              <Portal uid="pv" />
+              <figcaption className="portrait-tag">
+                <span className="live-dot" aria-hidden="true" /> The virtual one
+              </figcaption>
+            </figure>
           </div>
           <article className="note">
             <p className="eyebrow" id="letter-title">
@@ -95,7 +103,7 @@ export function LandingSections() {
             </span>
             <div className="card result">
               <div className="viz">
-                <Portal className="mini" />
+                <Portal className="mini" uid="pm" />
               </div>
               <h3>{how.result.name}</h3>
               <p>{how.result.body}</p>

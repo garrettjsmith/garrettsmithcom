@@ -16,8 +16,9 @@ const ARMS = Array.from({ length: 7 }, (_, arm) => {
 
 // The green portal the logomark comes through. SVG spiral with a displacement
 // filter for the goopy rim; spins slowly unless reduced motion is on.
-export function Portal({ className }: { className?: string }) {
-  const id = className === "mini" ? "pm" : "p";
+export function Portal({ className, uid = "p" }: { className?: string; uid?: string }) {
+  // SVG ids must be unique per page, so each portal gets its own prefix.
+  const id = uid;
   return (
     <div className={`portal ${className ?? ""}`} aria-hidden="true">
       <div className="portal-glow" />

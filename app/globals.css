@@ -115,8 +115,14 @@ button.mark{cursor:pointer}
 
 /* Letter */
 .letter{display:grid;grid-template-columns:360px minmax(0,1fr);gap:64px;align-items:start}
-.portrait{position:relative;position:sticky;top:24px}
-.portrait img{width:100%;height:auto;display:block;border-radius:var(--r-lg);box-shadow:var(--shadow-3);transform:rotate(-1.5deg)}
+.portrait{position:sticky;top:24px}
+.shot{position:relative;border-radius:var(--r-lg);box-shadow:var(--shadow-3)}
+.shot.real{transform:rotate(-1.5deg);z-index:1}
+.shot.real img{width:100%;height:auto;display:block;border-radius:var(--r-lg)}
+.shot.virtual{width:72%;margin:-36px 0 0 auto;aspect-ratio:1;transform:rotate(2.5deg);overflow:hidden;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 45%,#F6FFF2,#DDF6D5 60%,#C9EDBE);border:1px solid var(--line)}
+.shot.virtual .portal{width:92%}
+.shot.virtual .portal-mark{animation-duration:4s}
 .portrait-tag{position:absolute;left:16px;bottom:16px;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:999px;padding:6px 12px;font:500 12px var(--mono);box-shadow:var(--shadow-1)}
 .note{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:48px 52px;box-shadow:var(--shadow-2);max-width:680px}
 .note p{font-size:18px;color:var(--ink-2);margin-top:16px}
@@ -254,7 +260,7 @@ dialog .row{display:flex;gap:10px;align-items:center;margin-top:20px}
   .portal{width:min(360px,86%)}
   .demo{position:relative;right:auto;bottom:auto;margin:-80px auto 0;width:min(360px,100%)}
   .letter{grid-template-columns:1fr;gap:40px}
-  .portrait{position:relative;top:0;max-width:300px}
+  .portrait{position:relative;top:0;max-width:320px}
   .formula{grid-template-columns:1fr}
   .op{justify-self:center}
   .team-grid{grid-template-columns:1fr;gap:40px}
