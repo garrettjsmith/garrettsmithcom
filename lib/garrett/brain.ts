@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import type {
   BetaContentBlock,
   BetaContentBlockParam,
+  BetaMessage,
   BetaMessageParam,
   BetaTextBlockParam,
   BetaToolResultBlockParam,
@@ -139,8 +140,51 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
   let emitted = false;
   let liveCalls = 0;
   const scope = teamId ?? "anon";
+  let emittedThisRound = false;
 
   for (let round = 0; round < MAX_ROUNDS; round++) {
+    let msg: BetaMessage;
+    try {
+      msg = await streamRound();
+    } catch (err) {
+      // An overloaded or dropped model call gets one quiet retry, as long as
+      // no words from it have reached the reader yet.
+      if (signal?.aborted || emittedThisRound || !retryable(err)) throw err;
+      console.error("[think] retrying model call:", (err as Error).message);
+      msg = await streamRound();
+    }
+    const text = textOf(msg.content);
+    if (text) parts.push(text);
+
+    if (msg.stop_reason === "refusal") {
+      if (!parts.length) parts.push("That's not something I can help with. Ask me about local search.");
+      break;
+    }
+    if (msg.stop_reason === "pause_turn") {
+      messages.push({ role: "assistant", content: msg.content as BetaContentBlockParam[] });
+      continue;
+    }
+    if (msg.stop_reason !== "tool_use") break;
+
+    // Run this turn's tool calls in parallel; they're independent lookups.
+    const calls = msg.content.filter((b): b is Extract<BetaContentBlock, { type: "tool_use" }> => b.type === "tool_use");
+    const results: BetaToolResultBlockParam[] = await Promise.all(
+      calls.map((block) =>
+        runTool(block).catch((err): BetaToolResultBlockParam => {
+          // One broken lookup must never cost the whole answer.
+          console.error(`[think] tool ${block.name} failed:`, err);
+          return { type: "tool_result", tool_use_id: block.id, content: "That check failed. Answer without it.", is_error: true };
+        }),
+      ),
+    );
+    messages.push({ role: "assistant", content: msg.content as BetaContentBlockParam[] });
+    messages.push({ role: "user", content: results });
+  }
+
+  return { text: parts.join("\n\n").trim(), checked: [...checked], playbooks: [...playbooks], offline };
+
+  async function streamRound(): Promise<BetaMessage> {
+    emittedThisRound = false;
     const stream = client.beta.messages.stream(
       {
         model: MODEL,
@@ -165,51 +209,37 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
         }
       } else if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
         emitted = true;
+        emittedThisRound = true;
         onEvent?.({ type: "text", delta: event.delta.text });
       }
     }
 
-    const msg = await stream.finalMessage();
-    const text = textOf(msg.content);
-    if (text) parts.push(text);
-
-    if (msg.stop_reason === "refusal") {
-      if (!parts.length) parts.push("That's not something I can help with. Ask me about local search.");
-      break;
-    }
-    if (msg.stop_reason === "pause_turn") {
-      messages.push({ role: "assistant", content: msg.content as BetaContentBlockParam[] });
-      continue;
-    }
-    if (msg.stop_reason !== "tool_use") break;
-
-    // Run this turn's tool calls in parallel; they're independent lookups.
-    const calls = msg.content.filter((b): b is Extract<BetaContentBlock, { type: "tool_use" }> => b.type === "tool_use");
-    const results: BetaToolResultBlockParam[] = await Promise.all(
-      calls.map(async (block): Promise<BetaToolResultBlockParam> => {
-        const def = LSD_BY_NAME.get(block.name);
-        if (def) {
-          if (++liveCalls > MAX_LIVE_CALLS) {
-            return { type: "tool_result", tool_use_id: block.id, content: "Enough live checks for this answer. Answer with what you have.", is_error: true };
-          }
-          const r = await callLsd(block.name, block.input, scope);
-          if (r.ok) checked.add(def.label);
-          return { type: "tool_result", tool_use_id: block.id, content: r.content, is_error: !r.ok };
-        }
-        if (block.name === "open_playbook") {
-          const name = String((block.input as { name?: unknown })?.name ?? "");
-          playbooks.add(name);
-          onEvent?.({ type: "status", label: name.replace(/-/g, " "), kind: "playbook" });
-        }
-        const r = await runClientTool(block.name, block.input, teamId);
-        return { type: "tool_result", tool_use_id: block.id, content: r.content, is_error: r.isError };
-      }),
-    );
-    messages.push({ role: "assistant", content: msg.content as BetaContentBlockParam[] });
-    messages.push({ role: "user", content: results });
+    return stream.finalMessage();
   }
 
-  return { text: parts.join("\n\n").trim(), checked: [...checked], playbooks: [...playbooks], offline };
+  async function runTool(block: Extract<BetaContentBlock, { type: "tool_use" }>): Promise<BetaToolResultBlockParam> {
+    const def = LSD_BY_NAME.get(block.name);
+    if (def) {
+      if (++liveCalls > MAX_LIVE_CALLS) {
+        return { type: "tool_result", tool_use_id: block.id, content: "Enough live checks for this answer. Answer with what you have.", is_error: true };
+      }
+      const r = await callLsd(block.name, block.input, scope);
+      if (r.ok) checked.add(def.label);
+      return { type: "tool_result", tool_use_id: block.id, content: r.content, is_error: !r.ok };
+    }
+    if (block.name === "open_playbook") {
+      const name = String((block.input as { name?: unknown })?.name ?? "");
+      playbooks.add(name);
+      onEvent?.({ type: "status", label: name.replace(/-/g, " "), kind: "playbook" });
+    }
+    const r = await runClientTool(block.name, block.input, teamId);
+    return { type: "tool_result", tool_use_id: block.id, content: r.content, is_error: r.isError };
+  }
+}
+
+function retryable(err: unknown): boolean {
+  if (err instanceof Anthropic.APIError) return err.status === undefined || err.status === 429 || err.status >= 500;
+  return err instanceof Error && /overloaded|ECONNRESET|socket|network|terminated/i.test(err.message);
 }
 
 function textOf(content: BetaContentBlock[]): string {

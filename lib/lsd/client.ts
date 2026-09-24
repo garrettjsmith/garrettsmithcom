@@ -61,10 +61,11 @@ export async function callLsd(tool: string, rawInput: unknown, scope: string, fe
 
   const store = getStore();
   const key = cacheKey(tool, input);
-  const hit = await store.get<string>(key);
+  // The cache and budget counters are helpers: if Redis hiccups, still answer.
+  const hit = await store.get<string>(key).catch(() => null);
   if (hit) return { ok: true, content: hit, cached: true, credits: 0 };
 
-  const used = (await store.get<number>(usageKey(scope))) ?? 0;
+  const used = (await store.get<number>(usageKey(scope)).catch(() => 0)) ?? 0;
   if (used >= budgetFor(scope)) {
     return { ok: false, content: "This account has used its live-data allowance for now. Answer from experience and say live checks are paused." };
   }
@@ -93,11 +94,13 @@ export async function callLsd(tool: string, rawInput: unknown, scope: string, fe
 
   const credits = Number(body.credits_used ?? res.headers.get("x-credits-used") ?? 0) || 0;
   if (credits) {
-    await store.incrBy(usageKey(scope), credits, scope === "anon" ? 2 * 86_400 : 32 * 86_400);
-    await store.incrBy(`lsd:credits:all:${MONTH()}`, credits, 32 * 86_400);
+    await Promise.all([
+      store.incrBy(usageKey(scope), credits, scope === "anon" ? 2 * 86_400 : 32 * 86_400),
+      store.incrBy(`lsd:credits:all:${MONTH()}`, credits, 32 * 86_400),
+    ]).catch((err) => console.error("[lsd] credit count failed:", (err as Error).message));
   }
 
   const content = JSON.stringify(trimResult(tool, unwrap(body)));
-  await store.set(key, content, def.cacheSeconds);
+  await store.set(key, content, def.cacheSeconds).catch(() => {});
   return { ok: true, content, cached: false, credits };
 }
