@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LEGAL } from "@/content/legal.ts";
 import { LegalPage } from "@/components/LegalPage.tsx";
+import { ASK_EMAIL } from "@/content/site.ts";
 
 export const metadata: Metadata = { title: "Privacy Policy · Ask Garrett" };
 
@@ -9,7 +10,7 @@ export default function Privacy() {
   return (
     <LegalPage title="Privacy Policy" effective={LEGAL.effective}>
       <p>
-        This policy explains what Ask Garrett (the web chat at garrettsmith.com, ask@garrettsmith.com, and the Slack app)
+        This policy explains what Ask Garrett (the web chat at garrettsmith.com, {ASK_EMAIL}, and the Slack app)
         collects, why, who we share it with, and how long we keep it. It&rsquo;s provided by {LEGAL.entity}. The short
         version: we use what you send us to answer you, we don&rsquo;t sell it, and we keep as little as we can.
       </p>
@@ -43,7 +44,7 @@ export default function Privacy() {
           cookies.
         </li>
       </ul>
-      <h3>When you email ask@garrettsmith.com</h3>
+      <h3>When you email {ASK_EMAIL}</h3>
       <ul>
         <li>
           <b>The email</b>: sender, subject, and message. We keep the last 12 messages of each thread for 60 days so
@@ -95,7 +96,7 @@ export default function Privacy() {
           <b>Stripe</b> (payments): your email and payment details.
         </li>
         <li>
-          <b>Resend</b> (email): emails to and from ask@garrettsmith.com.
+          <b>Resend</b> (email): emails to and from {ASK_EMAIL}.
         </li>
         <li>
           <b>Upstash</b> (database) and <b>Railway</b> (hosting): where the data described above is stored and processed.

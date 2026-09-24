@@ -1,3 +1,5 @@
+import { ASK_EMAIL } from "./site.ts";
+
 // Every word on the landing page lives here so it can be edited without
 // touching layout code. Prices are placeholders until pricing is final.
 
@@ -66,7 +68,7 @@ export const COPY = {
         price: "$19",
         unit: "per month",
         body: "For owners. Ask here or by email, and Garrett remembers your business between conversations.",
-        features: ["Web chat and email (ask@garrettsmith.com)", "Text and WhatsApp coming soon", "Live rankings, reviews & AI answers"],
+        features: [`Web chat and email (${ASK_EMAIL})`, "Text and WhatsApp coming soon", "Live rankings, reviews & AI answers"],
         featured: true,
       },
       {

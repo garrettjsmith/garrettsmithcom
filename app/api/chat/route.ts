@@ -3,6 +3,7 @@ import { splitFollowups } from "@/lib/garrett/format.ts";
 import { parseTranscript } from "@/lib/garrett/transcript.ts";
 import { allowMemberMessage, allowWebMessage, clientIp } from "@/lib/ratelimit.ts";
 import { currentMember } from "@/lib/session.ts";
+import { ASK_EMAIL } from "@/content/site.ts";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
@@ -29,7 +30,7 @@ export async function POST(req: Request) {
     const quota = await allowMemberMessage(member.email);
     if (!quota.ok) {
       return Response.json(
-        { error: "You've hit this month's fair-use limit. Email ask@garrettsmith.com if you need more." },
+        { error: `You've hit this month's fair-use limit. Email ${ASK_EMAIL} if you need more.` },
         { status: 429 },
       );
     }

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { COPY } from "@/content/copy.ts";
 import { LEGAL } from "@/content/legal.ts";
 import { LegalPage } from "@/components/LegalPage.tsx";
+import { ASK_EMAIL } from "@/content/site.ts";
 
 export const metadata: Metadata = { title: "Terms of Service · Ask Garrett" };
 
@@ -14,7 +15,7 @@ export default function Terms() {
     <LegalPage title="Terms of Service" effective={LEGAL.effective}>
       <p>
         These terms cover Ask Garrett, the AI local search advisor at garrettsmith.com, including the web chat, email
-        (ask@garrettsmith.com), and the Slack app (the &ldquo;Service&rdquo;). The Service is provided by {LEGAL.entity}{" "}
+        ({ASK_EMAIL}), and the Slack app (the &ldquo;Service&rdquo;). The Service is provided by {LEGAL.entity}{" "}
         (&ldquo;we&rdquo;, &ldquo;us&rdquo;). By using it, you agree to these terms. If you use it for a business, you
         agree on that business&rsquo;s behalf.
       </p>

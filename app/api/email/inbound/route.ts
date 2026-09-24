@@ -26,7 +26,7 @@ const THREAD_TTL = 60 * 86_400;
 const MAX_TURNS = 12;
 const MAX_INCOMING_CHARS = 6000;
 
-// Resend "email.received" webhook for ask@garrettsmith.com. Verify, ack fast,
+// Resend "email.received" webhook for the Ask Garrett address (content/site.ts). Verify, ack fast,
 // then read the email and reply in after().
 export async function POST(req: Request) {
   const raw = await req.text();

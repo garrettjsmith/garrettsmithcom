@@ -1,3 +1,5 @@
+import { ASK_EMAIL } from "./site.ts";
+
 // Fill these in before charging real cards. Everything else in the Terms and
 // Privacy pages follows from how the app actually works.
 export const LEGAL = {
@@ -6,5 +8,5 @@ export const LEGAL = {
   /** Governing law and courts, e.g. "New York". */
   state: "[State]",
   effective: "September 24, 2026",
-  contact: "ask@garrettsmith.com",
+  contact: ASK_EMAIL,
 };

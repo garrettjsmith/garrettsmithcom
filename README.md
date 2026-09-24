@@ -108,25 +108,28 @@ Use test mode keys first; `stripe listen --forward-to localhost:3000/api/billing
 works for local testing. Members get `MEMBER_QUESTIONS_PER_MONTH` (default
 300) as a fair-use cap. `npm run member -- add` still works for comps.
 
-## Set up email (ask@garrettsmith.com)
+## Set up email (Ask Garrett's address)
 
 Members email Garrett and get answers back by email, threaded per subject,
 with notes about their business remembered between emails. Everyone else
 gets one polite pointer to the site per month. Replies only go to senders
 whose SPF or DKIM checks out, and never to auto-replies or mailing lists.
 
-1. In Resend, add the domain `garrettsmith.com` and add the DNS records it
-   shows (SPF and DKIM, for sending).
+1. In Resend, add the domain the address is on (`garrettsmith.com`, or a
+   subdomain like `ai.garrettsmith.com`) and add the DNS records it shows
+   (SPF and DKIM, for sending).
 2. On the domain's page, turn on **Receiving** and add the MX record it
-   shows. The domain has no other email, so the MX record can go on the
-   root domain.
+   shows. A subdomain keeps the root free for a normal inbox later; the
+   root works too while the domain has no other email.
 3. Under **Webhooks**, add `https://garrettsmith.com/api/email/inbound` with
    the `email.received` event. Copy its signing secret.
-4. Set `RESEND_API_KEY`, `RESEND_WEBHOOK_SECRET`, and (optionally)
-   `ASK_EMAIL_ADDRESS`.
+4. Set `RESEND_API_KEY` and `RESEND_WEBHOOK_SECRET`. The address itself lives
+   in `content/site.ts`; it has to be on the domain you verified for
+   receiving (for example `ask@garrettsmith.com` on the root, or
+   `ask@ai.garrettsmith.com` on an `ai` subdomain).
 5. Approve someone: `npm run member -- add them@company.com` (with the
    production Redis credentials in the environment). `remove` and `show`
-   work too. Access-request pings include the right command.
+   work too (comps and manual members; paying members are added by Stripe).
 
 ## Set up the Slack app
 
