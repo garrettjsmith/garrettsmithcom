@@ -12,7 +12,7 @@
     "pretypecheck": "npm run playbooks",
     "typecheck": "tsc --noEmit",
     "pretest": "npm run playbooks",
-    "test": "node --experimental-strip-types --test \"lib/**/*.test.ts\"",
+    "test": "node --experimental-strip-types --test \"lib/**/*.test.ts\" \"lib/*/*.test.ts\"",
     "invite": "node --experimental-strip-types scripts/invite.ts",
     "member": "node --experimental-strip-types scripts/member.ts"
   },

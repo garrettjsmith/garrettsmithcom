@@ -10,40 +10,17 @@ import type {
 import { CHANNEL_RULES, PERSONA, type Channel } from "./persona.ts";
 import { PLAYBOOK_INDEX, PLAYBOOK_NAMES, getPlaybook } from "./playbooks.ts";
 import { addTeamNote, getTeamNotes } from "./memory.ts";
+import { callLsd, lsdAvailable } from "../lsd/client.ts";
+import { LSD_BY_NAME, lsdToolDefinitions } from "../lsd/tools.ts";
 
 // One brain, every channel. The web chat, Slack, and anything added later
 // (SMS, email) call think() with a transcript and get Garrett's reply back.
 
 const MODEL = process.env.GARRETT_MODEL || "claude-sonnet-5";
 const EFFORT = (process.env.GARRETT_EFFORT || "medium") as "low" | "medium" | "high";
-const MCP_NAME = "local-seo-data";
 const MAX_ROUNDS = 6;
-
-// Local SEO Data tools Garrett may call. Everything else on the server stays
-// off, which keeps expensive calls (local_audit, geogrid_scan, bulk keyword
-// research) out of reach of anonymous visitors.
-const LIVE_TOOLS: Record<string, string> = {
-  location_search: "location",
-  business_profile: "profile",
-  profile_health: "profile health",
-  local_pack: "map pack",
-  maps: "maps",
-  local_finder: "local finder",
-  organic_serp: "search results",
-  google_reviews: "reviews",
-  review_velocity: "review velocity",
-  multi_platform_reviews: "reviews across sites",
-  qa: "Q&A",
-  competitor_gap: "competitors",
-  local_authority: "local authority",
-  citation_audit: "citations",
-  keyword_opportunities: "keywords",
-  page_audit: "page audit",
-  local_services_ads: "LSAs",
-  ai_overview: "AI Overview",
-  ai_mode: "AI Mode",
-  ai_visibility: "AI visibility",
-};
+// Live data calls allowed per answer (the prompt asks for at most 3).
+const MAX_LIVE_CALLS = 4;
 
 const client = new Anthropic();
 
@@ -72,7 +49,7 @@ export interface ThinkResult {
 }
 
 function liveAvailable(): boolean {
-  return Boolean(process.env.LOCALSEODATA_MCP_TOKEN);
+  return lsdAvailable();
 }
 
 function buildTools(channel: Channel, teamId: string | undefined, live: boolean): BetaToolUnion[] {
@@ -105,14 +82,7 @@ function buildTools(channel: Channel, teamId: string | undefined, live: boolean)
       strict: true,
     });
   }
-  if (live) {
-    tools.push({
-      type: "mcp_toolset",
-      mcp_server_name: MCP_NAME,
-      default_config: { enabled: false },
-      configs: Object.fromEntries(Object.keys(LIVE_TOOLS).map((t) => [t, { enabled: true }])),
-    });
-  }
+  if (live) tools.push(...(lsdToolDefinitions() as BetaToolUnion[]));
   return tools;
 }
 
@@ -153,16 +123,9 @@ async function runClientTool(
 export async function think(input: ThinkInput): Promise<ThinkResult> {
   const wantLive = input.live !== false;
   const live = wantLive && liveAvailable();
-  try {
-    return await run(input, live, wantLive && !live);
-  } catch (err) {
-    // If the data server is what failed, answer without it rather than not at all.
-    if (live && err instanceof Anthropic.APIError && err.status !== undefined && err.status < 500 && err.status !== 429) {
-      console.error("[brain] live data failed, retrying without it:", err.message);
-      return run(input, false, true);
-    }
-    throw err;
-  }
+  // A failed data call comes back to the model as a tool error, so it can
+  // still answer from experience; nothing here needs a retry path.
+  return run(input, live, wantLive && !live);
 }
 
 async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<ThinkResult> {
@@ -174,6 +137,8 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
   const playbooks = new Set<string>();
   const parts: string[] = [];
   let emitted = false;
+  let liveCalls = 0;
+  const scope = teamId ?? "anon";
 
   for (let round = 0; round < MAX_ROUNDS; round++) {
     const stream = client.beta.messages.stream(
@@ -185,19 +150,6 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
         tools,
         messages,
         cache_control: { type: "ephemeral" },
-        ...(live
-          ? {
-              betas: ["mcp-client-2025-11-20"],
-              mcp_servers: [
-                {
-                  type: "url" as const,
-                  name: MCP_NAME,
-                  url: process.env.LOCALSEODATA_MCP_URL || "https://mcp.localseodata.com/mcp",
-                  authorization_token: process.env.LOCALSEODATA_MCP_TOKEN,
-                },
-              ],
-            }
-          : {}),
       },
       { signal },
     );
@@ -208,10 +160,8 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
         if (block.type === "text") {
           // Separate text that resumes after a tool call from what came before.
           if (emitted) onEvent?.({ type: "text", delta: "\n\n" });
-        } else if (block.type === "mcp_tool_use") {
-          const label = LIVE_TOOLS[block.name] ?? block.name.replace(/_/g, " ");
-          checked.add(label);
-          onEvent?.({ type: "status", label, kind: "live" });
+        } else if (block.type === "tool_use" && LSD_BY_NAME.has(block.name)) {
+          onEvent?.({ type: "status", label: LSD_BY_NAME.get(block.name)!.label, kind: "live" });
         }
       } else if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
         emitted = true;
@@ -233,17 +183,28 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
     }
     if (msg.stop_reason !== "tool_use") break;
 
-    const results: BetaToolResultBlockParam[] = [];
-    for (const block of msg.content) {
-      if (block.type !== "tool_use") continue;
-      if (block.name === "open_playbook") {
-        const name = String((block.input as { name?: unknown })?.name ?? "");
-        playbooks.add(name);
-        onEvent?.({ type: "status", label: name.replace(/-/g, " "), kind: "playbook" });
-      }
-      const r = await runClientTool(block.name, block.input, teamId);
-      results.push({ type: "tool_result", tool_use_id: block.id, content: r.content, is_error: r.isError });
-    }
+    // Run this turn's tool calls in parallel; they're independent lookups.
+    const calls = msg.content.filter((b): b is Extract<BetaContentBlock, { type: "tool_use" }> => b.type === "tool_use");
+    const results: BetaToolResultBlockParam[] = await Promise.all(
+      calls.map(async (block): Promise<BetaToolResultBlockParam> => {
+        const def = LSD_BY_NAME.get(block.name);
+        if (def) {
+          if (++liveCalls > MAX_LIVE_CALLS) {
+            return { type: "tool_result", tool_use_id: block.id, content: "Enough live checks for this answer. Answer with what you have.", is_error: true };
+          }
+          const r = await callLsd(block.name, block.input, scope);
+          if (r.ok) checked.add(def.label);
+          return { type: "tool_result", tool_use_id: block.id, content: r.content, is_error: !r.ok };
+        }
+        if (block.name === "open_playbook") {
+          const name = String((block.input as { name?: unknown })?.name ?? "");
+          playbooks.add(name);
+          onEvent?.({ type: "status", label: name.replace(/-/g, " "), kind: "playbook" });
+        }
+        const r = await runClientTool(block.name, block.input, teamId);
+        return { type: "tool_result", tool_use_id: block.id, content: r.content, is_error: r.isError };
+      }),
+    );
     messages.push({ role: "assistant", content: msg.content as BetaContentBlockParam[] });
     messages.push({ role: "user", content: results });
   }

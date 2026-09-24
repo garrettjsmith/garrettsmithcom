@@ -14,7 +14,7 @@ Virtual Garrett = Garrett's voice and rules (`lib/garrett/persona.ts`)
 garrettsmith.com chat ──► /api/chat ──────┐
                                           ├──► lib/garrett/brain.ts ──► Claude
 Slack @mention / DM ───► /api/slack/events┘        │  ├─ open_playbook   (Local SEO Skills, loaded on demand)
-                                                   │  ├─ Local SEO Data  (MCP, allowlisted cheap tools)
+                                                   │  ├─ Local SEO Data  (REST API: allowlisted, trimmed, cached)
                                                    │  └─ save_team_note  (Slack only: remembers the team's business)
                                                    └─ Redis: team notes, Slack installs, rate limits, access requests
 ```
@@ -26,10 +26,14 @@ Slack @mention / DM ───► /api/slack/events┘        │  ├─ open_pl
   the 25 strategy skills. The model calls `open_playbook` to pull the full one
   only when a question needs it. Loading all of them on every message would add
   about 65k tokens.
-- **Live data is allowlisted.** Only the cheap Local SEO Data tools are turned on
-  (see `LIVE_TOOLS` in `brain.ts`). `local_audit`, `geogrid_scan`, and bulk
-  keyword tools are off. Without a token, Garrett answers from experience and
-  says so.
+- **Live data goes through the REST API, not MCP.** The app calls Local SEO
+  Data itself (`lib/lsd/`): 18 allowlisted endpoints (`local_audit`,
+  `geogrid_scan`, `citation_audit`, `ai_visibility`, and bulk keyword tools are
+  off). Each result is trimmed to what the model needs (about 40% smaller),
+  cached in Redis for 1–24 hours depending on the endpoint so repeat lookups
+  cost nothing, and its credits are counted per customer with monthly
+  budgets. Without `LOCALSEODATA_API_KEY`, Garrett answers from experience
+  and says so.
 - **Team memory.** In Slack, Garrett saves short notes about the team's
   business (locations, competitors, goals) and reads them at the start of every
   conversation.
@@ -46,8 +50,8 @@ Slack @mention / DM ───► /api/slack/events┘        │  ├─ open_pl
   over 30 days, then the chat turns into the access form. A failed reply
   doesn't count. There's also a global daily ceiling,
   `WEB_MESSAGES_GLOBAL_PER_DAY` (default 1500).
-- At most 6 model rounds per reply, and the prompt allows at most 3 live-data
-  calls per turn.
+- At most 6 model rounds per reply. The prompt asks for at most 3 live-data
+  calls per turn, and the code stops at 4.
 
 ## Run it locally
 
