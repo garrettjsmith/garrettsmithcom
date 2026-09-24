@@ -115,18 +115,20 @@ with notes about their business remembered between emails. Everyone else
 gets one polite pointer to the site per month. Replies only go to senders
 whose SPF or DKIM checks out, and never to auto-replies or mailing lists.
 
-1. In Resend, add the domain the address is on (`garrettsmith.com`, or a
-   subdomain like `ai.garrettsmith.com`) and add the DNS records it shows
-   (SPF and DKIM, for sending).
-2. On the domain's page, turn on **Receiving** and add the MX record it
-   shows. A subdomain keeps the root free for a normal inbox later; the
-   root works too while the domain has no other email.
+The address is `ask@ai.garrettsmith.com`, on its own subdomain so the root
+domain stays free for a normal inbox (like hey@garrettsmith.com on Google
+Workspace or Fastmail).
+
+1. In Resend, add the domain `ai.garrettsmith.com` (not the root) and add
+   the DNS records it shows (SPF and DKIM, for sending).
+2. On that domain's page, turn on **Receiving** and add the MX record it
+   shows. It goes on the `ai` subdomain, so it never conflicts with the
+   root domain's inbox.
 3. Under **Webhooks**, add `https://garrettsmith.com/api/email/inbound` with
    the `email.received` event. Copy its signing secret.
 4. Set `RESEND_API_KEY` and `RESEND_WEBHOOK_SECRET`. The address itself lives
-   in `content/site.ts`; it has to be on the domain you verified for
-   receiving (for example `ask@garrettsmith.com` on the root, or
-   `ask@ai.garrettsmith.com` on an `ai` subdomain).
+   in `content/site.ts`; if you change it, it has to be on a domain you've
+   verified for receiving in Resend.
 5. Approve someone: `npm run member -- add them@company.com` (with the
    production Redis credentials in the environment). `remove` and `show`
    work too (comps and manual members; paying members are added by Stripe).
