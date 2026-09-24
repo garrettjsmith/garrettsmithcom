@@ -244,6 +244,25 @@ button.mark{cursor:pointer}
 .hire .err{grid-column:1/-1;color:#FF9AA8}
 .done{position:relative;margin-top:16px;color:var(--neon);font-weight:600}
 
+/* ---------- Billing ---------- */
+.plan-cta{margin-top:22px}
+.buy{display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:48px;padding:0 20px;border-radius:var(--r-sm);border:1px solid var(--ink);background:var(--surface);color:var(--ink);font:600 15px var(--body);text-decoration:none;cursor:pointer;transition:background-color var(--ease),color var(--ease)}
+.price .buy{margin-top:22px}
+.plan-cta .buy{margin-top:0}
+.buy.primary{background:var(--ink);color:#fff}
+.buy:disabled{opacity:.7;cursor:default}
+.plan-err{margin-top:8px;font-size:13px;color:#A0122A}
+.gate-actions{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px;max-width:620px}
+.gate .buy{border-color:rgba(255,255,255,.3);background:transparent;color:#fff}
+.gate .buy.primary{background:var(--neon);border-color:var(--neon);color:var(--ink);box-shadow:0 0 30px -6px var(--glow)}
+.gate .plan-err{color:#FF9AA8}
+.gate-foot{position:relative;margin-top:16px;font-size:14px;color:#C9D2CB}
+.textlink{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.account{display:flex;align-items:center;gap:2px}
+dialog.signin form p{color:var(--ink-2)}
+dialog.signin input{width:100%;margin-top:14px;border:1px solid var(--line-2);border-radius:var(--r-sm);padding:12px 14px;min-height:48px;font:500 16px var(--body)}
+dialog.signin input:focus{outline:0;border-color:var(--ink);box-shadow:0 0 0 4px var(--glow)}
+
 /* ---------- Dialog ---------- */
 dialog{max-width:540px;border:1px solid var(--line);border-radius:var(--r-lg);padding:32px;margin:auto;font-family:var(--body);box-shadow:var(--shadow-3);overscroll-behavior:contain;color:var(--ink)}
 dialog::backdrop{background:rgba(14,20,16,.4);backdrop-filter:blur(4px)}
@@ -257,6 +276,8 @@ dialog .row{display:flex;gap:10px;align-items:center;margin-top:20px}
   .chip:hover{border-color:var(--ink);background:#fff;color:var(--ink);transform:translateY(-1px)}
   .where button:hover{border-color:var(--neon)}
   .hire .submit:hover:not(:disabled){background:#fff}
+  .buy:hover:not(:disabled){background:var(--ink);color:#fff}
+  .buy.primary:hover:not(:disabled),.gate .buy:hover:not(:disabled){background:var(--neon);color:var(--ink);border-color:var(--neon)}
   .card h3 a:hover{text-decoration:underline;text-decoration-color:var(--neon-2)}
 }
 
@@ -282,7 +303,8 @@ dialog .row{display:flex;gap:10px;align-items:center;margin-top:20px}
   .mark .labs{display:none}
   .hdr-cta{padding:0 14px}
   .hdr-cta .long{display:none}.hdr-cta .short{display:inline}
-  .hdr-right .linkish{display:none}
+  .hdr-right .linkish:not(.always){display:none}
+  .gate-actions{grid-template-columns:1fr}
   .hero-wrap{padding:32px 16px 48px;align-items:flex-start}
   .hero .sub{font-size:17px}
   .field{padding-left:14px}

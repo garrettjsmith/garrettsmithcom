@@ -14,7 +14,7 @@ import {
   threadKey,
   verifySvix,
 } from "@/lib/email.ts";
-import { getMember } from "@/lib/members.ts";
+import { getActiveMember } from "@/lib/members.ts";
 import { getStore } from "@/lib/store.ts";
 
 export const runtime = "nodejs";
@@ -65,16 +65,16 @@ async function handle(emailId: string) {
   const replySubject = /^re:/i.test(subject) ? subject : `Re: ${subject}`;
   const threading = { inReplyTo: email.message_id, references: headers["references"] ?? null };
 
-  const member = await getMember(from);
+  const member = await getActiveMember(from);
   if (!member) {
     // One polite pointer per address per month; no free answers by email.
     if (!(await getStore().claim(`email:nonmember:${from}`, 30 * 86_400))) return;
     const text = [
       `Hi${name ? ` ${name.split(" ")[0]}` : ""},`,
       "",
-      "Thanks for writing. Answers by email are part of Ask Garrett, which is in early access right now.",
+      "Thanks for writing. Answers by email are part of Ask Garrett.",
       "",
-      `You can try it free at ${SITE} (a few questions, no signup), and request access there. The real Garrett reviews every request.`,
+      `You can try it free at ${SITE} (a few questions, no signup) and pick a plan there. Already a member? Write from the address you signed up with.`,
       "",
       "— Garrett (AI)",
     ].join("\n");

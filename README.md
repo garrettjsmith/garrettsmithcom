@@ -61,16 +61,50 @@ npm test                     # unit tests
 Without Redis, the app uses an in-memory store. That's fine for local dev, but
 production needs Redis.
 
-## Deploy (Vercel)
+## Deploy (Railway)
 
-1. Import the repo into Vercel.
-2. Add Upstash Redis from the Vercel Marketplace. Its `KV_REST_API_*` variables
-   are picked up automatically.
-3. Set the env vars from `.env.example`: `ANTHROPIC_API_KEY`,
-   `LOCALSEODATA_MCP_TOKEN`, `INVITE_SECRET` (a long random string),
-   `SITE_URL=https://garrettsmith.com`, and optionally
-   `ACCESS_NOTIFY_WEBHOOK_URL`.
-4. Point garrettsmith.com at the project.
+The app is a plain Next.js Node server, so it runs anywhere that runs
+`npm run build` and `npm start`. Railway is the recommended host: it keeps
+one long-running server, so streamed chat replies and the Slack, email, and
+Stripe background work have no function time limits.
+
+1. In Railway, create a project from this GitHub repo. It detects Node and
+   runs `npm run build` then `npm start`; `next start` listens on Railway's
+   `PORT` automatically.
+2. Create a free Upstash Redis database (upstash.com) and set
+   `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`. Don't skip this:
+   without Redis, members, limits, and memory live in memory and vanish on
+   every deploy.
+3. Set the rest of `.env.example`, including `SITE_URL=https://garrettsmith.com`
+   and long random values for `INVITE_SECRET` and `SESSION_SECRET`.
+4. Add garrettsmith.com as a custom domain in Railway and point DNS at it.
+
+Vercel also works (use its Upstash integration, which sets `KV_REST_API_*`).
+
+## Set up billing (Stripe)
+
+Visitors get a few free questions, then pick a plan. Checkout creates the
+subscription, the webhook turns it into a member, and members sign in on the
+web with an emailed link (no passwords). Canceled or unpaid subscriptions lose
+access automatically; past-due keeps access while Stripe retries.
+
+1. In Stripe, create two products with monthly prices: Ask Garrett ($19) and
+   Ask Garrett for Teams ($299). Put the price IDs in `STRIPE_PRICE_SOLO` and
+   `STRIPE_PRICE_TEAMS`.
+2. Set `STRIPE_SECRET_KEY`.
+3. Add a webhook endpoint `https://garrettsmith.com/api/billing/webhook` for
+   `checkout.session.completed`, `customer.subscription.created`,
+   `customer.subscription.updated`, and `customer.subscription.deleted`.
+   Put its signing secret in `STRIPE_WEBHOOK_SECRET`.
+4. Turn on the customer portal (Settings → Billing → Customer portal) so
+   members can update cards and cancel from the Billing link.
+5. New members get a welcome email (needs Resend set up) with how to email
+   Garrett and a web sign-in link; Teams members also get their Slack install
+   link.
+
+Use test mode keys first; `stripe listen --forward-to localhost:3000/api/billing/webhook`
+works for local testing. Members get `MEMBER_QUESTIONS_PER_MONTH` (default
+300) as a fair-use cap. `npm run member -- add` still works for comps.
 
 ## Set up email (ask@garrettsmith.com)
 

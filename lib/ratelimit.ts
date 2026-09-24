@@ -39,6 +39,15 @@ export async function allowWebMessage(ip: string): Promise<WebGate> {
   return { ok: true, remaining: freeQuestions() - used, refund };
 }
 
+/** Paying members: a generous monthly fair-use cap instead of the free taste. */
+export async function allowMemberMessage(email: string): Promise<{ ok: boolean; refund: () => Promise<void> }> {
+  const cap = Number(process.env.MEMBER_QUESTIONS_PER_MONTH || 300);
+  const key = `rl:member:${email}:${new Date().toISOString().slice(0, 7)}`;
+  const store = getStore();
+  const used = await store.incr(key, 32 * DAY);
+  return { ok: used <= cap, refund: () => store.decr(key) };
+}
+
 export async function allowAccessRequest(ip: string): Promise<boolean> {
   return (await getStore().incr(`rl:access:${ip}:${today()}`, DAY)) <= 5;
 }

@@ -91,7 +91,7 @@ function buildTools(channel: Channel, teamId: string | undefined, live: boolean)
       strict: true,
     },
   ];
-  if ((channel === "slack" || channel === "email") && teamId) {
+  if (teamId) {
     tools.push({
       name: "save_team_note",
       description:

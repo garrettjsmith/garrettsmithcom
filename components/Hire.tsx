@@ -2,12 +2,12 @@
 
 import { useId, useState } from "react";
 
-const WHERE = ["Email", "Slack", "Text", "WhatsApp"] as const;
+const WHERE = ["Retainer", "Text", "WhatsApp", "Other"] as const;
 
 // "Put me on your team" access request. Used inline on the landing page and
 // dropped into the chat thread after a few replies.
 export function Hire({ id, title, intro }: { id?: string; title?: readonly [string, string]; intro?: string }) {
-  const [where, setWhere] = useState<(typeof WHERE)[number]>("Email");
+  const [where, setWhere] = useState<(typeof WHERE)[number]>("Retainer");
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
@@ -47,11 +47,11 @@ export function Hire({ id, title, intro }: { id?: string; title?: readonly [stri
       )}
       {state === "done" ? (
         <p className="done" role="status">
-          Requested for {where}. The real Garrett reviews every request and will email {email}.
+          Got it. The real Garrett reads every one and will email {email}.
         </p>
       ) : (
         <form onSubmit={submit} aria-describedby={error ? `${uid}-err` : undefined}>
-          <div className="where" role="group" aria-label="Where should Garrett work?">
+          <div className="where" role="group" aria-label="What is this about?">
             {WHERE.map((w) => (
               <button key={w} type="button" aria-pressed={where === w} onClick={() => setWhere(w)}>
                 {w}
@@ -80,12 +80,12 @@ export function Hire({ id, title, intro }: { id?: string; title?: readonly [stri
             name="note"
             rows={1}
             autoComplete="off"
-            placeholder="Optional: # of locations, goals…"
+            placeholder="Optional: what you need, # of locations…"
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
           <button className="submit" type="submit" disabled={state === "sending"}>
-            {state === "sending" ? "Sending…" : "Request access"}
+            {state === "sending" ? "Sending…" : "Send"}
           </button>
           {error && (
             <p className="err" id={`${uid}-err`} role="alert">

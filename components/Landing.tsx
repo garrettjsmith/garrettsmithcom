@@ -2,6 +2,7 @@ import Image from "next/image";
 import { COPY } from "@/content/copy.ts";
 import { Hire } from "./Hire.tsx";
 import { Mark } from "./Mark.tsx";
+import { PlanButton } from "./PlanButton.tsx";
 import { Portal } from "./Stage.tsx";
 
 const STATS = [
@@ -112,7 +113,7 @@ export function LandingSections() {
         </div>
       </section>
 
-      <section className="sec" aria-labelledby="pricing-title">
+      <section className="sec" id="pricing" aria-labelledby="pricing-title">
         <div className="wrap">
           <p className="eyebrow">{pricing.eyebrow}</p>
           <h2 id="pricing-title">{pricing.title}</h2>
@@ -130,6 +131,13 @@ export function LandingSections() {
                       <li key={f}>{f}</li>
                     ))}
                   </ul>
+                )}
+                {p.id === "real" ? (
+                  <a className="buy" href="#access">
+                    Talk to Garrett
+                  </a>
+                ) : (
+                  <PlanButton plan={p.id as "solo" | "teams"} primary={p.featured} label={p.id === "solo" ? `Start for ${p.price}/mo` : "Start Teams"} />
                 )}
               </div>
             ))}
@@ -152,7 +160,7 @@ export function LandingSections() {
           <SlackMock />
         </div>
         <div className="wrap">
-          <Hire id="access" title={["Get", "early access."]} />
+          <Hire id="access" title={COPY.contact.title} intro={COPY.contact.intro} />
         </div>
       </section>
 
