@@ -28,16 +28,23 @@ test("tracking parameters are stripped from URLs", () => {
   assert.equal(cleanUrl("https://a.com/b/?utm_source=Google&utm_medium=organic&x=1"), "https://a.com/b/?x=1");
 });
 
-test("organic results get their position among organic results", () => {
-  const out = trimResult("organic_serp", fixture("organic_serp")) as { organic: { organic_position: number; serp_position: number }[]; note: string };
-  assert.equal(out.organic[0].organic_position, 1);
-  assert.ok(out.organic[0].serp_position > 1);
-  assert.match(out.note, /map pack/);
+test("organic results are numbered among organic results only", () => {
+  const raw = fixture("organic_serp") as { organic_results: { rank: number }[] };
+  assert.ok(raw.organic_results[0].rank > 1);
+  const out = trimResult("organic_serp", raw) as { organic: { position: number }[] };
+  assert.deepEqual(out.organic.slice(0, 3).map((r) => r.position), [1, 2, 3]);
 });
 
 test("a zero word count is flagged as a likely JavaScript page", () => {
   const out = trimResult("page_audit", fixture("page_audit")) as { note?: string };
   assert.match(out.note ?? "", /JavaScript/);
+});
+
+test("a letter-spaced title is flagged, a normal one isn't", () => {
+  const spaced = trimResult("page_audit", fixture("page_audit")) as { flags?: string[] };
+  assert.match(spaced.flags?.[0] ?? "", /title is letter-spaced/);
+  const normal = trimResult("page_audit", { title: "Plumber in Buffalo, NY | A B Plumbing", h1: ["We fix it"] }) as { flags?: string[] };
+  assert.equal(normal.flags, undefined);
 });
 
 test("both response envelopes unwrap", () => {

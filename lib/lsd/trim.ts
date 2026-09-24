@@ -92,15 +92,15 @@ const TRIMMERS: Record<string, (j: J) => J> = {
   maps: (j) => ({ keyword: j.keyword, location: j.location, results: (j.results ?? []).map(listing) }),
 
   organic_serp: (j) => {
+    // The API's rank counts the map pack and other features too, so the first
+    // organic result is often "rank 5". Renumber so position means organic order.
     const organic = (j.organic_results ?? []).map((r: J, i: number) => ({
-      organic_position: i + 1,
-      serp_position: r.rank,
+      position: i + 1,
       title: r.title,
-      url: r.url,
-      snippet: clip(r.snippet, 160),
+      url: cleanUrl(r.url),
+      snippet: clip(r.snippet, 120),
     }));
     return {
-      note: "serp_position counts every result on the page, including the map pack and other features, so organic results rarely start at 1. organic_position is the order among organic results only.",
       organic,
       local_pack: (j.local_pack ?? []).map((r: J) => pick(r, ["rank", "name", "rating", "reviews_count"])),
       ads: (j.ads ?? []).length,
@@ -137,6 +137,13 @@ const TRIMMERS: Record<string, (j: J) => J> = {
     const out = pick(j, ["seo_score", "title", "meta_description", "h1", "word_count", "load_time_ms", "mobile_friendly", "issues"]);
     out.meta_description = j.meta_description || "missing";
     out.schema_types = (j.schema_markup ?? []).map((s: J) => s?.["@type"] ?? s?.type ?? s).slice(0, 10);
+    // Letter-spaced titles ("J O N  T H E  P L U M B E R") read as single letters to search engines.
+    for (const k of ["title", "h1"] as const) {
+      const v = Array.isArray(j[k]) ? j[k][0] : j[k];
+      if (typeof v === "string" && /(?:^|\s)(?:\S\s+){4,}\S(?:\s|$)/.test(v)) {
+        (out.flags ??= []).push(`${k} is letter-spaced ("${clip(v, 60)}"), so search engines read single letters, not the business name or service`);
+      }
+    }
     if (j.word_count === 0) {
       out.note = "word_count 0 usually means the page is built with JavaScript and the crawler didn't see the text, not that the page is empty. Say so rather than calling the content thin.";
     }
