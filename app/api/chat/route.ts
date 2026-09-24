@@ -9,7 +9,7 @@ export const maxDuration = 120;
 // Streams newline-delimited JSON:
 //   {"type":"text","delta":"..."}           as the answer is written
 //   {"type":"status","label":"map pack","kind":"live"|"playbook"}
-//   {"type":"done","text":"...","followups":[...],"checked":[...],"playbooks":[...],"offline":bool}
+//   {"type":"done","text":"...","followups":[...],"checked":[...],"playbooks":[...],"offline":bool,"remaining":n}
 //   {"type":"error","message":"..."}
 export async function POST(req: Request) {
   let body: unknown;
@@ -24,8 +24,8 @@ export async function POST(req: Request) {
   const gate = await allowWebMessage(clientIp(req));
   if (!gate.ok) {
     const message =
-      gate.reason === "visitor"
-        ? "You've hit today's limit for the free chat. Request access below and the real Garrett will set you up."
+      gate.reason === "free"
+        ? "That's your free look. Request access below to keep going."
         : "I'm at capacity for today. Request access below and I'll follow up.";
     return Response.json({ error: message, limited: true }, { status: 429 });
   }
@@ -52,8 +52,10 @@ export async function POST(req: Request) {
           checked: result.checked,
           playbooks: result.playbooks,
           offline: result.offline,
+          remaining: gate.remaining,
         });
       } catch (err) {
+        await gate.refund().catch(() => {});
         if (!req.signal.aborted) {
           console.error("[chat]", err);
           send({ type: "error", message: "I couldn't finish that one. Send it again." });

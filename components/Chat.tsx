@@ -21,8 +21,8 @@ type BotMsg = {
   error?: string;
 };
 type UserMsg = { id: number; role: "user"; text: string };
-type Item = UserMsg | BotMsg | { id: number; role: "hire" };
-type Saved = { items: Item[]; history: Turn[]; followups: string[]; replies: number };
+type Item = UserMsg | BotMsg | { id: number; role: "hire"; gate?: boolean };
+type Saved = { items: Item[]; history: Turn[]; followups: string[]; remaining: number | null; locked: boolean };
 
 const SAVE_KEY = "ask-garrett:conversation";
 
@@ -123,7 +123,8 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
   const [announce, setAnnounce] = useState("");
   const history = useRef<Turn[]>([]);
   const nextId = useRef(1);
-  const replies = useRef(0);
+  const [remaining, setRemaining] = useState<number | null>(null);
+  const [locked, setLocked] = useState(false);
   const pushedChat = useRef(false);
   const scrollTarget = useRef<{ id: number; block: ScrollLogicalPosition } | null>(null);
   const chatInput = useRef<HTMLTextAreaElement>(null);
@@ -137,7 +138,8 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
         setItems(saved.items);
         setFollowups(saved.followups);
         history.current = saved.history;
-        replies.current = saved.replies;
+        setRemaining(saved.remaining ?? null);
+        setLocked(Boolean(saved.locked));
         nextId.current = Math.max(...saved.items.map((i) => i.id)) + 1;
         if (location.hash === "#chat") setView("chat");
       } else if (location.hash === "#chat") {
@@ -155,11 +157,11 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
     if (busy) return;
     try {
       const done = items.filter((i) => i.role !== "bot" || i.done);
-      sessionStorage.setItem(SAVE_KEY, JSON.stringify({ items: done, history: history.current, followups, replies: replies.current } satisfies Saved));
+      sessionStorage.setItem(SAVE_KEY, JSON.stringify({ items: done, history: history.current, followups, remaining, locked } satisfies Saved));
     } catch {
       /* ignore */
     }
-  }, [items, followups, busy]);
+  }, [items, followups, busy, remaining, locked]);
 
   // Scroll a new question to the top so the answer streams in below it,
   // instead of chasing the bottom on every word.
@@ -201,6 +203,23 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
     setItems((xs) => [...xs, { id, role: "hire" }]);
   }
 
+  // Out of free questions: the conversation ends in the access form.
+  function lockChat() {
+    goChat();
+    setLocked(true);
+    setFollowups([]);
+    setItems((xs) => {
+      const gate = xs.find((i) => i.role === "hire" && i.gate);
+      if (gate) {
+        scrollTarget.current = { id: gate.id, block: "start" };
+        return [...xs];
+      }
+      const id = nextId.current++;
+      scrollTarget.current = { id, block: "start" };
+      return [...xs, { id, role: "hire", gate: true }];
+    });
+  }
+
   function patchBot(id: number, patch: (m: BotMsg) => Partial<BotMsg>) {
     setItems((xs) => xs.map((x) => (x.id === id && x.role === "bot" ? { ...x, ...patch(x) } : x)));
   }
@@ -208,6 +227,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
   async function ask(text: string) {
     text = text.trim();
     if (!text || busy) return;
+    if (locked) return lockChat();
     setBusy(true);
     goChat();
     setFollowups([]);
@@ -230,7 +250,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
         const error = data.error || "I couldn't connect. Check your connection and send it again.";
         patchBot(botId, () => ({ done: true, error }));
         setAnnounce(error);
-        if (data.limited) showHire();
+        if (data.limited) lockChat();
         return;
       }
       const reader = res.body.pipeThrough(new TextDecoderStream()).getReader();
@@ -253,6 +273,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
             final = ev;
             patchBot(botId, () => ({ raw: ev.text, done: true, checked: ev.checked, playbooks: ev.playbooks, offline: ev.offline }));
             setFollowups(ev.followups ?? []);
+            if (typeof ev.remaining === "number") setRemaining(ev.remaining);
             setAnnounce(`Garrett replied: ${ev.text}`);
           } else if (ev.type === "error") {
             patchBot(botId, () => ({ done: true, error: ev.message }));
@@ -262,10 +283,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
       }
       if (final) {
         history.current = [...turns, { role: "assistant", content: final.text }];
-        replies.current++;
-        if (replies.current === 3) {
-          setItems((xs) => (xs.some((i) => i.role === "hire") ? xs : [...xs, { id: nextId.current++, role: "hire" }]));
-        }
+        if ((final as { remaining?: number }).remaining === 0) lockChat();
       } else patchBot(botId, (m) => (m.error ? {} : { done: true, error: "The connection dropped. Send it again." }));
     } catch {
       patchBot(botId, () => ({ done: true, error: "I couldn't connect. Check your connection and send it again." }));
@@ -358,7 +376,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
                   <Bot key={it.id} m={it} />
                 ) : (
                   <div key={it.id} id={`m-${it.id}`}>
-                    <Hire />
+                    {it.gate ? <Hire title={COPY.gate.title} intro={COPY.gate.body} /> : <Hire />}
                   </div>
                 ),
               )}
@@ -366,17 +384,29 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
           </main>
           <div className="dock">
             <div className="inner">
-              {followups.length > 0 && (
-                <div className="followups">
-                  {followups.map((q) => (
-                    <button key={q} className="chip c" onClick={() => ask(q)}>
-                      {q}
-                    </button>
-                  ))}
+              {locked ? (
+                <div className="locked">
+                  <p>{COPY.gate.locked}</p>
+                  <button className="go" onClick={lockChat}>
+                    Request access
+                  </button>
                 </div>
+              ) : (
+                <>
+                  {followups.length > 0 && (
+                    <div className="followups">
+                      {followups.map((q) => (
+                        <button key={q} className="chip c" onClick={() => ask(q)}>
+                          {q}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  <Field value={draft} onChange={setDraft} onSubmit={() => ask(draft)} disabled={busy} placeholder="Keep going…" inputRef={chatInput} />
+                  {remaining !== null && remaining > 0 && remaining <= 2 && <p className="left">{COPY.gate.remaining(remaining)}</p>}
+                </>
               )}
-              <Field value={draft} onChange={setDraft} onSubmit={() => ask(draft)} disabled={busy} placeholder="Keep going…" inputRef={chatInput} />
-              <p className="note">{COPY.disclaimer}</p>
+              <p className="disclaimer">{COPY.disclaimer}</p>
             </div>
           </div>
         </section>

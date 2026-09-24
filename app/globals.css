@@ -55,6 +55,7 @@ button.mark{cursor:pointer}
 .field:focus-within{border-color:var(--ink);box-shadow:var(--shadow-2),0 0 0 4px var(--glow)}
 .field textarea{flex:1;min-width:0;border:0;outline:0;resize:none;background:transparent;font:500 18px/1.4 var(--body);color:var(--ink);max-height:150px;padding:10px 0}
 .field textarea::placeholder{color:var(--hint)}
+.field textarea:focus-visible{outline:0;box-shadow:none}
 
 /* ---------- Hero ---------- */
 .hero-wrap{min-height:100%;display:flex;align-items:center;padding:56px 28px 72px;position:relative;overflow:hidden;
@@ -217,7 +218,9 @@ button.mark{cursor:pointer}
 .dock{flex:0 0 auto;padding:12px 28px calc(14px + env(safe-area-inset-bottom,0px));background:linear-gradient(rgba(244,246,243,0),var(--bg) 30%)}
 .dock .inner{max-width:760px;margin:0 auto}
 .followups{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.note-line,.dock .note{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}
+.locked{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 10px 10px 18px;box-shadow:var(--shadow-2);font-weight:500}
+.left{margin-top:8px;text-align:center;font:500 12px var(--mono);color:var(--green)}
+.dock .disclaimer{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}
 
 /* ---------- Access form ---------- */
 .hire{position:relative;overflow:hidden;background:var(--ink);color:#fff;border-radius:var(--r-lg);padding:40px;box-shadow:var(--shadow-3)}

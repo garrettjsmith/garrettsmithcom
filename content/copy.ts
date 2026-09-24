@@ -81,6 +81,12 @@ export const COPY = {
       "Flags anything that could get a profile suspended for a human",
     ],
   },
+  gate: {
+    title: ["Want to keep", "going?"],
+    body: "That was your last free question. Ask Garrett is in early access: unlimited questions here or in your team's Slack. Request access and the real Garrett will set you up.",
+    locked: "You've used your free questions.",
+    remaining: (n: number) => `${n} free question${n === 1 ? "" : "s"} left`,
+  },
   cta: "Add Garrett to Slack",
   disclaimer: "AI, not the real Garrett. Anything that could trigger a suspension goes to a human first.",
 } as const;

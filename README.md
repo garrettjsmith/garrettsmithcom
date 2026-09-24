@@ -42,8 +42,10 @@ Slack @mention / DM ───► /api/slack/events┘        │  ├─ open_pl
 - Default model is `claude-sonnet-5` at `medium` effort. Change it with
   `GARRETT_MODEL` / `GARRETT_EFFORT`.
 - The persona, playbook index, and channel rules form a cached prefix.
-- Web chat limits: `WEB_MESSAGES_PER_IP_PER_DAY` (default 30) and a global
-  daily ceiling, `WEB_MESSAGES_GLOBAL_PER_DAY` (default 1500).
+- The web chat is a free taste: `WEB_FREE_QUESTIONS` (default 5) per visitor
+  over 30 days, then the chat turns into the access form. A failed reply
+  doesn't count. There's also a global daily ceiling,
+  `WEB_MESSAGES_GLOBAL_PER_DAY` (default 1500).
 - At most 6 model rounds per reply, and the prompt allows at most 3 live-data
   calls per turn.
 

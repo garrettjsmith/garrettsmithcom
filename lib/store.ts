@@ -8,6 +8,7 @@ export interface Store {
   get<T>(key: string): Promise<T | null>;
   set(key: string, value: unknown, ttlSeconds?: number): Promise<void>;
   incr(key: string, ttlSeconds: number): Promise<number>;
+  decr(key: string): Promise<void>;
   lpush(key: string, value: unknown, max: number): Promise<void>;
   lrange<T>(key: string, count: number): Promise<T[]>;
   /** Set only if absent. Returns true when this call set it. */
@@ -26,6 +27,9 @@ function redisStore(url: string, token: string): Store {
       const n = await r.incr(k);
       if (n === 1) await r.expire(k, ttl);
       return n;
+    },
+    async decr(k) {
+      await r.decr(k);
     },
     async lpush(k, v, max) {
       await r.lpush(k, v);
@@ -61,6 +65,10 @@ function memoryStore(): Store {
       const n = ((e?.v as number) ?? 0) + 1;
       m.set(k, { v: n, exp: e?.exp || exp(ttl) });
       return n;
+    },
+    async decr(k) {
+      const e = live(k);
+      if (e) m.set(k, { v: (e.v as number) - 1, exp: e.exp });
     },
     async lpush(k, v, max) {
       const list = [v, ...(((live(k)?.v as unknown[]) ?? []))].slice(0, max);

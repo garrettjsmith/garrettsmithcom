@@ -6,7 +6,7 @@ const WHERE = ["Slack", "Teams", "Text thread", "Email"] as const;
 
 // "Put me on your team" access request. Used inline on the landing page and
 // dropped into the chat thread after a few replies.
-export function Hire({ id, title }: { id?: string; title?: [string, string] }) {
+export function Hire({ id, title, intro }: { id?: string; title?: readonly [string, string]; intro?: string }) {
   const [where, setWhere] = useState<(typeof WHERE)[number]>("Slack");
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
@@ -38,6 +38,7 @@ export function Hire({ id, title }: { id?: string; title?: [string, string] }) {
       <h2>
         {title ? title[0] : "Put me on"} <span>{title ? title[1] : "your team."}</span>
       </h2>
+      {intro && <p>{intro}</p>}
       {!title && (
         <p>
           Add Garrett where your team already talks. Ask about rankings, reviews, or a suspended location the same way
@@ -79,7 +80,7 @@ export function Hire({ id, title }: { id?: string; title?: [string, string] }) {
             name="note"
             rows={1}
             autoComplete="off"
-            placeholder="Optional: # of locations, what you need…"
+            placeholder="Optional: # of locations, goals…"
             value={note}
             onChange={(e) => setNote(e.target.value)}
           />
