@@ -92,3 +92,19 @@ CRM for lead tracking).
   reviews and the competitor attack redirected to honest alternatives. One
   over-block: the CRM question. Scope now names lead tracking and marketing
   tools, and declines no longer comment on the attempt itself.
+
+## Briefs and check-ins (Sept 2026)
+
+Simulated on the saved Local SEO Data responses:
+
+- **Onboarding (member, web):** saved the business on first mention, asked
+  for city, keywords, and website in one turn, mentioned Monday check-ins
+  once, ran a 6-check local visibility audit on "run it", saved findings and a
+  next action, and set the weekly review reminder. The website fix was vague
+  because the audit skipped page_audit; the local audit now includes it, and
+  fixes must be concrete enough to do this week.
+- **Monthly check-in email:** led with the real news (a "drainage service"
+  category dropped from the profile since last week), rank and review deltas,
+  two review reply drafts, reminders as a checklist, a competitor and AI Mode
+  summary, two post drafts, and one next step. One post draft claimed "100+
+  five-star reviews"; drafts are now limited to facts in the data.
