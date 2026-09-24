@@ -212,6 +212,10 @@ button.mark{cursor:pointer}
 .trace.off b::before{background:var(--line-2)}
 .err{color:#A0122A;font-weight:500}
 .thinking{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:15px}
+.thinking .quip{animation:quip .35s ease-out}
+.thinking .probe{font-family:var(--mono);font-size:11px;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:2px 8px;white-space:nowrap}
+@keyframes quip{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.thinking .quip{animation:none}}
 .thinking .bars{display:flex;gap:3px;height:16px;align-items:flex-end}
 .thinking .bars i{width:4px;height:16px;border-radius:2px;background:var(--neon-2);transform-origin:bottom;animation:b .9s ease-in-out infinite}
 .thinking .bars i:nth-child(2){animation-delay:.15s}.thinking .bars i:nth-child(3){animation-delay:.3s}

@@ -47,6 +47,25 @@ test("a letter-spaced title is flagged, a normal one isn't", () => {
   assert.equal(normal.flags, undefined);
 });
 
+test("an unexpected response shape never throws", () => {
+  const odd = [
+    { results: { a: 1 } },
+    { results: [null, { hours: { timetable: { monday: "open" } } }] },
+    { reviews: "none", summary: null },
+    { organic_results: "x", local_pack: 3 },
+    { keywords: {}, questions: 5, ads: null },
+  ];
+  for (const t of ["local_pack", "maps", "local_finder", "google_reviews", "organic_serp", "qa", "keyword_opportunities", "page_audit", "local_services_ads", "ai_overview", "ai_mode", "business_profile"]) {
+    for (const o of odd) assert.doesNotThrow(() => trimResult(t, o), `${t} ${JSON.stringify(o)}`);
+  }
+});
+
+test("huge untrimmed results are capped", () => {
+  const out = trimResult("competitor_gap", { blob: "x".repeat(50_000) }) as { truncated?: boolean; data?: string };
+  assert.equal(out.truncated, true);
+  assert.ok((out.data ?? "").length <= 12_000);
+});
+
 test("both response envelopes unwrap", () => {
   assert.deepEqual(unwrap({ status: "success", credits_used: 2, data: { a: 1 } }), { a: 1 });
   assert.deepEqual(unwrap({ status: "success", credits_used: 2, results: [1] }), { results: [1] });

@@ -26,6 +26,11 @@ export default function Privacy() {
         <li>
           <b>Your IP address</b>, to count free questions and prevent abuse. The counter expires after 30 days.
         </li>
+        <li>
+          <b>Messages turned away.</b> An automated check screens each message for topic. If it declines one (for
+          example, off-topic or trying to get around the rules), we keep that single message, not the conversation, to
+          review how the check is working. We keep the most recent 500.
+        </li>
       </ul>
       <h3>When you become a member</h3>
       <ul>
@@ -119,6 +124,7 @@ export default function Privacy() {
         <li>Web conversations: only in your browser tab.</li>
         <li>Email threads: 60 days after the last message.</li>
         <li>Free-question and rate-limit counters: 30 days.</li>
+        <li>Messages turned away by the topic check: the most recent 500, then deleted.</li>
         <li>Saved business notes: until you ask us to delete them.</li>
         <li>Account and billing records: while you&rsquo;re a member, and afterwards as long as needed for taxes, disputes, and the law.</li>
         <li>Server logs from our hosting provider: kept briefly for debugging, under the provider&rsquo;s retention.</li>

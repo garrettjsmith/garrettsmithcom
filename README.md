@@ -50,6 +50,14 @@ Slack @mention / DM ───► /api/slack/events┘        │  ├─ open_pl
   over 30 days, then the chat turns into the access form. A failed reply
   doesn't count. There's also a global daily ceiling,
   `WEB_MESSAGES_GLOBAL_PER_DAY` (default 1500).
+- **Scope screen.** A small, fast model (Haiku) reads every new message
+  alongside the main answer and labels it on-topic, off-topic, or abuse.
+  Off-topic and abuse get a short decline, the main answer is cancelled
+  before any of it shows, and no live data is fetched. It still counts as a
+  free question. If the screen errors, Garrett answers and his own scope rules
+  hold. Blocked messages are kept (last 500) so you can check for real
+  questions caught by mistake: `npm run blocked`. Turn it off with
+  `GUARD_ENABLED=false`.
 - At most 6 model rounds per reply. The prompt asks for at most 3 live-data
   calls per turn, and the code stops at 4.
 

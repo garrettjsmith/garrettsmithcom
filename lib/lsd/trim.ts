@@ -25,8 +25,8 @@ export function formatHours(hours: unknown): string | null {
   const tt = (hours as J)?.work_hours?.timetable ?? (hours as J)?.timetable;
   if (!tt || typeof tt !== "object") return typeof hours === "string" && hours ? hours : null;
   const per = DAYS.map((d) => {
-    const slots = tt[d] as J[] | null | undefined;
-    if (!slots?.length) return "closed";
+    const slots = tt[d];
+    if (!Array.isArray(slots) || !slots.length) return "closed";
     return slots
       .map((s) => {
         const o = hm(s.open);
@@ -47,6 +47,8 @@ export function formatHours(hours: unknown): string | null {
   return parts.join("; ");
 }
 
+/** The API sometimes returns null or an object where a list is documented. */
+const arr = (x: unknown): J[] => (Array.isArray(x) ? x : []);
 const clip = (s: unknown, n: number) => (typeof s === "string" && s.length > n ? s.slice(0, n) + "…" : s);
 const pick = (o: J, keys: string[]) => Object.fromEntries(keys.filter((k) => o?.[k] !== undefined && o[k] !== "" && o[k] !== null).map((k) => [k, o[k]]));
 
@@ -73,7 +75,7 @@ function listing(r: J): J {
 }
 
 const TRIMMERS: Record<string, (j: J) => J> = {
-  location_search: (j) => ({ locations: (j.locations ?? []).slice(0, 5).map((l: J) => l.name) }),
+  location_search: (j) => ({ locations: arr(j.locations).slice(0, 5).map((l: J) => l.name) }),
 
   business_profile: (j) => {
     if (j.matched === false) return { matched: false, suggestions: j.suggestions ?? null };
@@ -87,14 +89,14 @@ const TRIMMERS: Record<string, (j: J) => J> = {
 
   profile_health: (j) => pick(j, ["completeness_score", "verified", "photos_count", "qa_count", "posts_last_30d", "missing_fields", "incomplete_fields", "recommendations"]),
 
-  local_pack: (j) => ({ keyword: j.keyword ?? j.search_metadata?.keyword, location: j.location ?? j.search_metadata?.location, results: (j.results ?? []).map(listing) }),
-  local_finder: (j) => ({ keyword: j.keyword, location: j.location, total_results: j.total_results, results: (j.results ?? []).map(listing) }),
-  maps: (j) => ({ keyword: j.keyword, location: j.location, results: (j.results ?? []).map(listing) }),
+  local_pack: (j) => ({ keyword: j.keyword ?? j.search_metadata?.keyword, location: j.location ?? j.search_metadata?.location, results: arr(j.results).map(listing) }),
+  local_finder: (j) => ({ keyword: j.keyword, location: j.location, total_results: j.total_results, results: arr(j.results).map(listing) }),
+  maps: (j) => ({ keyword: j.keyword, location: j.location, results: arr(j.results).map(listing) }),
 
   organic_serp: (j) => {
     // The API's rank counts the map pack and other features too, so the first
     // organic result is often "rank 5". Renumber so position means organic order.
-    const organic = (j.organic_results ?? []).map((r: J, i: number) => ({
+    const organic = arr(j.organic_results).map((r: J, i: number) => ({
       position: i + 1,
       title: r.title,
       url: cleanUrl(r.url),
@@ -102,10 +104,10 @@ const TRIMMERS: Record<string, (j: J) => J> = {
     }));
     return {
       organic,
-      local_pack: (j.local_pack ?? []).map((r: J) => pick(r, ["rank", "name", "rating", "reviews_count"])),
-      ads: (j.ads ?? []).length,
-      lsa_ads: (j.lsa_ads ?? []).length,
-      people_also_ask: j.people_also_ask ?? [],
+      local_pack: arr(j.local_pack).map((r: J) => pick(r, ["rank", "name", "rating", "reviews_count"])),
+      ads: arr(j.ads).length,
+      lsa_ads: arr(j.lsa_ads).length,
+      people_also_ask: arr(j.people_also_ask).slice(0, 6),
       ai_overview: j.ai_overview ? clip(typeof j.ai_overview === "string" ? j.ai_overview : JSON.stringify(j.ai_overview), 800) : "none",
       knowledge_panel: j.knowledge_panel ? "yes" : "none",
     };
@@ -115,7 +117,7 @@ const TRIMMERS: Record<string, (j: J) => J> = {
     total_reviews: j.total_reviews ?? j.summary?.total_reviews,
     average_rating: j.average_rating ?? j.summary?.average_rating,
     ...(j.summary?.rating_distribution ? { rating_distribution: j.summary.rating_distribution } : {}),
-    recent: (j.reviews ?? []).map((r: J) => {
+    recent: arr(j.reviews).map((r: J) => {
       const out: J = { rating: r.rating, date: String(r.date ?? "").slice(0, 10) };
       if (r.text) out.text = clip(r.text, 280);
       out.owner_replied = Boolean(r.owner_reply);
@@ -126,17 +128,17 @@ const TRIMMERS: Record<string, (j: J) => J> = {
   review_velocity: (j) => pick(j, ["reviews_per_month", "rating_trend", "current_rating", "period_rating", "reply_rate", "sentiment_themes", "review_count_by_month"]),
   multi_platform_reviews: (j) => j,
   qa: (j) => ({
-    total_questions: j.total_questions ?? (j.questions ?? []).length,
-    questions: (j.questions ?? []).slice(0, 10).map((q: J) => ({ q: clip(q.question ?? q.text, 200), answered: Boolean(q.answer ?? q.answers?.length) })),
+    total_questions: j.total_questions ?? arr(j.questions).length,
+    questions: arr(j.questions).slice(0, 10).map((q: J) => ({ q: clip(q.question ?? q.text, 200), answered: Boolean(q.answer ?? q.answers?.length) })),
   }),
   competitor_gap: (j) => j,
   local_authority: (j) => j,
-  keyword_opportunities: (j) => ({ keywords: (j.keywords ?? []).slice(0, 15) }),
+  keyword_opportunities: (j) => ({ keywords: arr(j.keywords).slice(0, 15) }),
 
   page_audit: (j) => {
     const out = pick(j, ["seo_score", "title", "meta_description", "h1", "word_count", "load_time_ms", "mobile_friendly", "issues"]);
     out.meta_description = j.meta_description || "missing";
-    out.schema_types = (j.schema_markup ?? []).map((s: J) => s?.["@type"] ?? s?.type ?? s).slice(0, 10);
+    out.schema_types = arr(j.schema_markup).map((s: J) => s?.["@type"] ?? s?.type ?? s).slice(0, 10);
     // Letter-spaced titles ("J O N  T H E  P L U M B E R") read as single letters to search engines.
     for (const k of ["title", "h1"] as const) {
       const v = Array.isArray(j[k]) ? j[k][0] : j[k];
@@ -152,37 +154,55 @@ const TRIMMERS: Record<string, (j: J) => J> = {
     return out;
   },
 
-  local_services_ads: (j) => ({ total_ads: j.total_ads, ads: (j.ads ?? []).slice(0, 10).map((a: J) => pick(a, ["rank", "name", "rating", "reviews_count", "badge", "years_in_business"])) }),
+  local_services_ads: (j) => ({ total_ads: j.total_ads, ads: arr(j.ads).slice(0, 10).map((a: J) => pick(a, ["rank", "name", "rating", "reviews_count", "badge", "years_in_business"])) }),
 
   ai_overview: (j) => {
     if (!j.has_ai_overview) return { has_ai_overview: false, note: "Google showed no AI Overview for this search at the time of the check." };
     return {
       has_ai_overview: true,
       summary: clip(j.summary_text, 1500),
-      cited_sources: (j.cited_sources ?? []).slice(0, 10).map((s: J) => pick(s, ["title", "domain", "url", "position"])),
+      cited_sources: arr(j.cited_sources).slice(0, 10).map((s: J) => pick(s, ["title", "domain", "url", "position"])),
     };
   },
 
   ai_mode: (j) => ({
     answer: clip(j.ai_response, 2500),
-    businesses_named: (j.local_businesses ?? []).map((b: J) => pick(b, ["rank", "name", "rating", "reviews_count", "address"])),
-    sources: (j.references ?? []).slice(0, 8).map((r: J) => pick(r, ["domain", "title"])),
+    businesses_named: arr(j.local_businesses).map((b: J) => pick(b, ["rank", "name", "rating", "reviews_count", "address"])),
+    sources: arr(j.references).slice(0, 8).map((r: J) => pick(r, ["domain", "title"])),
   }),
 
   ai_visibility: (j) => ({
     ...pick(j, ["domain", "total_mentions", "total_impressions", "ai_search_volume", "platform_breakdown", "location_scope"]),
-    top_sources: (j.top_sources ?? []).slice(0, 5),
+    top_sources: arr(j.top_sources).slice(0, 5),
   }),
 };
 
-/** Trim a tool result. Unknown tools pass through, minus obvious noise. */
+/** No single result may flood the conversation, however it was shaped. */
+const MAX_CHARS = 12_000;
+
+function cap(data: unknown): unknown {
+  const text = JSON.stringify(data);
+  return text.length > MAX_CHARS ? { truncated: true, data: text.slice(0, MAX_CHARS) } : data;
+}
+
+/**
+ * Trim a tool result. Unknown tools, and responses shaped differently than a
+ * trimmer expects, fall back to the raw data minus obvious noise. Never
+ * throws: a surprise field must not cost the user their answer.
+ */
 export function trimResult(tool: string, data: unknown): unknown {
-  if (!data || typeof data !== "object") return data;
+  if (!data || typeof data !== "object" || Array.isArray(data)) return data;
   const fn = TRIMMERS[tool];
-  if (fn) return fn(data as J);
+  if (fn) {
+    try {
+      return cap(fn(data as J));
+    } catch (err) {
+      console.error(`[lsd] trim ${tool} failed, sending untrimmed:`, (err as Error).message);
+    }
+  }
   const { location_used, cid, place_id, ...rest } = data as J;
   void location_used;
   void cid;
   void place_id;
-  return rest;
+  return cap(rest);
 }

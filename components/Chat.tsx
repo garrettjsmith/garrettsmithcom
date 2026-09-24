@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { COPY } from "@/content/copy.ts";
+import { quipsFor } from "@/content/quips.ts";
 import { escapeHtml, renderChatHtml, visiblePartial } from "@/lib/garrett/format.ts";
 import { openPortal, requestSignIn } from "./billing.ts";
 import { Gate } from "./Gate.tsx";
@@ -16,7 +17,7 @@ type BotMsg = {
   role: "bot";
   raw: string;
   done: boolean;
-  status?: string;
+  status?: { kind: "live" | "playbook"; label: string };
   checked?: string[];
   playbooks?: string[];
   offline?: boolean;
@@ -91,12 +92,30 @@ function Field({
   );
 }
 
+/** Rotates through fun lines while Garrett works; restarts when the check changes. */
+function useQuip(status: BotMsg["status"], active: boolean): string {
+  const lines = quipsFor(typeof status === "object" ? status : undefined);
+  const [tick, setTick] = useState(0);
+  const [start] = useState(() => Math.floor(Math.random() * 100));
+  useEffect(() => setTick(0), [status?.kind, status?.label]);
+  useEffect(() => {
+    if (!active) return;
+    const t = setInterval(() => setTick((n) => n + 1), 2600);
+    return () => clearInterval(t);
+  }, [active]);
+  return lines[(start + tick) % lines.length];
+}
+
 function Bot({ m }: { m: BotMsg }) {
   const visible = visiblePartial(m.raw);
+  const thinking = !m.error && !visible.trim();
+  const quip = useQuip(m.status, thinking && !m.done);
   let body: string;
   if (m.error) body = `<p class="err">${escapeHtml(m.error)}</p>`;
-  else if (!visible.trim())
-    body = `<div class="thinking"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span>${escapeHtml(m.status ?? "Reading your question")}…</span></div>`;
+  else if (thinking) {
+    const probe = typeof m.status === "object" ? `<span class="probe">${escapeHtml(m.status.kind === "playbook" ? `${m.status.label} playbook` : m.status.label)}</span>` : "";
+    body = `<div class="thinking"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span><span class="quip">${escapeHtml(quip)}…</span>${probe}</div>`;
+  }
   else body = renderChatHtml(visible) + (m.done ? "" : '<span class="cursor" aria-hidden="true"></span>');
 
   const traces: string[] = [];
@@ -287,7 +306,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
           const ev = JSON.parse(line);
           if (ev.type === "text") patchBot(botId, (m) => ({ raw: m.raw + ev.delta }));
           else if (ev.type === "status")
-            patchBot(botId, () => ({ status: ev.kind === "live" ? `Checking ${ev.label}` : `Opening the ${ev.label} playbook` }));
+            patchBot(botId, () => ({ status: { kind: ev.kind, label: ev.label } }));
           else if (ev.type === "done") {
             final = ev;
             patchBot(botId, () => ({ raw: ev.text, done: true, checked: ev.checked, playbooks: ev.playbooks, offline: ev.offline }));
