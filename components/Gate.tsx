@@ -23,6 +23,7 @@ export function Gate() {
         <button type="button" className="textlink" onClick={requestSignIn}>
           Sign in
         </button>
+        . By subscribing you agree to the <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a>.
       </p>
     </div>
   );

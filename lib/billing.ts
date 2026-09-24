@@ -44,6 +44,7 @@ export async function createCheckout(plan: Plan, email?: string): Promise<string
     allow_promotion_codes: true,
     metadata: { plan },
     subscription_data: { metadata: { plan } },
+    custom_text: { submit: { message: `By subscribing you agree to the Terms (${site()}/terms) and Privacy Policy (${site()}/privacy). Cancel any time.` } },
     success_url: `${site()}/api/billing/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${site()}/?checkout=canceled#pricing`,
   });

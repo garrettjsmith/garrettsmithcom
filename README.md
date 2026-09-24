@@ -97,7 +97,9 @@ access automatically; past-due keeps access while Stripe retries.
    `customer.subscription.updated`, and `customer.subscription.deleted`.
    Put its signing secret in `STRIPE_WEBHOOK_SECRET`.
 4. Turn on the customer portal (Settings → Billing → Customer portal) so
-   members can update cards and cancel from the Billing link.
+   members can update cards and cancel from the Billing link. Keep
+   cancellations set to "at the end of the billing period"; the Terms promise
+   access through the paid period.
 5. New members get a welcome email (needs Resend set up) with how to email
    Garrett and a web sign-in link; Teams members also get their Slack install
    link.
@@ -138,6 +140,17 @@ whose SPF or DKIM checks out, and never to auto-replies or mailing lists.
    `SLACK_BOT_TOKEN`.
 5. Approve someone: `SITE_URL=https://garrettsmith.com INVITE_SECRET=... npm run invite -- them@company.com`
    prints an install link that works for 14 days.
+
+## Terms and Privacy
+
+`/terms` and `/privacy` are drafted from how the app actually handles data
+(what's stored, for how long, and which providers see it). Before charging
+real cards:
+
+- Fill in `content/legal.ts`: the legal entity name and governing state.
+- Have a lawyer read both pages. They're a solid draft, not legal advice.
+- Update `/privacy` whenever a new provider or data flow is added (for
+  example Telnyx or WhatsApp).
 
 ## Updating the playbooks
 

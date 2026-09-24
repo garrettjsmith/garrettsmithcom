@@ -142,6 +142,10 @@ export function LandingSections() {
               </div>
             ))}
           </div>
+          <p className="fine">
+            Cancel any time. By subscribing you agree to the <a href="/terms">Terms</a> and{" "}
+            <a href="/privacy">Privacy Policy</a>.
+          </p>
         </div>
       </section>
 
@@ -170,7 +174,9 @@ export function LandingSections() {
             <Mark /> Garrett Smith Labs
           </p>
           <p>{COPY.disclaimer}</p>
-          <p>&copy; Garrett Smith</p>
+          <p>
+            <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · &copy; Garrett Smith
+          </p>
         </div>
       </footer>
     </>

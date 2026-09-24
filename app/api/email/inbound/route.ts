@@ -15,6 +15,7 @@ import {
   verifySvix,
 } from "@/lib/email.ts";
 import { getActiveMember } from "@/lib/members.ts";
+import { allowMemberMessage } from "@/lib/ratelimit.ts";
 import { getStore } from "@/lib/store.ts";
 
 export const runtime = "nodejs";
@@ -85,13 +86,29 @@ async function handle(emailId: string) {
   const body = stripQuoted(email.text ?? htmlToText(email.html ?? "")).slice(0, MAX_INCOMING_CHARS);
   if (!body) return;
 
+  // Same monthly fair-use cap as the web chat, shared across both.
+  const quota = await allowMemberMessage(from);
+  if (!quota.ok) {
+    if (await getStore().claim(`email:capped:${from}:${new Date().toISOString().slice(0, 7)}`, 32 * 86_400)) {
+      const text = `You've hit this month's fair-use limit, so I'll pick back up next month. If you need more before then, reply and the real Garrett will sort it out.\n\n— Garrett (AI)`;
+      await sendEmail({ to: from, subject: replySubject, text, html: renderChatHtml(text), ...threading });
+    }
+    return;
+  }
+
   const store = getStore();
   const convKey = `email:conv:${from}:${threadKey(subject)}`;
   const history = (await store.get<ChatTurn[]>(convKey)) ?? [];
   const intro = name ? `(From ${name} <${from}>)\n\n` : "";
   const messages: ChatTurn[] = [...history, { role: "user", content: intro + body }];
 
-  const result = await think({ channel: "email", teamId: `email:${from}`, messages });
+  let result;
+  try {
+    result = await think({ channel: "email", teamId: `email:${from}`, messages });
+  } catch (err) {
+    await quota.refund();
+    throw err;
+  }
   const answer = result.text || "I came back empty on that one. Can you add a little more detail and send it again?";
 
   const checked = result.checked.length ? `Checked live: ${result.checked.join(" · ")}\n\n` : "";
