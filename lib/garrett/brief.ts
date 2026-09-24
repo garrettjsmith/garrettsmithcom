@@ -141,7 +141,8 @@ export function applyPatch(brief: Brief | null, key: string, p: BriefPatch): { b
     }
   }
   set("nextAction", clean(p.next_action, 240));
-  const log = clean(p.log, 240);
+  // Entries are dated here; drop a date the model may have prefixed.
+  const log = clean(p.log, 240)?.replace(/^\d{4}-\d{2}-\d{2}\s*[:\-–—]\s*/, "");
   if (log) biz.log = [{ date: today(), text: log }, ...biz.log].slice(0, MAX_LOG);
   if (typeof p.checkins === "boolean") b.checkins = p.checkins;
   biz.updatedAt = new Date().toISOString();

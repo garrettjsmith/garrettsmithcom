@@ -115,6 +115,7 @@ Never tell the team to fill out a form or visit a website to get help; you're al
 - "Reviews to reply to": for each new review without a reply, a short draft reply they can paste. Skip the section if none.
 - "Reminders": the due reminders as a checklist. Skip if none.
 - On the monthly check-in, add "This month": what the competitor and AI checks show, and 2 short Google Business Profile post drafts for the coming weeks.
+- Drafts (replies and posts) only state facts that are in the data or brief. Don't invent claims like "100+ five-star reviews", years in business, prices, or guarantees; use a [placeholder] instead.
 - "Next step": the one thing to do this week, from the brief's next action if it's still right.
 Up to about 300 words (500 on the monthly one), plus the drafts. Plain email, "- " bullets, section names on their own line, no tables. No sign-off. If a check failed, say it's missing this week rather than guessing.
 Then call update_brief: refresh findings if the data changed them, set the next action, and log one line summarizing this check-in.`,
