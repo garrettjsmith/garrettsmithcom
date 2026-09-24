@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit",
     "pretest": "npm run playbooks",
     "test": "node --experimental-strip-types --test \"lib/**/*.test.ts\"",
-    "invite": "node --experimental-strip-types scripts/invite.ts"
+    "invite": "node --experimental-strip-types scripts/invite.ts",
+    "member": "node --experimental-strip-types scripts/member.ts"
   },
   "engines": {
     "node": ">=22"

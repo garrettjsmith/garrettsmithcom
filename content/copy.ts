@@ -8,7 +8,7 @@ export const COPY = {
     headline: "Ask Garrett about your",
     highlight: "local visibility.",
     subhead:
-      "Access like this usually costs tens of thousands. Now 20+ years of local search experience is on call for you, whenever you need it, for a fraction of the price. Powered by Local SEO Skills and Local SEO Data.",
+      "Clients pay over $36,000 a year for monthly access to Garrett. Now his 20+ years of local search experience is on call for you, in this chat or your inbox, for a fraction of that. Powered by Local SEO Skills and Local SEO Data.",
     placeholder: "Try it: Smith Plumbing in Buffalo, NY dropped out of the map pack…",
     tryLine: "Free to try right here. No signup.",
   },
@@ -22,7 +22,7 @@ export const COPY = {
     eyebrow: "A note from the human",
     paragraphs: [
       "Hi, I'm Garrett.",
-      "For twenty-some years I've helped businesses figure out why they do or don't show up when someone nearby searches for what they sell. Nearly all of that has lived in my head, and the only way to get it was to hire me. A strategy session runs $1,999, so only a handful of companies a year get one.",
+      "For twenty-some years I've helped businesses figure out why they do or don't show up when someone nearby searches for what they sell. Nearly all of that has lived in my head, and the only way to get it was to hire me. Clients pay over $36,000 a year for monthly access, so only a handful of companies ever get it.",
       "That always bugged me. The owner of a three-truck plumbing company needs this more than a national brand does, and can afford it least.",
       "So I wrote down how I work, every playbook, and open-sourced it as Local SEO Skills. Then I built Local SEO Data so those playbooks could look at real rankings and reviews instead of guessing. Put them together and you get something that works through your problem the way I would.",
       "It's not me, and it won't pretend to be. It'll tell you when something needs a human. But it's the closest thing to having me on call, for about the price of a lunch each month.",
@@ -57,19 +57,37 @@ export const COPY = {
   },
   pricing: {
     eyebrow: "Pricing",
-    title: "The same thinking, for a tenth of the price.",
-    inPerson: {
-      label: "Garrett, in person",
-      price: "$1,999",
-      unit: "for an hour or two",
-      body: "A strategy session with me. Only a handful of companies a year get one.",
-    },
-    ask: {
-      label: "Ask Garrett",
-      price: "$19",
-      unit: "per month",
-      body: "Ask as often as you want, here or in your team's Slack. Remembers your locations between conversations.",
-    },
+    title: "The same thinking, for less than 1% of the price.",
+    // Placeholder prices until pricing is final.
+    plans: [
+      {
+        id: "solo",
+        label: "Ask Garrett",
+        price: "$19",
+        unit: "per month",
+        body: "For owners. Ask here or by email, and Garrett remembers your business between conversations.",
+        features: ["Web chat and email (ask@garrettsmith.com)", "Text and WhatsApp coming soon", "Live rankings, reviews & AI answers"],
+        featured: true,
+      },
+      {
+        id: "teams",
+        label: "Ask Garrett for Teams",
+        price: "$299",
+        unit: "per month",
+        body: "For teams, multi-location brands, and agencies. Garrett joins your Slack like a new hire.",
+        features: ["Everything in Ask Garrett", "Slack for your whole team", "Remembers every location and competitor"],
+        featured: false,
+      },
+      {
+        id: "real",
+        label: "The real Garrett",
+        price: "$36k+",
+        unit: "per year",
+        body: "What clients pay for monthly access to me, with some light execution. A few companies at a time.",
+        features: [],
+        featured: false,
+      },
+    ],
   },
   team: {
     eyebrow: "In your Slack",
@@ -83,7 +101,7 @@ export const COPY = {
   },
   gate: {
     title: ["Want to keep", "going?"],
-    body: "That was your last free question. Ask Garrett is in early access: unlimited questions here or in your team's Slack. Request access and the real Garrett will set you up.",
+    body: "That was your last free question. Ask Garrett is in early access: $19 a month to keep asking, here and by email. Request access and the real Garrett will set you up.",
     locked: "You've used your free questions.",
     remaining: (n: number) => `${n} free question${n === 1 ? "" : "s"} left`,
   },

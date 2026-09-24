@@ -8,7 +8,7 @@ const STATS = [
   { value: "20+", label: "years in local search" },
   { value: "25", label: "playbooks behind every answer" },
   { value: "Live", label: "rankings, reviews & profiles" },
-  { value: "1/10th", label: "the cost of an hour with me" },
+  { value: "<1%", label: "of what clients pay for the real me" },
 ];
 
 const PLAYBOOK_FILES = ["gbp-optimization", "review-management", "gbp-suspension-recovery", "ai-local-search"];
@@ -117,13 +117,20 @@ export function LandingSections() {
           <p className="eyebrow">{pricing.eyebrow}</p>
           <h2 id="pricing-title">{pricing.title}</h2>
           <div className="prices">
-            {[pricing.inPerson, pricing.ask].map((p, i) => (
-              <div key={p.label} className={i ? "price ask" : "price"}>
+            {pricing.plans.map((p) => (
+              <div key={p.id} className={`price${p.featured ? " ask" : ""}${p.id === "real" ? " real" : ""}`}>
                 <h3>{p.label}</h3>
                 <p className="amount">
-                  {i ? <span className="num">{p.price}</span> : <s className="num">{p.price}</s>} <span className="unit">{p.unit}</span>
+                  <span className="num">{p.price}</span> <span className="unit">{p.unit}</span>
                 </p>
                 <p>{p.body}</p>
+                {p.features.length > 0 && (
+                  <ul className="feats">
+                    {p.features.map((f) => (
+                      <li key={f}>{f}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             ))}
           </div>

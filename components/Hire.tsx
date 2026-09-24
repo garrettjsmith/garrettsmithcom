@@ -2,12 +2,12 @@
 
 import { useId, useState } from "react";
 
-const WHERE = ["Slack", "Teams", "Text thread", "Email"] as const;
+const WHERE = ["Email", "Slack", "Text", "WhatsApp"] as const;
 
 // "Put me on your team" access request. Used inline on the landing page and
 // dropped into the chat thread after a few replies.
 export function Hire({ id, title, intro }: { id?: string; title?: readonly [string, string]; intro?: string }) {
-  const [where, setWhere] = useState<(typeof WHERE)[number]>("Slack");
+  const [where, setWhere] = useState<(typeof WHERE)[number]>("Email");
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");

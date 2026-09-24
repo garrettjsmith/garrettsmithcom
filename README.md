@@ -72,6 +72,26 @@ production needs Redis.
    `ACCESS_NOTIFY_WEBHOOK_URL`.
 4. Point garrettsmith.com at the project.
 
+## Set up email (ask@garrettsmith.com)
+
+Members email Garrett and get answers back by email, threaded per subject,
+with notes about their business remembered between emails. Everyone else
+gets one polite pointer to the site per month. Replies only go to senders
+whose SPF or DKIM checks out, and never to auto-replies or mailing lists.
+
+1. In Resend, add the domain `garrettsmith.com` and add the DNS records it
+   shows (SPF and DKIM, for sending).
+2. On the domain's page, turn on **Receiving** and add the MX record it
+   shows. The domain has no other email, so the MX record can go on the
+   root domain.
+3. Under **Webhooks**, add `https://garrettsmith.com/api/email/inbound` with
+   the `email.received` event. Copy its signing secret.
+4. Set `RESEND_API_KEY`, `RESEND_WEBHOOK_SECRET`, and (optionally)
+   `ASK_EMAIL_ADDRESS`.
+5. Approve someone: `npm run member -- add them@company.com` (with the
+   production Redis credentials in the environment). `remove` and `show`
+   work too. Access-request pings include the right command.
+
 ## Set up the Slack app
 
 1. Go to https://api.slack.com/apps, choose **Create New App**, then **From a

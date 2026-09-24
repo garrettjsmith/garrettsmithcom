@@ -1,7 +1,7 @@
 import { getStore } from "../store.ts";
 
-// Team notes: the short facts Garrett saves about a Slack team's business so
-// the next conversation starts with context instead of from zero.
+// Notes: the short facts Garrett saves about a customer's business (a Slack
+// team, or an email member) so the next conversation starts with context.
 
 const MAX_NOTES = 40;
 const key = (teamId: string) => `team:${teamId}:notes`;

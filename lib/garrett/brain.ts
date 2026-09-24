@@ -54,7 +54,7 @@ export type ThinkEvent =
 export interface ThinkInput {
   channel: Channel;
   messages: BetaMessageParam[];
-  /** Slack team ID: enables team notes. */
+  /** Memory key (a Slack team ID, or "email:<address>"): enables saved notes. */
   teamId?: string;
   /** Allow live Local SEO Data calls this turn. */
   live?: boolean;
@@ -91,11 +91,11 @@ function buildTools(channel: Channel, teamId: string | undefined, live: boolean)
       strict: true,
     },
   ];
-  if (channel === "slack" && teamId) {
+  if ((channel === "slack" || channel === "email") && teamId) {
     tools.push({
       name: "save_team_note",
       description:
-        "Remember a durable fact about this team's business for future conversations: business names, locations, cities, competitors, goals, owners, preferences. One short sentence per note.",
+        "Remember a durable fact about this customer's business for future conversations: business names, locations, cities, competitors, goals, owners, preferences. One short sentence per note.",
       input_schema: {
         type: "object",
         properties: { note: { type: "string", description: "One short sentence." } },
@@ -126,8 +126,8 @@ async function buildSystem(channel: Channel, teamId?: string): Promise<BetaTextB
     system.push({
       type: "text",
       text: notes.length
-        ? "What you know about this team (from your saved notes, oldest first):\n" + notes.map((n) => `- ${n}`).join("\n")
-        : "You haven't saved any notes about this team yet. Learn their business as you go.",
+        ? "What you know about this customer (from your saved notes, oldest first):\n" + notes.map((n) => `- ${n}`).join("\n")
+        : "You haven't saved any notes about this customer yet. Learn their business as you go.",
     });
   }
   return system;

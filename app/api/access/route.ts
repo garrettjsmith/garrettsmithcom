@@ -3,7 +3,7 @@ import { allowAccessRequest, clientIp } from "@/lib/ratelimit.ts";
 
 export const runtime = "nodejs";
 
-const WHERE = ["Slack", "Teams", "Text thread", "Email"] as const;
+const WHERE = ["Email", "Slack", "Text", "WhatsApp"] as const;
 
 // "Put me on your team" form. Saves the request and pings Garrett.
 export async function POST(req: Request) {
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
   }
   const email = typeof body.email === "string" ? body.email.trim().slice(0, 200) : "";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return Response.json({ error: "Enter a valid email." }, { status: 400 });
-  const where = WHERE.find((w) => w === body.where) ?? "Slack";
+  const where = WHERE.find((w) => w === body.where) ?? "Email";
   const note = typeof body.note === "string" ? body.note.trim().slice(0, 1000) : "";
 
   const request = { email, where, note, at: new Date().toISOString() };
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     const text =
       `*Virtual Garrett access request*\n${email} wants it in *${where}*` +
       (note ? `\n> ${note.replace(/\n/g, "\n> ")}` : "") +
-      `\nApprove: \`npm run invite -- ${email}\``;
+      (where === "Slack" ? `\nApprove: \`npm run invite -- ${email}\`` : `\nApprove: \`npm run member -- add ${email}\``);
     await fetch(hook, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) }).catch((e) =>
       console.error("[access] notify failed", e),
     );
