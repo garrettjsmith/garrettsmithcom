@@ -3,9 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { COPY } from "@/content/copy.ts";
 import { escapeHtml, renderChatHtml, visiblePartial } from "@/lib/garrett/format.ts";
-import { Hire } from "./Hire.tsx";
+import { openPortal, requestSignIn } from "./billing.ts";
+import { Gate } from "./Gate.tsx";
 import { LandingSections } from "./Landing.tsx";
 import { Mark } from "./Mark.tsx";
+import { SignIn } from "./SignIn.tsx";
 import { HeroStage } from "./Stage.tsx";
 
 type Turn = { role: "user" | "assistant"; content: string };
@@ -125,6 +127,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
   const nextId = useRef(1);
   const [remaining, setRemaining] = useState<number | null>(null);
   const [locked, setLocked] = useState(false);
+  const [member, setMember] = useState<{ email: string; plan: string; billing: boolean } | null>(null);
   const pushedChat = useRef(false);
   const scrollTarget = useRef<{ id: number; block: ScrollLogicalPosition } | null>(null);
   const chatInput = useRef<HTMLTextAreaElement>(null);
@@ -151,6 +154,20 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
     const onPop = () => setView(location.hash === "#chat" ? "chat" : "landing");
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  // Members skip the free-question gate entirely.
+  useEffect(() => {
+    fetch("/api/me")
+      .then((r) => r.json())
+      .then((d: { member: { email: string; plan: string; billing: boolean } | null }) => {
+        if (!d.member) return;
+        setMember(d.member);
+        setLocked(false);
+        setRemaining(null);
+        setItems((xs) => xs.filter((i) => !(i.role === "hire" && i.gate)));
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -190,17 +207,19 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
     }
   }
 
-  function showHire() {
+  // The header button in the chat: show the plans without locking the chat.
+  function showPlans() {
     goChat();
-    const existing = items.find((i) => i.role === "hire");
-    if (existing) {
-      scrollTarget.current = { id: existing.id, block: "start" };
-      setItems((xs) => [...xs]);
-      return;
-    }
-    const id = nextId.current++;
-    scrollTarget.current = { id, block: "start" };
-    setItems((xs) => [...xs, { id, role: "hire" }]);
+    setItems((xs) => {
+      const gate = xs.find((i) => i.role === "hire" && i.gate);
+      if (gate) {
+        scrollTarget.current = { id: gate.id, block: "start" };
+        return [...xs];
+      }
+      const id = nextId.current++;
+      scrollTarget.current = { id, block: "start" };
+      return [...xs, { id, role: "hire", gate: true }];
+    });
   }
 
   // Out of free questions: the conversation ends in the access form.
@@ -227,7 +246,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
   async function ask(text: string) {
     text = text.trim();
     if (!text || busy) return;
-    if (locked) return lockChat();
+    if (locked && !member) return lockChat();
     setBusy(true);
     goChat();
     setFollowups([]);
@@ -303,12 +322,35 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
       What is this?
     </button>
   );
-  const cta = (onClick: () => void) => (
-    <button className="hdr-cta" onClick={onClick}>
-      <span className="long">{COPY.cta}</span>
-      <span className="short">Add to Slack</span>
-    </button>
-  );
+  const cta = (onClick: () => void) =>
+    member ? (
+      <div className="account">
+        {member.billing && (
+          <button className="linkish" onClick={() => void openPortal()}>
+            Billing
+          </button>
+        )}
+        <button
+          className="linkish always"
+          onClick={async () => {
+            await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
+            setMember(null);
+          }}
+        >
+          Sign out
+        </button>
+      </div>
+    ) : (
+      <>
+        <button className="linkish always" onClick={requestSignIn}>
+          Sign in
+        </button>
+        <button className="hdr-cta" onClick={onClick}>
+          <span className="long">{COPY.cta}</span>
+          <span className="short">{COPY.ctaShort}</span>
+        </button>
+      </>
+    );
 
   return (
     <>
@@ -321,7 +363,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
             </div>
             <div className="hdr-right">
               {aboutBtn}
-              {cta(() => document.getElementById("access")?.scrollIntoView({ block: "center" }))}
+              {cta(() => document.getElementById("pricing")?.scrollIntoView({ block: "start" }))}
             </div>
           </header>
           <main className="body">
@@ -361,7 +403,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
             </button>
             <div className="hdr-right">
               {aboutBtn}
-              {cta(showHire)}
+              {cta(showPlans)}
             </div>
           </header>
           <main className="body">
@@ -376,7 +418,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
                   <Bot key={it.id} m={it} />
                 ) : (
                   <div key={it.id} id={`m-${it.id}`}>
-                    {it.gate ? <Hire title={COPY.gate.title} intro={COPY.gate.body} /> : <Hire />}
+                    <Gate />
                   </div>
                 ),
               )}
@@ -388,7 +430,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
                 <div className="locked">
                   <p>{COPY.gate.locked}</p>
                   <button className="go" onClick={lockChat}>
-                    Request access
+                    See plans
                   </button>
                 </div>
               ) : (
@@ -415,6 +457,8 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
       <p className="sr-only" aria-live="polite">
         {announce}
       </p>
+
+      <SignIn />
 
       <dialog ref={about}>
         <h2>What this is</h2>

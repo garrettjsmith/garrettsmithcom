@@ -88,3 +88,8 @@ export function renderChatHtml(md: string): string {
   if (list) html += "</ul>";
   return html;
 }
+
+/** Turn bare URLs in already-escaped HTML into links (for emails). */
+export function linkify(html: string): string {
+  return html.replace(/(^|[\s(>])(https?:\/\/[^\s<)]+)/g, '$1<a href="$2">$2</a>');
+}

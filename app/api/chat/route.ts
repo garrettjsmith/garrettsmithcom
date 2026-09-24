@@ -1,7 +1,9 @@
 import { think } from "@/lib/garrett/brain.ts";
 import { splitFollowups } from "@/lib/garrett/format.ts";
 import { parseTranscript } from "@/lib/garrett/transcript.ts";
-import { allowWebMessage, clientIp } from "@/lib/ratelimit.ts";
+import { allowMemberMessage, allowWebMessage, clientIp } from "@/lib/ratelimit.ts";
+import { currentMember } from "@/lib/session.ts";
+import { ASK_EMAIL } from "@/content/site.ts";
 
 export const runtime = "nodejs";
 export const maxDuration = 120;
@@ -21,13 +23,29 @@ export async function POST(req: Request) {
   const transcript = parseTranscript(body);
   if (typeof transcript === "string") return Response.json({ error: transcript }, { status: 400 });
 
-  const gate = await allowWebMessage(clientIp(req));
-  if (!gate.ok) {
-    const message =
-      gate.reason === "free"
-        ? "That's your free look. Request access below to keep going."
-        : "I'm at capacity for today. Request access below and I'll follow up.";
-    return Response.json({ error: message, limited: true }, { status: 429 });
+  const member = await currentMember();
+  let remaining: number | null = null;
+  let refund: () => Promise<void>;
+  if (member) {
+    const quota = await allowMemberMessage(member.email);
+    if (!quota.ok) {
+      return Response.json(
+        { error: `You've hit this month's fair-use limit. Email ${ASK_EMAIL} if you need more.` },
+        { status: 429 },
+      );
+    }
+    refund = quota.refund;
+  } else {
+    const gate = await allowWebMessage(clientIp(req));
+    if (!gate.ok) {
+      const message =
+        gate.reason === "free"
+          ? "That's your free look. Pick a plan below to keep going."
+          : "I'm at capacity for today. Try again tomorrow.";
+      return Response.json({ error: message, limited: gate.reason === "free" }, { status: 429 });
+    }
+    remaining = gate.remaining;
+    refund = gate.refund;
   }
 
   const live = (body as { live?: unknown }).live !== false;
@@ -40,6 +58,8 @@ export async function POST(req: Request) {
         const result = await think({
           channel: "web",
           messages: transcript,
+          // Members share saved notes about their business across web and email.
+          teamId: member ? `email:${member.email}` : undefined,
           live,
           signal: req.signal,
           onEvent: send,
@@ -52,10 +72,10 @@ export async function POST(req: Request) {
           checked: result.checked,
           playbooks: result.playbooks,
           offline: result.offline,
-          remaining: gate.remaining,
+          remaining,
         });
       } catch (err) {
-        await gate.refund().catch(() => {});
+        await refund().catch(() => {});
         if (!req.signal.aborted) {
           console.error("[chat]", err);
           send({ type: "error", message: "I couldn't finish that one. Send it again." });

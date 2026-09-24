@@ -14,7 +14,8 @@ import {
   threadKey,
   verifySvix,
 } from "@/lib/email.ts";
-import { getMember } from "@/lib/members.ts";
+import { getActiveMember } from "@/lib/members.ts";
+import { allowMemberMessage } from "@/lib/ratelimit.ts";
 import { getStore } from "@/lib/store.ts";
 
 export const runtime = "nodejs";
@@ -25,7 +26,7 @@ const THREAD_TTL = 60 * 86_400;
 const MAX_TURNS = 12;
 const MAX_INCOMING_CHARS = 6000;
 
-// Resend "email.received" webhook for ask@garrettsmith.com. Verify, ack fast,
+// Resend "email.received" webhook for the Ask Garrett address (content/site.ts). Verify, ack fast,
 // then read the email and reply in after().
 export async function POST(req: Request) {
   const raw = await req.text();
@@ -65,16 +66,16 @@ async function handle(emailId: string) {
   const replySubject = /^re:/i.test(subject) ? subject : `Re: ${subject}`;
   const threading = { inReplyTo: email.message_id, references: headers["references"] ?? null };
 
-  const member = await getMember(from);
+  const member = await getActiveMember(from);
   if (!member) {
     // One polite pointer per address per month; no free answers by email.
     if (!(await getStore().claim(`email:nonmember:${from}`, 30 * 86_400))) return;
     const text = [
       `Hi${name ? ` ${name.split(" ")[0]}` : ""},`,
       "",
-      "Thanks for writing. Answers by email are part of Ask Garrett, which is in early access right now.",
+      "Thanks for writing. Answers by email are part of Ask Garrett.",
       "",
-      `You can try it free at ${SITE} (a few questions, no signup), and request access there. The real Garrett reviews every request.`,
+      `You can try it free at ${SITE} (a few questions, no signup) and pick a plan there. Already a member? Write from the address you signed up with.`,
       "",
       "— Garrett (AI)",
     ].join("\n");
@@ -85,13 +86,29 @@ async function handle(emailId: string) {
   const body = stripQuoted(email.text ?? htmlToText(email.html ?? "")).slice(0, MAX_INCOMING_CHARS);
   if (!body) return;
 
+  // Same monthly fair-use cap as the web chat, shared across both.
+  const quota = await allowMemberMessage(from);
+  if (!quota.ok) {
+    if (await getStore().claim(`email:capped:${from}:${new Date().toISOString().slice(0, 7)}`, 32 * 86_400)) {
+      const text = `You've hit this month's fair-use limit, so I'll pick back up next month. If you need more before then, reply and the real Garrett will sort it out.\n\n— Garrett (AI)`;
+      await sendEmail({ to: from, subject: replySubject, text, html: renderChatHtml(text), ...threading });
+    }
+    return;
+  }
+
   const store = getStore();
   const convKey = `email:conv:${from}:${threadKey(subject)}`;
   const history = (await store.get<ChatTurn[]>(convKey)) ?? [];
   const intro = name ? `(From ${name} <${from}>)\n\n` : "";
   const messages: ChatTurn[] = [...history, { role: "user", content: intro + body }];
 
-  const result = await think({ channel: "email", teamId: `email:${from}`, messages });
+  let result;
+  try {
+    result = await think({ channel: "email", teamId: `email:${from}`, messages });
+  } catch (err) {
+    await quota.refund();
+    throw err;
+  }
   const answer = result.text || "I came back empty on that one. Can you add a little more detail and send it again?";
 
   const checked = result.checked.length ? `Checked live: ${result.checked.join(" · ")}\n\n` : "";

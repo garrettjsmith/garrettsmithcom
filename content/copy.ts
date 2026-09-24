@@ -1,3 +1,5 @@
+import { ASK_EMAIL } from "./site.ts";
+
 // Every word on the landing page lives here so it can be edited without
 // touching layout code. Prices are placeholders until pricing is final.
 
@@ -66,7 +68,7 @@ export const COPY = {
         price: "$19",
         unit: "per month",
         body: "For owners. Ask here or by email, and Garrett remembers your business between conversations.",
-        features: ["Web chat and email (ask@garrettsmith.com)", "Text and WhatsApp coming soon", "Live rankings, reviews & AI answers"],
+        features: [`Web chat and email (${ASK_EMAIL})`, "Text and WhatsApp coming soon", "Live rankings, reviews & AI answers"],
         featured: true,
       },
       {
@@ -92,19 +94,24 @@ export const COPY = {
   team: {
     eyebrow: "In your Slack",
     title: "Put Garrett on your team.",
-    intro: "Add me to Slack like a new hire. Tag me in a thread and I'll answer the way a senior local search person would.",
+    intro: "On the Teams plan, add me to Slack like a new hire. Tag me in a thread and I'll answer the way a senior local search person would.",
     points: [
       "Remembers your locations, competitors, and goals",
       "Checks live rankings and reviews before answering",
       "Flags anything that could get a profile suspended for a human",
     ],
   },
+  contact: {
+    title: ["Talk to the", "real Garrett."],
+    intro: "Retainers, bigger projects, or early access to text and WhatsApp. The real Garrett reads every one.",
+  },
   gate: {
     title: ["Want to keep", "going?"],
-    body: "That was your last free question. Ask Garrett is in early access: $19 a month to keep asking, here and by email. Request access and the real Garrett will set you up.",
+    body: "That was your last free question. Keep going here and by email, and Garrett remembers your business between conversations. Cancel any time.",
     locked: "You've used your free questions.",
     remaining: (n: number) => `${n} free question${n === 1 ? "" : "s"} left`,
   },
-  cta: "Add Garrett to Slack",
+  cta: "Get Ask Garrett",
+  ctaShort: "Get it",
   disclaimer: "AI, not the real Garrett. Anything that could trigger a suspension goes to a human first.",
 } as const;

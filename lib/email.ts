@@ -1,9 +1,10 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { ASK_EMAIL } from "../content/site.ts";
 
 // Email channel plumbing: Resend webhooks in, Resend API out. Pure helpers are
 // exported separately so they can be unit tested without the network.
 
-export const ASK_ADDRESS = process.env.ASK_EMAIL_ADDRESS || "ask@garrettsmith.com";
+export const ASK_ADDRESS = ASK_EMAIL;
 
 /**
  * Resend signs webhooks with Svix: HMAC-SHA256 over "id.timestamp.body" using
