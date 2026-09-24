@@ -38,6 +38,7 @@ const LIVE_TOOLS: Record<string, string> = {
   local_authority: "local authority",
   citation_audit: "citations",
   keyword_opportunities: "keywords",
+  page_audit: "page audit",
   local_services_ads: "LSAs",
   ai_overview: "AI Overview",
   ai_mode: "AI Mode",

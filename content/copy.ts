@@ -15,7 +15,7 @@ export const COPY = {
   questions: [
     "Why am I not in the map pack?",
     "My listing got suspended. Now what?",
-    "How do my reviews compare to competitors?",
+    "Is my website helping or hurting my local rankings?",
     "Am I showing up in AI answers?",
   ],
   letter: {
@@ -47,7 +47,7 @@ export const COPY = {
       {
         name: "Local SEO Data",
         href: "https://localseodata.com",
-        body: "Live data. Map pack rankings, Google Business Profiles, reviews, competitors, and AI visibility, pulled the moment you ask.",
+        body: "Live data. Map pack and website rankings, Google Business Profiles, reviews, competitors, and AI answers, pulled the moment you ask.",
       },
     ],
     result: {
