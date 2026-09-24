@@ -51,3 +51,27 @@ Cellino #1, Jon the Plumber #2, PCS Plumbing & Heating #3).
 - Still open: answers run 180–220 words against the 150-word limit.
 - ai_mentions was removed from the app's tools after one call returned ~56k
   characters.
+
+## MCP → REST replay (Sept 2026)
+
+The app moved from the MCP connector to direct REST calls (`lib/lsd/`). To
+compare the two with identical data, 18 real responses were saved to
+`lib/lsd/fixtures/` and replayed to two arms of Sonnet subagents on the same
+prompt: **old** saw the raw responses and the MCP tool descriptions; **new**
+went through the real `callLsd()` path (defaults, envelope unwrap, trimming)
+with a fake network, and saw the app's own tool definitions. Questions 1, 3,
+10, and 11 (asked as Jon the Plumber, whose data the fixtures hold).
+
+| # | Old (MCP, raw) | New (REST, trimmed) |
+|---|----------------|---------------------|
+| 1 | local_pack + competitor_gap; reviews and photos gap, right order | Same calls, same diagnosis; also noted PCS at #3 |
+| 3 | ai_overview + ai_mode; Cellino #6 of 7, snapshot caveat | Same calls and finding; opened the AI-search playbook first |
+| 10 | Caught the letter-spaced title; missed the zero-word-count (JS) signal | First run: missed the title, led with meta description (regression). After the fix, 2/2 runs caught the title *and* the JS signal and fixed the title first |
+| 11 | Map pack, website, AI answers covered | Same |
+
+Fixes from the replay: `page_audit` flags letter-spaced titles and H1s;
+organic results are renumbered by organic order (no separate "SERP
+position" note); the persona gives a website fix order (readable page →
+title and H1 → local signals → speed). Net: same on 3 questions, better on
+the website one, with about 40% less tool output per call. Answers still run
+150–190 words.
