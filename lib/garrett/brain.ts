@@ -11,6 +11,7 @@ import type {
 import { CHANNEL_RULES, PERSONA, type Channel } from "./persona.ts";
 import { PLAYBOOK_INDEX, PLAYBOOK_NAMES, getPlaybook } from "./playbooks.ts";
 import { addTeamNote, getTeamNotes } from "./memory.ts";
+import { DECLINE_FOLLOWUPS, declineReply, logBlocked, screen, type Verdict } from "./guard.ts";
 import { callLsd, lsdAvailable } from "../lsd/client.ts";
 import { LSD_BY_NAME, lsdToolDefinitions } from "../lsd/tools.ts";
 
@@ -38,6 +39,8 @@ export interface ThinkInput {
   live?: boolean;
   onEvent?: (e: ThinkEvent) => void;
   signal?: AbortSignal;
+  /** Screen the newest message for scope before answering (default true). */
+  guard?: boolean;
 }
 
 export interface ThinkResult {
@@ -47,6 +50,8 @@ export interface ThinkResult {
   playbooks: string[];
   /** True when live data was requested but unavailable. */
   offline: boolean;
+  /** Set when the screen turned the message away instead of answering it. */
+  blocked?: Exclude<Verdict, "on">;
 }
 
 function liveAvailable(): boolean {
@@ -130,7 +135,35 @@ export async function think(input: ThinkInput): Promise<ThinkResult> {
 }
 
 async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<ThinkResult> {
-  const { channel, teamId, onEvent, signal } = input;
+  const { channel, teamId, signal } = input;
+
+  // The scope screen runs alongside the first model call. Until it clears the
+  // message, the answer's text is held back; if it doesn't, the model call is
+  // cancelled and the person gets a short decline instead.
+  const screenCtrl = new AbortController();
+  const modelSignal = signal ? AbortSignal.any([signal, screenCtrl.signal]) : screenCtrl.signal;
+  let verdict: Verdict | null = input.guard === false ? "on" : null;
+  const held: ThinkEvent[] = [];
+  const onEvent = (e: ThinkEvent) => {
+    if (verdict === "on" || e.type === "status") input.onEvent?.(e);
+    else if (verdict === null) held.push(e);
+  };
+  const screened: Promise<Verdict> =
+    verdict === "on"
+      ? Promise.resolve("on")
+      : screen(input.messages, signal).then((v) => {
+          verdict = v;
+          if (v === "on") for (const e of held.splice(0)) input.onEvent?.(e);
+          else screenCtrl.abort();
+          return v;
+        });
+  const declined = async (): Promise<ThinkResult | null> => {
+    const v = await screened;
+    if (v === "on") return null;
+    await logBlocked(v, channel, input.messages);
+    const text = declineReply() + (channel === "web" ? `\n[[FOLLOWUPS]] ${DECLINE_FOLLOWUPS.join(" | ")}` : "");
+    return { text, checked: [], playbooks: [], offline: false, blocked: v };
+  };
   const messages: BetaMessageParam[] = [...input.messages];
   const system = await buildSystem(channel, teamId);
   const tools = buildTools(channel, teamId, live);
@@ -147,6 +180,7 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
     try {
       msg = await streamRound();
     } catch (err) {
+      if (screenCtrl.signal.aborted && !signal?.aborted) break;
       // An overloaded or dropped model call gets one quiet retry, as long as
       // no words from it have reached the reader yet.
       if (signal?.aborted || emittedThisRound || !retryable(err)) throw err;
@@ -165,6 +199,8 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
       continue;
     }
     if (msg.stop_reason !== "tool_use") break;
+    // No lookups (or credits) for a message the screen turns away.
+    if ((await screened) !== "on") break;
 
     // Run this turn's tool calls in parallel; they're independent lookups.
     const calls = msg.content.filter((b): b is Extract<BetaContentBlock, { type: "tool_use" }> => b.type === "tool_use");
@@ -181,6 +217,8 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
     messages.push({ role: "user", content: results });
   }
 
+  const decline = await declined();
+  if (decline) return decline;
   return { text: parts.join("\n\n").trim(), checked: [...checked], playbooks: [...playbooks], offline };
 
   async function streamRound(): Promise<BetaMessage> {
@@ -195,7 +233,7 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
         messages,
         cache_control: { type: "ephemeral" },
       },
-      { signal },
+      { signal: modelSignal },
     );
 
     for await (const event of stream) {

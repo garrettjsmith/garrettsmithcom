@@ -14,7 +14,8 @@
     "pretest": "npm run playbooks",
     "test": "node --experimental-strip-types --test \"lib/**/*.test.ts\" \"lib/*/*.test.ts\"",
     "invite": "node --experimental-strip-types scripts/invite.ts",
-    "member": "node --experimental-strip-types scripts/member.ts"
+    "member": "node --experimental-strip-types scripts/member.ts",
+    "blocked": "node --experimental-strip-types scripts/blocked.ts"
   },
   "engines": {
     "node": ">=22"
