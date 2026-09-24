@@ -41,7 +41,6 @@ const LIVE_TOOLS: Record<string, string> = {
   local_services_ads: "LSAs",
   ai_overview: "AI Overview",
   ai_mode: "AI Mode",
-  ai_mentions: "AI mentions",
   ai_visibility: "AI visibility",
 };
 
