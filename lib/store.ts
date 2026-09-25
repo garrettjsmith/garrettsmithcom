@@ -14,6 +14,9 @@ export interface Store {
   lrange<T>(key: string, count: number): Promise<T[]>;
   /** Set only if absent. Returns true when this call set it. */
   claim(key: string, ttlSeconds: number): Promise<boolean>;
+  sadd(key: string, member: string): Promise<void>;
+  srem(key: string, member: string): Promise<void>;
+  smembers(key: string): Promise<string[]>;
 }
 
 function redisStore(url: string, token: string): Store {
@@ -45,6 +48,13 @@ function redisStore(url: string, token: string): Store {
     async claim(k, ttl) {
       return (await r.set(k, 1, { nx: true, ex: ttl })) === "OK";
     },
+    async sadd(k, v) {
+      await r.sadd(k, v);
+    },
+    async srem(k, v) {
+      await r.srem(k, v);
+    },
+    smembers: (k) => r.smembers(k),
   };
 }
 
@@ -93,6 +103,17 @@ function memoryStore(): Store {
       if (live(k)) return false;
       m.set(k, { v: 1, exp: exp(ttl) });
       return true;
+    },
+    async sadd(k, v) {
+      const set = new Set((live(k)?.v as string[]) ?? []);
+      set.add(v);
+      m.set(k, { v: [...set], exp: 0 });
+    },
+    async srem(k, v) {
+      m.set(k, { v: ((live(k)?.v as string[]) ?? []).filter((x) => x !== v), exp: 0 });
+    },
+    async smembers(k) {
+      return [...((live(k)?.v as string[]) ?? [])];
     },
   };
 }

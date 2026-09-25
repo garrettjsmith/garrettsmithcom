@@ -39,9 +39,11 @@ export default function Privacy() {
           your card; we never see or store card numbers.
         </li>
         <li>
-          <b>Notes about your business</b> that the AI saves so it remembers you: things like business names, locations,
-          competitors, and goals (up to 40 short notes). The same notes are used on the web, by email, and in Slack for
-          your account.
+          <b>A brief about your business</b> that the AI keeps so it remembers you: business names, addresses, websites,
+          keywords, competitors, what it found, the next step, reminders you asked for, and a short log, plus up to 40
+          short notes. For the weekly check-in it also keeps a snapshot of your public Google Business Profile, map pack
+          positions, and review count to compare against next time. The same brief is used on the web, by email, and in
+          Slack for your account.
         </li>
         <li>
           <b>A sign-in cookie</b> (&ldquo;ag_member&rdquo;) that keeps you signed in for up to 60 days. It&rsquo;s the
@@ -78,7 +80,10 @@ export default function Privacy() {
       <ul>
         <li>To answer your questions, including looking up live search data about the businesses you ask about.</li>
         <li>To run your account: billing, sign-in, the free-question limit, and fair use.</li>
-        <li>To send emails you&rsquo;d expect: answers, sign-in links, receipts, and important account notices.</li>
+        <li>
+          To send emails you&rsquo;d expect: answers, sign-in links, receipts, important account notices, and (for
+          members) a weekly check-in about your business, which you can pause from any check-in email or by asking.
+        </li>
         <li>To keep the Service secure and fix problems.</li>
       </ul>
       <p>
@@ -125,7 +130,7 @@ export default function Privacy() {
         <li>Email threads: 60 days after the last message.</li>
         <li>Free-question and rate-limit counters: 30 days.</li>
         <li>Messages turned away by the topic check: the most recent 500, then deleted.</li>
-        <li>Saved business notes: until you ask us to delete them.</li>
+        <li>Your business brief and saved notes: until you ask us to delete them.</li>
         <li>Account and billing records: while you&rsquo;re a member, and afterwards as long as needed for taxes, disputes, and the law.</li>
         <li>Server logs from our hosting provider: kept briefly for debugging, under the provider&rsquo;s retention.</li>
       </ul>

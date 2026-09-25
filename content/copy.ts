@@ -68,7 +68,12 @@ export const COPY = {
         price: "$19",
         unit: "per month",
         body: "For owners. Ask here or by email, and Garrett remembers your business between conversations.",
-        features: [`Web chat and email (${ASK_EMAIL})`, "Text and WhatsApp coming soon", "Live rankings, reviews & AI answers"],
+        features: [
+          `Web chat and email (${ASK_EMAIL})`,
+          "Audits, research, and a plan for your business",
+          "Monday check-ins: rankings, new reviews, reminders",
+          "Text and WhatsApp coming soon",
+        ],
         featured: true,
       },
       {

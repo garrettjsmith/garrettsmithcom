@@ -169,6 +169,40 @@ real cards:
 - Update `/privacy` whenever a new provider or data flow is added (for
   example Telnyx or WhatsApp).
 
+## Briefs and weekly check-ins
+
+Members and Slack teams get a **brief**: each business's details, findings
+(critical, important, monitor), the one next action, reminders, and a log.
+It's adapted from the Local SEO Skills location briefs, stored in Redis
+(`brief:<key>`), and shared across web, email, and Slack. Garrett fills it in
+as you talk (`update_brief`, `set_reminder` in `lib/garrett/brain.ts`) and
+reads it at the start of every conversation.
+
+The **weekly check-in** (`lib/checkin.ts`) folds the Local SEO Skills
+monitoring tasks into one Monday email per member: map pack position vs last
+week, new reviews with reply drafts, Google Business Profile changes, due
+reminders, and the next step. The first check-in of the month adds a
+competitor gap, an AI Mode snapshot, and post drafts. It costs about 10–15
+data credits per business per week (about 25 on the monthly one), counted
+against the member's budget. Up to 3 businesses per member are checked. It
+never posts anything to Google; everything is a draft for the member.
+
+Schedule it on Railway:
+
+1. In the same project, add a new service from this repo.
+2. Give it the same variables (use Railway's shared variables or references).
+3. Set its start command to `npm run checkin` and its cron schedule to
+   `0 13 * * 1` (Mondays 13:00 UTC, morning in the US).
+
+It's safe to re-run: each member gets one check-in per ISO week. Preview one
+without sending or changing anything:
+
+```bash
+npm run checkin -- --dry-run --only sam@company.com
+```
+
+Members can pause from the link in each email or by asking Garrett.
+
 ## Updating the playbooks
 
 The playbooks live in `content/skills/`, copied from the Local SEO Skills repo.

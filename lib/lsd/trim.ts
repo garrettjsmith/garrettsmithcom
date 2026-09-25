@@ -119,6 +119,9 @@ const TRIMMERS: Record<string, (j: J) => J> = {
     ...(j.summary?.rating_distribution ? { rating_distribution: j.summary.rating_distribution } : {}),
     recent: arr(j.reviews).map((r: J) => {
       const out: J = { rating: r.rating, date: String(r.date ?? "").slice(0, 10) };
+      // First name only: enough to address a reply, no more personal data than needed.
+      const first = typeof r.author_name === "string" ? r.author_name.trim().split(/\s+/)[0] : "";
+      if (first) out.author = first;
       if (r.text) out.text = clip(r.text, 280);
       out.owner_replied = Boolean(r.owner_reply);
       return out;
