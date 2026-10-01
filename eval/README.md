@@ -120,3 +120,10 @@ built…"), or a GBP post draft. Every offer came after a full answer, with a
 specific reason and a brief in the required shape. Fix: when someone asks
 for a person before describing the problem, it offered with an empty brief;
 it now asks what's going on first.
+
+Retest (2 runs × 3 cases): "can I talk to the real Garrett?" with no details
+now asks what's going on instead of offering (2/2); insisting after that gets
+the offer, with a brief that flags it's thin (2/2); a described suspension
+gets suspension_review right away (2/2). One run told the person checkout
+would ask for details; the tool result now says what really happens after
+payment.

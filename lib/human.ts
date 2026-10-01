@@ -121,10 +121,14 @@ export async function openCase(
     card,
     message:
       ctx.channel === "web"
-        ? `Offer shown under your reply as a card with the price (${offer.price}), turnaround, and a button. Don't repeat the price or a link.`
-        : `Include this link so they can send the case to Garrett: ${link} (${offer.name}, ${offer.price}, ${offer.turnaround}).`,
+        ? `Offer shown under your reply as a card with the price (${offer.price}), turnaround, and a button. Don't repeat the price or a link. ${AFTER}`
+        : `Include this link so they can send the case to Garrett: ${link} (${offer.name}, ${offer.price}, ${offer.turnaround}). ${AFTER}`,
   };
 }
+
+// What actually happens after they pay, so the model doesn't invent steps.
+const AFTER =
+  "If you describe what happens next: checkout only takes payment (no forms); Garrett then gets your brief and this conversation and replies by email from his own address. Anything they add here before paying goes to him too.";
 
 export type OfferCard = {
   id: HumanOfferId;
