@@ -2,12 +2,12 @@
 
 import { useId, useState } from "react";
 
-const WHERE = ["Retainer", "Text", "WhatsApp", "Other"] as const;
+const WHERE = ["Second opinion", "Retainer", "Text", "WhatsApp", "Other"] as const;
 
 // "Put me on your team" access request. Used inline on the landing page and
 // dropped into the chat thread after a few replies.
 export function Hire({ id, title, intro }: { id?: string; title?: readonly [string, string]; intro?: string }) {
-  const [where, setWhere] = useState<(typeof WHERE)[number]>("Retainer");
+  const [where, setWhere] = useState<(typeof WHERE)[number]>("Second opinion");
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
@@ -41,7 +41,7 @@ export function Hire({ id, title, intro }: { id?: string; title?: readonly [stri
       {intro && <p>{intro}</p>}
       {!title && (
         <p>
-          Add Garrett where your team already talks. Ask about rankings, reviews, or a suspended location the same way
+          Add vGarrett where your team already talks. Ask about rankings, reviews, or a suspended location the same way
           you&rsquo;d ask a coworker.
         </p>
       )}

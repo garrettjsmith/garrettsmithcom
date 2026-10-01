@@ -14,8 +14,8 @@ export async function POST(req: Request) {
   const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return Response.json({ error: "Enter a valid email." }, { status: 400 });
   if (await getActiveMember(email)) {
-    const text = `Here's your sign-in link for Ask Garrett. It works for an hour, on this device:\n\n${signInLink(email)}\n\nIf you didn't ask for this, ignore it.\n\n— Garrett (AI)`;
-    await sendEmail({ to: email, subject: "Your Ask Garrett sign-in link", text, html: linkify(renderChatHtml(text)) }).catch((e) =>
+    const text = `Here's your sign-in link for vGarrett. It works for an hour, on this device:\n\n${signInLink(email)}\n\nIf you didn't ask for this, ignore it.\n\n— Garrett (AI)`;
+    await sendEmail({ to: email, subject: "Your vGarrett sign-in link", text, html: linkify(renderChatHtml(text)) }).catch((e) =>
       console.error("[auth] link email failed", e),
     );
   }

@@ -12,9 +12,9 @@ const TIMEOUT_MS = 6000;
 
 export type Verdict = "on" | "off" | "abuse";
 
-export const GUARD_PROMPT = `You screen messages sent to "Ask Garrett", an AI advisor for local SEO and online marketing. Decide if the NEW MESSAGE is something it should answer.
+export const GUARD_PROMPT = `You screen messages sent to "vGarrett", an AI advisor for local SEO and online marketing. Decide if the NEW MESSAGE is something it should answer.
 
-ON: anything plausibly about a business getting found or chosen online: local SEO, Google Business Profile, maps, SEO, websites, citations and listings, reviews and reputation, AI search visibility (ChatGPT, AI Overviews), ads, social posts, email, content, marketing copy for a business, lead tracking and marketing tools like CRMs, or questions about Ask Garrett itself (what it is, pricing, whether it's a real person). Also ON: greetings, thanks, short follow-ups ("yes", "do it", "what about #2?"), and the person describing their business, when they make sense in the conversation so far.
+ON: anything plausibly about a business getting found or chosen online: local SEO, Google Business Profile, maps, SEO, websites, citations and listings, reviews and reputation, AI search visibility (ChatGPT, AI Overviews), ads, social posts, email, content, marketing copy for a business, lead tracking and marketing tools like CRMs, or questions about vGarrett itself (including asking for, or paying for, a review by the real Garrett) (what it is, pricing, whether it's a real person). Also ON: greetings, thanks, short follow-ups ("yes", "do it", "what about #2?"), and the person describing their business, when they make sense in the conversation so far.
 
 OFF: clearly unrelated requests: trivia, homework, coding unrelated to their marketing, recipes, health, legal or tax advice, politics, religion, news, opinions on public figures, jokes, poems, stories, roleplay, or chit-chat that isn't about their business.
 

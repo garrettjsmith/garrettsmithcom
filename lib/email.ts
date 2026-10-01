@@ -128,6 +128,7 @@ export async function sendEmail(msg: {
   html: string;
   inReplyTo?: string | null;
   references?: string | null;
+  replyTo?: string | null;
 }): Promise<void> {
   const headers: Record<string, string> = {};
   if (msg.inReplyTo) headers["In-Reply-To"] = msg.inReplyTo;
@@ -136,7 +137,8 @@ export async function sendEmail(msg: {
   await resend("/emails", {
     method: "POST",
     body: JSON.stringify({
-      from: `Garrett (AI) <${ASK_ADDRESS}>`,
+      from: `vGarrett (Garrett's AI) <${ASK_ADDRESS}>`,
+      ...(msg.replyTo ? { reply_to: [msg.replyTo] } : {}),
       to: [msg.to],
       subject: msg.subject,
       text: msg.text,

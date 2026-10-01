@@ -9,7 +9,7 @@ export const runtime = "nodejs";
 
 const page = (body: string) =>
   new Response(
-    `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Check-ins · Ask Garrett</title>` +
+    `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Check-ins · vGarrett</title>` +
       `<body style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;background:#F4F6F3;color:#0E1410;display:grid;place-items:center;min-height:100vh;margin:0;padding:16px">` +
       `<main style="max-width:420px;background:#fff;border:1px solid #DDE3DC;border-radius:16px;padding:28px;line-height:1.55">${body}</main></body>`,
     { headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } },

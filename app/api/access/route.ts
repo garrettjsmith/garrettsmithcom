@@ -3,7 +3,7 @@ import { allowAccessRequest, clientIp } from "@/lib/ratelimit.ts";
 
 export const runtime = "nodejs";
 
-const WHERE = ["Retainer", "Text", "WhatsApp", "Other"] as const;
+const WHERE = ["Second opinion", "Retainer", "Text", "WhatsApp", "Other"] as const;
 
 // "Put me on your team" form. Saves the request and pings Garrett.
 export async function POST(req: Request) {
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
   const hook = process.env.ACCESS_NOTIFY_WEBHOOK_URL;
   if (hook) {
     const text =
-      `*Ask Garrett contact form*\n${email}: *${where}*` +
+      `*vGarrett contact form*\n${email}: *${where}*` +
       (note ? `\n> ${note.replace(/\n/g, "\n> ")}` : "");
     await fetch(hook, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) }).catch((e) =>
       console.error("[access] notify failed", e),

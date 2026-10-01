@@ -31,10 +31,10 @@ test("reminders come due and roll forward by their cadence", () => {
   const { brief } = applyPatch(null, "k", { business: "A Plumbing" });
   applyReminder(brief, { business: "A Plumbing", text: "Add 3 new job photos to the profile", every: "2 weeks" });
   const biz = brief.businesses[0];
-  const due = takeDueReminders(biz, "2026-09-28");
+  const due = takeDueReminders(biz, "2099-01-01");
   assert.equal(due.length, 1);
-  assert.equal(biz.reminders[0].due, "2026-10-12");
-  assert.equal(takeDueReminders(biz, "2026-10-05").length, 0);
+  assert.equal(biz.reminders[0].due, "2099-01-15");
+  assert.equal(takeDueReminders(biz, "2099-01-08").length, 0);
   applyReminder(brief, { business: "A Plumbing", text: "Add 3 new job photos to the profile", remove: true });
   assert.equal(biz.reminders.length, 0);
 });

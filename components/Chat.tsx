@@ -3,11 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { COPY } from "@/content/copy.ts";
 import { quipsFor } from "@/content/quips.ts";
+import type { OfferCard } from "@/lib/human.ts";
 import { escapeHtml, renderChatHtml, visiblePartial } from "@/lib/garrett/format.ts";
 import { openPortal, requestSignIn } from "./billing.ts";
 import { Gate } from "./Gate.tsx";
 import { LandingSections } from "./Landing.tsx";
 import { Mark } from "./Mark.tsx";
+import { Offer } from "./Offer.tsx";
 import { SignIn } from "./SignIn.tsx";
 import { HeroStage } from "./Stage.tsx";
 
@@ -19,6 +21,7 @@ type BotMsg = {
   done: boolean;
   status?: { kind: "live" | "playbook"; label: string };
   checked?: string[];
+  offer?: OfferCard;
   playbooks?: string[];
   offline?: boolean;
   error?: string;
@@ -76,7 +79,7 @@ function Field({
         autoComplete="off"
         value={value}
         placeholder={placeholder}
-        aria-label="Ask Garrett a question"
+        aria-label="Ask vGarrett a question"
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
@@ -130,7 +133,10 @@ function Bot({ m }: { m: BotMsg }) {
     <div className="msg bot" id={`m-${m.id}`}>
       <Mark className="face" />
       {/* renderChatHtml and escapeHtml escape all model text before adding tags. */}
-      <div className="said" aria-busy={!m.done} dangerouslySetInnerHTML={{ __html: traces.join("") + body }} />
+      <div className="said-col">
+        <div className="said" aria-busy={!m.done} dangerouslySetInnerHTML={{ __html: traces.join("") + body }} />
+        {m.done && m.offer && <Offer o={m.offer} />}
+      </div>
     </div>
   );
 }
@@ -307,12 +313,13 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
           if (ev.type === "text") patchBot(botId, (m) => ({ raw: m.raw + ev.delta }));
           else if (ev.type === "status")
             patchBot(botId, () => ({ status: { kind: ev.kind, label: ev.label } }));
+          else if (ev.type === "offer") patchBot(botId, () => ({ offer: ev.offer }));
           else if (ev.type === "done") {
             final = ev;
-            patchBot(botId, () => ({ raw: ev.text, done: true, checked: ev.checked, playbooks: ev.playbooks, offline: ev.offline }));
+            patchBot(botId, (m) => ({ raw: ev.text, done: true, checked: ev.checked, playbooks: ev.playbooks, offline: ev.offline, offer: ev.offer ?? m.offer }));
             setFollowups(ev.followups ?? []);
             if (typeof ev.remaining === "number") setRemaining(ev.remaining);
-            setAnnounce(`Garrett replied: ${ev.text}`);
+            setAnnounce(`vGarrett replied: ${ev.text}`);
           } else if (ev.type === "error") {
             patchBot(botId, () => ({ done: true, error: ev.message }));
             setAnnounce(ev.message);
@@ -426,7 +433,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
             </div>
           </header>
           <main className="body">
-            <h1 className="sr-only">Ask Garrett</h1>
+            <h1 className="sr-only">vGarrett</h1>
             <div className="thread">
               {items.map((it) =>
                 it.role === "user" ? (
@@ -482,8 +489,9 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
       <dialog ref={about}>
         <h2>What this is</h2>
         <p>
-          Ask Garrett is an AI version of Garrett Smith: his local search playbooks, his rules, and live data, available
-          to anyone for a fraction of what an hour of his time costs.
+          vGarrett is an AI built by Garrett Smith: his local search playbooks and rules, wired to live data, available
+          to anyone for a fraction of what an hour of his time costs. It isn&rsquo;t Garrett. When something needs a
+          human, it says so and can put your case in front of the real one.
         </p>
         <p>
           It runs on Claude with Garrett&rsquo;s <a href="https://github.com/garrettjsmith/localseoskills">Local SEO Skills</a>{" "}

@@ -9,7 +9,7 @@ const STATS = [
   { value: "20+", label: "years in local search" },
   { value: "25", label: "playbooks behind every answer" },
   { value: "Live", label: "rankings, reviews & profiles" },
-  { value: "<1%", label: "of what clients pay for the real me" },
+  { value: "<1%", label: "of what clients pay for me" },
 ];
 
 const PLAYBOOK_FILES = ["gbp-optimization", "review-management", "gbp-suspension-recovery", "ai-local-search"];
@@ -39,7 +39,7 @@ export function LandingSections() {
                 <span className="live-dot" aria-hidden="true" /> The real one
               </figcaption>
             </figure>
-            <figure className="shot virtual" aria-label="Virtual Garrett, the AI version">
+            <figure className="shot virtual" aria-label="vGarrett, the virtual one">
               <Portal uid="pv" />
               <figcaption className="portrait-tag">
                 <span className="live-dot" aria-hidden="true" /> The virtual one
@@ -142,6 +142,21 @@ export function LandingSections() {
               </div>
             ))}
           </div>
+          <div className="human">
+            <div>
+              <h3>{COPY.human.title}</h3>
+              <p>{COPY.human.body}</p>
+            </div>
+            <ul>
+              {COPY.human.offers.map((o) => (
+                <li key={o.id}>
+                  <b>{o.name}</b> <span className="hp">{o.price}</span>
+                  <span className="ht">{o.turnaround}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="hn">{COPY.human.note}</p>
+          </div>
           <p className="fine">
             Cancel any time. By subscribing you agree to the <a href="/terms">Terms</a> and{" "}
             <a href="/privacy">Privacy Policy</a>.
@@ -186,7 +201,7 @@ export function LandingSections() {
 // An illustrative Slack thread. Static, labeled as an example.
 function SlackMock() {
   return (
-    <figure className="slack" aria-label="Example: Garrett answering in a Slack thread">
+    <figure className="slack" aria-label="Example: vGarrett answering in a Slack thread">
       <div className="slack-bar">
         <span className="dots" aria-hidden="true">
           <i />
@@ -205,7 +220,7 @@ function SlackMock() {
             Sam <span>9:41 AM</span>
           </p>
           <p>
-            <b className="at">@Garrett</b> Rochester dropped out of the pack for &ldquo;emergency plumber&rdquo; this
+            <b className="at">@vGarrett</b> Rochester dropped out of the pack for &ldquo;emergency plumber&rdquo; this
             week. Anything change?
           </p>
         </div>
@@ -214,7 +229,7 @@ function SlackMock() {
         <Mark className="avatar" />
         <div>
           <p className="who">
-            Garrett <span className="app">APP</span> <span>9:42 AM</span>
+            vGarrett <span className="app">APP</span> <span>9:42 AM</span>
           </p>
           <p>
             Checked the map pack. A competitor 0.4 mi closer to downtown verified last week, and your profile lost its

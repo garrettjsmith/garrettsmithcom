@@ -5,7 +5,7 @@ import { LEGAL } from "@/content/legal.ts";
 import { LegalPage } from "@/components/LegalPage.tsx";
 import { ASK_EMAIL } from "@/content/site.ts";
 
-export const metadata: Metadata = { title: "Terms of Service · Ask Garrett" };
+export const metadata: Metadata = { title: "Terms of Service · vGarrett" };
 
 export default function Terms() {
   const plans = COPY.pricing.plans.filter((p) => p.id !== "real");
@@ -14,15 +14,15 @@ export default function Terms() {
   return (
     <LegalPage title="Terms of Service" effective={LEGAL.effective}>
       <p>
-        These terms cover Ask Garrett, the AI local search advisor at garrettsmith.com, including the web chat, email
+        These terms cover vGarrett, the AI local search advisor at garrettsmith.com, including the web chat, email
         ({ASK_EMAIL}), and the Slack app (the &ldquo;Service&rdquo;). The Service is provided by {LEGAL.entity}{" "}
         (&ldquo;we&rdquo;, &ldquo;us&rdquo;). By using it, you agree to these terms. If you use it for a business, you
         agree on that business&rsquo;s behalf.
       </p>
 
-      <h2>1. What Ask Garrett is, and isn&rsquo;t</h2>
+      <h2>1. What vGarrett is, and isn&rsquo;t</h2>
       <p>
-        Ask Garrett is an AI. It works from Garrett Smith&rsquo;s published playbooks and live search data, but it is not
+        vGarrett is an AI that Garrett Smith built. It works from Garrett Smith&rsquo;s published playbooks and live search data, but it is not
         Garrett, and Garrett does not review its answers before you see them.
       </p>
       <ul>
@@ -76,6 +76,26 @@ export default function Terms() {
           30 days&rsquo; notice by email; the new price applies from your next billing period after that.
         </li>
         <li>Prices don&rsquo;t include taxes, which may be added where required.</li>
+      </ul>
+      <h3>Reviews and calls with the real Garrett</h3>
+      <p>
+        vGarrett may offer a paid review by Garrett Smith (a Second Opinion, a Suspension Review, or a Strategy Call)
+        when your situation needs a person. These are one-time purchases, separate from any plan:
+      </p>
+      <ul>
+        <li>
+          When you buy one, the case summary vGarrett wrote and your conversation are sent to Garrett so you don&rsquo;t
+          have to repeat yourself. He replies by email (or, for a Strategy Call, on a call you book).
+        </li>
+        <li>
+          Turnaround is stated before you pay and counts business days. If we miss it, email {LEGAL.contact} and
+          we&rsquo;ll refund that review.
+        </li>
+        <li>
+          It&rsquo;s advice. You decide what to do and submit anything to Google yourself. Garrett never needs access
+          to your profile, and nobody can guarantee Google&rsquo;s decision, including on a reinstatement.
+        </li>
+        <li>Slots are limited each week. Teams plans include one Second Opinion per calendar month; unused ones don&rsquo;t roll over.</li>
       </ul>
 
       <h2>4. Your account</h2>

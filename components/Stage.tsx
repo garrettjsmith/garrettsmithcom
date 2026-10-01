@@ -78,10 +78,11 @@ export function HeroStage() {
   return (
     <div className="stage">
       <Portal />
-      <figure className="demo" aria-label="Example answer from Ask Garrett">
+      <figure className="demo" aria-label="Example answer from vGarrett">
         <div className="demo-head">
           <Mark className="demo-avatar" />
-          <span className="demo-name">Garrett</span>
+          <span className="demo-name">vGarrett</span>
+          <span className="demo-ai">AI</span>
           <span className="demo-tag">Example</span>
         </div>
         <p className="demo-q">Why did Smith Plumbing drop out of the pack in Buffalo?</p>

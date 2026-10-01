@@ -4,13 +4,13 @@ import { LEGAL } from "@/content/legal.ts";
 import { LegalPage } from "@/components/LegalPage.tsx";
 import { ASK_EMAIL } from "@/content/site.ts";
 
-export const metadata: Metadata = { title: "Privacy Policy · Ask Garrett" };
+export const metadata: Metadata = { title: "Privacy Policy · vGarrett" };
 
 export default function Privacy() {
   return (
     <LegalPage title="Privacy Policy" effective={LEGAL.effective}>
       <p>
-        This policy explains what Ask Garrett (the web chat at garrettsmith.com, {ASK_EMAIL}, and the Slack app)
+        This policy explains what vGarrett (the web chat at garrettsmith.com, {ASK_EMAIL}, and the Slack app)
         collects, why, who we share it with, and how long we keep it. It&rsquo;s provided by {LEGAL.entity}. The short
         version: we use what you send us to answer you, we don&rsquo;t sell it, and we keep as little as we can.
       </p>
@@ -70,6 +70,14 @@ export default function Privacy() {
           access token, which is deleted when the app is uninstalled.
         </li>
         <li>Slack user IDs, so the AI can tell teammates apart within a thread.</li>
+      </ul>
+      <h3>When you ask for a review by the real Garrett</h3>
+      <ul>
+        <li>
+          The case summary vGarrett writes, your conversation (the most recent part), and your email go to Garrett so
+          he can reply. Stripe handles payment. We keep the case for 120 days, and Garrett&rsquo;s notes on how the AI
+          did (without your contact details) to improve it.
+        </li>
       </ul>
       <h3>When you use the contact form</h3>
       <ul>

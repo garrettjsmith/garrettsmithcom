@@ -192,7 +192,7 @@ export async function checkinFor(key: string, opts: { dryRun?: boolean; force?: 
   const names = businesses.map((b) => b.name).join(", ");
   const subject = `${monthly ? "Monthly" : "Weekly"} check-in: ${names}`;
   const pause = `${SITE}/api/checkin/pause?t=${signToken("checkin-pause", { key }, 180 * 86_400)}`;
-  const footer = `— Garrett (AI)\nReply to this email to ask about anything here. AI, not the real Garrett.\nDon't want these? Pause check-ins: ${pause}`;
+  const footer = `— vGarrett (Garrett's AI)\nReply to this email to ask about anything here. AI, not the real Garrett.\nDon't want these? Pause check-ins: ${pause}`;
   if (opts.dryRun) {
     console.log(`\n===== ${subject} → ${email}\n${text}\n\n${footer}\n`);
     return { key, status: "sent", detail: "dry run" };
@@ -200,7 +200,7 @@ export async function checkinFor(key: string, opts: { dryRun?: boolean; force?: 
   const html =
     `<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.55;color:#0E1410">` +
     renderChatHtml(text) +
-    `<p style="font-size:13px;color:#56605A">— Garrett (AI)<br>Reply to this email to ask about anything here. AI, not the real Garrett.<br>` +
+    `<p style="font-size:13px;color:#56605A">— vGarrett (Garrett's AI)<br>Reply to this email to ask about anything here. AI, not the real Garrett.<br>` +
     `<a href="${pause}" style="color:#56605A">Pause check-ins</a></p></div>`;
   await sendEmail({ to: email, subject, text: `${text}\n\n${footer}`, html });
   // A reply lands in the normal email thread for this subject; seed it with the
