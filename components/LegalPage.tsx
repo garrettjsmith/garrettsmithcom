@@ -6,7 +6,7 @@ export function LegalPage({ title, effective, children }: { title: string; effec
   return (
     <section className="view on">
       <header>
-        <Link href="/" className="mark" aria-label="Ask Garrett home">
+        <Link href="/" className="mark" aria-label="vGarrett home">
           <Mark />
           <span className="wordmark" translate="no">
             Garrett Smith <span className="labs">Labs</span>

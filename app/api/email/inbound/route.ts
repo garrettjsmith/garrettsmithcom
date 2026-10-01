@@ -26,7 +26,7 @@ const THREAD_TTL = 60 * 86_400;
 const MAX_TURNS = 12;
 const MAX_INCOMING_CHARS = 6000;
 
-// Resend "email.received" webhook for the Ask Garrett address (content/site.ts). Verify, ack fast,
+// Resend "email.received" webhook for the vGarrett address (content/site.ts). Verify, ack fast,
 // then read the email and reply in after().
 export async function POST(req: Request) {
   const raw = await req.text();
@@ -73,11 +73,11 @@ async function handle(emailId: string) {
     const text = [
       `Hi${name ? ` ${name.split(" ")[0]}` : ""},`,
       "",
-      "Thanks for writing. Answers by email are part of Ask Garrett.",
+      "Thanks for writing. Answers by email are part of a vGarrett plan.",
       "",
       `You can try it free at ${SITE} (a few questions, no signup) and pick a plan there. Already a member? Write from the address you signed up with.`,
       "",
-      "— Garrett (AI)",
+      "— vGarrett (Garrett's AI)",
     ].join("\n");
     await sendEmail({ to: from, subject: replySubject, text, html: renderChatHtml(text), ...threading });
     return;
@@ -90,7 +90,7 @@ async function handle(emailId: string) {
   const quota = await allowMemberMessage(from);
   if (!quota.ok) {
     if (await getStore().claim(`email:capped:${from}:${new Date().toISOString().slice(0, 7)}`, 32 * 86_400)) {
-      const text = `You've hit this month's fair-use limit, so I'll pick back up next month. If you need more before then, reply and the real Garrett will sort it out.\n\n— Garrett (AI)`;
+      const text = `You've hit this month's fair-use limit, so I'll pick back up next month. If you need more before then, reply and the real Garrett will sort it out.\n\n— vGarrett (Garrett's AI)`;
       await sendEmail({ to: from, subject: replySubject, text, html: renderChatHtml(text), ...threading });
     }
     return;
@@ -112,13 +112,13 @@ async function handle(emailId: string) {
   const answer = result.text || "I came back empty on that one. Can you add a little more detail and send it again?";
 
   const checked = result.checked.length ? `Checked live: ${result.checked.join(" · ")}\n\n` : "";
-  const footer = "— Garrett (AI)\nAI, not the real Garrett. Reply to this email to keep going.";
+  const footer = "— vGarrett (Garrett's AI)\nAI, not the real Garrett. Reply to this email to keep going.";
   const text = `${answer}\n\n${checked}${footer}`;
   const html =
     `<div style="font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.55;color:#0E1410">` +
     renderChatHtml(answer) +
     (checked ? `<p style="font-size:12px;color:#56605A">${renderChatHtml(checked).replace(/<\/?p>/g, "")}</p>` : "") +
-    `<p style="font-size:13px;color:#56605A">— Garrett (AI)<br>AI, not the real Garrett. Reply to this email to keep going.</p></div>`;
+    `<p style="font-size:13px;color:#56605A">— vGarrett (Garrett's AI)<br>AI, not the real Garrett. Reply to this email to keep going.</p></div>`;
 
   await sendEmail({ to: from, subject: replySubject, text, html, ...threading });
   await store.set(convKey, [...messages, { role: "assistant", content: answer }].slice(-MAX_TURNS), THREAD_TTL);

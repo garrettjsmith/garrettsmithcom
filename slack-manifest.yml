@@ -1,8 +1,8 @@
 # Paste into https://api.slack.com/apps -> Create New App -> From a manifest.
 # Replace garrettsmith.com if you deploy somewhere else.
 display_information:
-  name: Garrett
-  description: Virtual Garrett Smith. Local search, on your team.
+  name: vGarrett
+  description: Garrett Smith's AI twin for local search, on your team.
   background_color: "#000000"
 features:
   app_home:
@@ -10,7 +10,7 @@ features:
     messages_tab_enabled: true
     messages_tab_read_only_enabled: false
   bot_user:
-    display_name: Garrett
+    display_name: vGarrett
     always_online: true
 oauth_config:
   redirect_urls:

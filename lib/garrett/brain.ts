@@ -15,6 +15,7 @@ import { applyPatch, applyReminder, getBrief, renderBrief, saveBrief, type Brief
 import { DECLINE_FOLLOWUPS, declineReply, logBlocked, screen, type Verdict } from "./guard.ts";
 import { callLsd, lsdAvailable } from "../lsd/client.ts";
 import { LSD_BY_NAME, lsdToolDefinitions } from "../lsd/tools.ts";
+import { countAnswer, openCase, type OfferCard } from "../human.ts";
 
 // One brain, every channel. The web chat, Slack, and anything added later
 // (SMS, email) call think() with a transcript and get Garrett's reply back.
@@ -31,7 +32,8 @@ const client = new Anthropic();
 
 export type ThinkEvent =
   | { type: "text"; delta: string }
-  | { type: "status"; label: string; kind: "live" | "playbook" };
+  | { type: "status"; label: string; kind: "live" | "playbook" }
+  | { type: "offer"; offer: OfferCard };
 
 export interface ThinkInput {
   channel: Channel;
@@ -46,6 +48,8 @@ export interface ThinkInput {
   guard?: boolean;
   /** Show the brief but don't let the model change it (check-in previews). */
   readOnly?: boolean;
+  /** Who's asking, for limiting repeat offers (an IP for anonymous web visitors). */
+  visitor?: string;
 }
 
 export interface ThinkResult {
@@ -57,11 +61,34 @@ export interface ThinkResult {
   offline: boolean;
   /** Set when the screen turned the message away instead of answering it. */
   blocked?: Exclude<Verdict, "on">;
+  /** A human review offered in this reply (web shows it as a card). */
+  offer?: OfferCard;
 }
 
 function liveAvailable(): boolean {
   return lsdAvailable();
 }
+
+const OFFER_TOOL: BetaToolUnion = {
+  name: "offer_human_review",
+  description:
+    "Offer a paid review by the real Garrett, following the escalation rules. Shows the person the price, turnaround, and a button (web) or gives you a link to include (email, Slack). Write the handoff so Garrett can decide in under 10 minutes without reading the chat.",
+  input_schema: {
+    type: "object",
+    properties: {
+      type: { type: "string", enum: ["second_opinion", "suspension_review", "strategy_call"] },
+      trigger: { type: "string", enum: ["hard", "soft", "asked"], description: "Which kind of trigger this is; 'asked' when they asked for a person." },
+      reason: { type: "string", description: "One sentence: why this needs Garrett, specific to their situation." },
+      handoff: {
+        type: "string",
+        description:
+          "The brief for Garrett, plain text with these headings: BUSINESS (name, city, address, category, storefront or service-area, locations, website); THE QUESTION (their words); WHAT I CHECKED (each check and the key numbers); MY DIAGNOSIS (2-3 sentences, confidence high/medium/low and why); WHAT I RECOMMENDED (numbered); WHAT I'M UNSURE ABOUT / WHY THIS NEEDS YOU; RISKS IF THEY ACT WITHOUT REVIEW.",
+      },
+    },
+    required: ["type", "trigger", "reason", "handoff"],
+    additionalProperties: false,
+  },
+};
 
 function buildTools(channel: Channel, teamId: string | undefined, live: boolean): BetaToolUnion[] {
   // Order is fixed so the tool list (the front of the cached prefix) never changes.
@@ -79,6 +106,7 @@ function buildTools(channel: Channel, teamId: string | undefined, live: boolean)
       strict: true,
     },
   ];
+  if (channel !== "checkin") tools.push(OFFER_TOOL);
   if (teamId) {
     const list = { type: "array", items: { type: "string" } };
     tools.push(
@@ -235,6 +263,7 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
   const system = await buildSystem(channel, teamId);
   const tools = buildTools(channel, input.readOnly ? undefined : teamId, live);
   const checked = new Set<string>();
+  let offer: OfferCard | undefined;
   const playbooks = new Set<string>();
   const parts: string[] = [];
   let emitted = false;
@@ -289,7 +318,8 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
 
   const decline = await declined();
   if (decline) return decline;
-  return { text: parts.join("\n\n").trim(), checked: [...checked], playbooks: [...playbooks], offline };
+  if (channel !== "checkin") void countAnswer();
+  return { text: parts.join("\n\n").trim(), checked: [...checked], playbooks: [...playbooks], offline, offer };
 
   async function streamRound(): Promise<BetaMessage> {
     emittedThisRound = false;
@@ -334,6 +364,24 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
       const r = await callLsd(block.name, block.input, scope);
       if (r.ok) checked.add(def.label);
       return { type: "tool_result", tool_use_id: block.id, content: r.content, is_error: !r.ok };
+    }
+    if (block.name === "offer_human_review") {
+      if (offer) return { type: "tool_result", tool_use_id: block.id, content: "Already offered in this reply.", is_error: true };
+      const transcript = input.messages.map((m) => ({
+        role: m.role,
+        content: typeof m.content === "string" ? m.content : m.content.map((b) => ("text" in b ? b.text : "")).join(" "),
+      }));
+      const r = await openCase(block.input as Record<string, unknown>, {
+        channel,
+        who: teamId,
+        visitor: teamId ?? input.visitor ?? "anon",
+        transcript,
+      });
+      if (r.card) {
+        offer = { ...r.card, handoff: r.ok ? String((block.input as { handoff?: unknown }).handoff ?? "") : undefined };
+        onEvent({ type: "offer", offer });
+      }
+      return { type: "tool_result", tool_use_id: block.id, content: r.message, is_error: !r.ok };
     }
     if (block.name === "open_playbook") {
       const name = String((block.input as { name?: unknown })?.name ?? "");

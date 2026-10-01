@@ -4,6 +4,7 @@ import { linkify, renderChatHtml } from "./garrett/format.ts";
 import { createInvite } from "./invite.ts";
 import { emailForCustomer, getMember, upsertMember, type Plan } from "./members.ts";
 import { signToken } from "./signed.ts";
+import { handleHumanCheckout } from "./human.ts";
 
 // Stripe subscriptions -> members. Checkout creates the subscription; the
 // webhook is the source of truth for who is paying.
@@ -100,6 +101,8 @@ async function syncSubscription(sub: Stripe.Subscription, deleted: boolean) {
 export async function handleStripeEvent(event: Stripe.Event): Promise<void> {
   switch (event.type) {
     case "checkout.session.completed": {
+      // One-time payments for the human tier, not subscriptions.
+      if (await handleHumanCheckout(event.data.object)) break;
       const done = await activateFromCheckout(event.data.object);
       if (done?.isNew) await sendWelcome(done.email, done.plan).catch((e) => console.error("[billing] welcome email failed", e));
       break;
@@ -111,6 +114,9 @@ export async function handleStripeEvent(event: Stripe.Event): Promise<void> {
     case "customer.subscription.deleted":
       await syncSubscription(event.data.object, true);
       break;
+    case "checkout.session.async_payment_succeeded":
+      await handleHumanCheckout(event.data.object);
+      break;
   }
 }
 
@@ -121,7 +127,7 @@ export function signInLink(email: string): string {
 async function sendWelcome(email: string, plan: Plan) {
   if (!process.env.RESEND_API_KEY) return;
   const lines = [
-    "Welcome to Ask Garrett.",
+    "Welcome to vGarrett.",
     "",
     `**Ask by email:** write to ${ASK_ADDRESS} any time. Reply to keep a conversation going. I remember your business between emails.`,
     "",
@@ -133,7 +139,7 @@ async function sendWelcome(email: string, plan: Plan) {
       `**Add Garrett to Slack:** ${site()}/api/slack/install?invite=${encodeURIComponent(createInvite(email, 30))} (works for 30 days). Mention @Garrett in any channel or DM him.`,
     );
   }
-  lines.push("", "Start with something hard.", "", "— Garrett (AI)");
+  lines.push("", "Start with something hard.", "", "— vGarrett (Garrett's AI)");
   const text = lines.join("\n");
-  await sendEmail({ to: email, subject: "You're in: Ask Garrett", text: text.replace(/\*\*/g, ""), html: linkify(renderChatHtml(text)) });
+  await sendEmail({ to: email, subject: "You're in: vGarrett", text: text.replace(/\*\*/g, ""), html: linkify(renderChatHtml(text)) });
 }

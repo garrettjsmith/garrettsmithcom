@@ -1,4 +1,4 @@
-// Give someone access to Ask Garrett by email (or take it away).
+// Give someone access to vGarrett by email (or take it away).
 // Needs the production Redis credentials in the environment:
 //   UPSTASH_REDIS_REST_URL=... UPSTASH_REDIS_REST_TOKEN=... npm run member -- add sam@company.com [solo|teams]
 //   npm run member -- remove sam@company.com

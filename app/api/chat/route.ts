@@ -11,6 +11,7 @@ export const maxDuration = 120;
 // Streams newline-delimited JSON:
 //   {"type":"text","delta":"..."}           as the answer is written
 //   {"type":"status","label":"map pack","kind":"live"|"playbook"}
+//   {"type":"offer","offer":{...}}         a human review offered (shown as a card)
 //   {"type":"done","text":"...","followups":[...],"checked":[...],"playbooks":[...],"offline":bool,"remaining":n}
 //   {"type":"error","message":"..."}
 export async function POST(req: Request) {
@@ -62,6 +63,7 @@ export async function POST(req: Request) {
           teamId: member ? `email:${member.email}` : undefined,
           live,
           signal: req.signal,
+          visitor: `ip:${clientIp(req)}`,
           onEvent: send,
         });
         const { text, followups } = splitFollowups(result.text);
@@ -72,6 +74,7 @@ export async function POST(req: Request) {
           checked: result.checked,
           playbooks: result.playbooks,
           offline: result.offline,
+          offer: result.offer,
           remaining,
         });
       } catch (err) {

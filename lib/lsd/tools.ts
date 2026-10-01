@@ -1,6 +1,6 @@
 import type { Tool } from "@anthropic-ai/sdk/resources/messages/messages";
 
-// The Local SEO Data endpoints Virtual Garrett may call, as client tools the
+// The Local SEO Data endpoints vGarrett may call, as client tools the
 // app runs itself. Names and parameters match the MCP server's tools so the
 // playbooks' instructions still apply. Expensive or country-level tools
 // (local_audit, geogrid_scan, citation_audit, ai_visibility, bulk keyword

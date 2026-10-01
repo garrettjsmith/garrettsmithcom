@@ -18,7 +18,7 @@ export async function POST(req: Request) {
   } catch (err) {
     console.error("[billing] webhook handling failed", err);
     // Let Stripe retry.
-    await getStore().set(`stripe:event:${event.id}`, null);
+    await getStore().set(`stripe:event:${event.id}`, 0, 1);
     return new Response("error", { status: 500 });
   }
   return new Response("ok");

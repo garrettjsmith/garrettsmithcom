@@ -5,6 +5,7 @@
 // Re-send this week's for one member:
 //   npm run checkin -- --force --only sam@company.com
 import { runCheckins } from "../lib/checkin.ts";
+import { sendWeeklyNumbers } from "../lib/human.ts";
 
 const args = process.argv.slice(2);
 const only = args.includes("--only") ? args[args.indexOf("--only") + 1] : undefined;
@@ -12,4 +13,6 @@ const results = await runCheckins({ dryRun: args.includes("--dry-run"), force: a
 for (const r of results) console.log(`${r.status.padEnd(7)} ${r.key}${r.detail ? `  (${r.detail})` : ""}`);
 const failed = results.filter((r) => r.status === "failed").length;
 console.log(`${results.length} briefs, ${results.filter((r) => r.status === "sent").length} sent, ${failed} failed`);
+// The weekly run also sends Garrett last week's human-tier numbers.
+if (!only && !args.includes("--dry-run")) console.log(await sendWeeklyNumbers().catch((e) => `numbers email failed: ${(e as Error).message}`));
 process.exit(failed ? 1 : 0);

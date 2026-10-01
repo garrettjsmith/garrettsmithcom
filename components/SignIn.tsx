@@ -43,7 +43,7 @@ export function SignIn() {
       <h2>Sign in</h2>
       {state === "sent" ? (
         <p role="status">
-          If {email} has an Ask Garrett plan, a sign-in link is on its way. It works for an hour.
+          If {email} has a vGarrett plan, a sign-in link is on its way. It works for an hour.
         </p>
       ) : (
         <form onSubmit={submit}>

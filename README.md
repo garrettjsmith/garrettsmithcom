@@ -1,9 +1,9 @@
-# garrettsmith.com: Virtual Garrett
+# garrettsmith.com: vGarrett
 
-A chat-first landing page where people talk to an AI version of Garrett, then
-add him to their team's Slack and keep using him like a coworker.
+A chat-first landing page where people talk to vGarrett, an AI Garrett built,
+then add it to their team's Slack and keep using it like a coworker.
 
-Virtual Garrett = Garrett's voice and rules (`lib/garrett/persona.ts`)
+vGarrett (virtual Garrett) = Garrett's rules (`lib/garrett/persona.ts`)
 + [Local SEO Skills](https://github.com/garrettjsmith/localseoskills) as playbooks
 + [Local SEO Data](https://localseodata.com) for live rankings, profiles, and reviews
 + Claude.
@@ -100,8 +100,8 @@ subscription, the webhook turns it into a member, and members sign in on the
 web with an emailed link (no passwords). Canceled or unpaid subscriptions lose
 access automatically; past-due keeps access while Stripe retries.
 
-1. In Stripe, create two products with monthly prices: Ask Garrett ($19) and
-   Ask Garrett for Teams ($299). Put the price IDs in `STRIPE_PRICE_SOLO` and
+1. In Stripe, create two products with monthly prices: vGarrett ($19) and
+   vGarrett for Teams ($299). Put the price IDs in `STRIPE_PRICE_SOLO` and
    `STRIPE_PRICE_TEAMS`.
 2. Set `STRIPE_SECRET_KEY`.
 3. Add a webhook endpoint `https://garrettsmith.com/api/billing/webhook` for
@@ -120,7 +120,7 @@ Use test mode keys first; `stripe listen --forward-to localhost:3000/api/billing
 works for local testing. Members get `MEMBER_QUESTIONS_PER_MONTH` (default
 300) as a fair-use cap. `npm run member -- add` still works for comps.
 
-## Set up email (Ask Garrett's address)
+## Set up email (vGarrett's address)
 
 Members email Garrett and get answers back by email, threaded per subject,
 with notes about their business remembered between emails. Everyone else
@@ -202,6 +202,39 @@ npm run checkin -- --dry-run --only sam@company.com
 ```
 
 Members can pause from the link in each email or by asking Garrett.
+
+## The real Garrett (human tier)
+
+Between the AI and a retainer, people can buy Garrett's time per case
+(prices and turnaround in `content/human.ts`):
+
+- **Second Opinion** ($150, reply in 2 business days)
+- **Suspension Review** ($750, 1 business day)
+- **Strategy Call** ($750, 45 minutes)
+
+vGarrett offers one inside the conversation only on the escalation triggers
+in `lib/garrett/persona.ts` (suspensions, ownership fights, moves and second
+locations, contradictory data, high-stakes calls, or when someone asks for a
+person). It calls `offer_human_review` with a handoff brief, which opens a
+case and shows a card with the price, slots left, the brief, and a button.
+Soft offers can't repeat for the same visitor within a day.
+
+The button goes to a one-time Stripe Checkout (no Stripe products needed).
+When it's paid, the webhook marks the case paid, uses one of the week's
+slots (`HUMAN_SLOTS_PER_WEEK`, default 5), emails Garrett the brief and
+transcript with reply-to set to the customer, and emails the customer a
+confirmation. Teams members get one Second Opinion a month without paying.
+
+Garrett replies to the customer straight from that email, then clicks
+Agreed, Amended, or Overruled and can add what vGarrett should have said.
+Monday's check-in run emails him last week's four numbers: escalation rate,
+paid conversion, dollars per hour of his time, and corrections per 100
+reviewed answers, plus his notes to fold into Local SEO Skills.
+
+Setup: set `GARRETT_EMAIL` (and `STRATEGY_BOOKING_URL` for calls). The
+existing Stripe webhook already receives `checkout.session.completed`; also
+add `checkout.session.async_payment_succeeded` if you enable delayed payment
+methods.
 
 ## Updating the playbooks
 

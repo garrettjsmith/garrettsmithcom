@@ -9,12 +9,12 @@ const signature = Mrs_Saint_Delafield({ weight: "400", subsets: ["latin"], varia
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || "https://garrettsmith.com"),
-  title: "Ask Garrett: 20+ years of local search, on call",
+  title: "vGarrett: Garrett Smith's virtual twin for local search",
   description:
-    "Ask Garrett about your local visibility. Garrett Smith's local search playbooks and live ranking data, for a fraction of what an hour of his time costs.",
+    "Garrett Smith's local search playbooks and live ranking data, in an AI advisor. And the real Garrett when you need him.",
   openGraph: {
-    title: "Ask Garrett about your local visibility.",
-    description: "20+ years of local search experience, on call. Powered by Local SEO Skills and Local SEO Data.",
+    title: "Ask vGarrett about your local visibility.",
+    description: "Garrett Smith's local search playbooks and live ranking data, in an AI advisor. And the real Garrett when you need him.",
     type: "website",
   },
 };
