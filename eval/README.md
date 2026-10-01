@@ -108,3 +108,15 @@ Simulated on the saved Local SEO Data responses:
   two review reply drafts, reminders as a checklist, a competitor and AI Mode
   summary, two post drafts, and one next step. One post draft claimed "100+
   five-star reviews"; drafts are now limited to facts in the data.
+
+## Escalation and voice (Oct 2026)
+
+8 first messages, simulated on the web prompt. Offered a human review on
+the suspension after an address change (suspension_review, hard), opening a
+second location (hard), an ownership lockout (hard), and "can I talk to the
+real Garrett?" (asked). No offer on a map pack question with live data, review
+tips, "are you Garrett?" (answered "No. I'm vGarrett, an AI that Garrett
+built…"), or a GBP post draft. Every offer came after a full answer, with a
+specific reason and a brief in the required shape. Fix: when someone asks
+for a person before describing the problem, it offered with an empty brief;
+it now asks what's going on first.
