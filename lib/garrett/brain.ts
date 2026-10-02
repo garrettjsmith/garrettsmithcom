@@ -10,6 +10,7 @@ import type {
 } from "@anthropic-ai/sdk/resources/beta/messages/messages";
 import { BRIEF_RULES, CHANNEL_RULES, PERSONA, type Channel } from "./persona.ts";
 import { PLAYBOOK_INDEX, PLAYBOOK_NAMES, getPlaybook } from "./playbooks.ts";
+import { getNote, getNotes, noteText } from "../notes.ts";
 import { addTeamNote, getTeamNotes } from "./memory.ts";
 import { applyPatch, applyReminder, getBrief, renderBrief, saveBrief, type BriefPatch } from "./brief.ts";
 import { DECLINE_FOLLOWUPS, declineReply, logBlocked, screen, type Verdict } from "./guard.ts";
@@ -69,6 +70,18 @@ function liveAvailable(): boolean {
   return lsdAvailable();
 }
 
+// Garrett's Search Notes (his newsletter essays on the site). The index sits
+// in the cached prefix; the full text loads on demand like a playbook.
+function notesIndex(): string {
+  const site = (process.env.SITE_URL || "https://garrettsmith.com").replace(/\/$/, "");
+  const notes = getNotes();
+  if (!notes.length) return "";
+  return (
+    `Search Notes: Garrett's own essays from his newsletter, published at ${site}/notes. Open one with open_note when it covers the question, to ground your answer in what Garrett actually wrote. Cite at most one per answer, by title with its link (${site}/notes/<slug>), and don't paste the essay. Each is Garrett's view as of its date; when live data says otherwise, go with the data and say so.\n` +
+    notes.map((n) => `- ${n.slug} (${n.date}): ${n.title}. ${n.description}`).join("\n")
+  );
+}
+
 const OFFER_TOOL: BetaToolUnion = {
   name: "offer_human_review",
   description:
@@ -106,6 +119,20 @@ function buildTools(channel: Channel, teamId: string | undefined, live: boolean)
       strict: true,
     },
   ];
+  const slugs = getNotes().map((n) => n.slug);
+  if (slugs.length) {
+    tools.push({
+      name: "open_note",
+      description: "Read one of Garrett's Search Notes (newsletter essays) in full, by slug from the index.",
+      input_schema: {
+        type: "object",
+        properties: { slug: { type: "string", enum: slugs } },
+        required: ["slug"],
+        additionalProperties: false,
+      },
+      strict: true,
+    });
+  }
   if (channel !== "checkin") tools.push(OFFER_TOOL);
   if (teamId) {
     const list = { type: "array", items: { type: "string" } };
@@ -177,7 +204,7 @@ function buildTools(channel: Channel, teamId: string | undefined, live: boolean)
 
 async function buildSystem(channel: Channel, teamId?: string): Promise<BetaTextBlockParam[]> {
   const system: BetaTextBlockParam[] = [
-    { type: "text", text: PERSONA + "\n\n" + PLAYBOOK_INDEX },
+    { type: "text", text: [PERSONA, PLAYBOOK_INDEX, notesIndex()].filter(Boolean).join("\n\n") },
     { type: "text", text: CHANNEL_RULES[channel], cache_control: { type: "ephemeral" } },
   ];
   if (teamId) {
@@ -203,6 +230,12 @@ async function runClientTool(
   if (name === "open_playbook" && typeof args.name === "string") {
     const body = getPlaybook(args.name);
     return body ? { content: body } : { content: `No playbook named ${args.name}.`, isError: true };
+  }
+  if (name === "open_note" && typeof args.slug === "string") {
+    const n = getNote(args.slug);
+    return n
+      ? { content: `${n.title} (${n.date})\n${(process.env.SITE_URL || "https://garrettsmith.com").replace(/\/$/, "")}/notes/${n.slug}\n\n${noteText(n)}` }
+      : { content: `No note named ${args.slug}.`, isError: true };
   }
   if (name === "update_brief" && teamId) {
     const { brief, result } = applyPatch(await getBrief(teamId), teamId, args as BriefPatch);
@@ -382,6 +415,9 @@ async function run(input: ThinkInput, live: boolean, offline: boolean): Promise<
         onEvent({ type: "offer", offer });
       }
       return { type: "tool_result", tool_use_id: block.id, content: r.message, is_error: !r.ok };
+    }
+    if (block.name === "open_note") {
+      onEvent({ type: "status", label: "Search Notes", kind: "playbook" });
     }
     if (block.name === "open_playbook") {
       const name = String((block.input as { name?: unknown })?.name ?? "");

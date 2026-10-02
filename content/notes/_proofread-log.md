@@ -1,0 +1,129 @@
+# Proofread log (Oct 2026)
+
+Every change made when the newsletter essays were proofread for the site. Lines marked NEEDS GARRETT were left for Garrett.
+
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | Hi! greeting deleted
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | Low and behold → Lo and behold
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | NEEDS GARRETT | Subtitle says 30+ audits but the (deleted) hero image said 50+ audits; subtitle left as written
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | even just  adding → even just adding (double space)
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | for own software → for our own software
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | haven’t got started → haven’t gotten started
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | hero image + comment deleted
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | intimated → intimidated
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | next email → next note
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | products and service or → products and services or
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | talked a small aspect → talked about a small aspect
+- 19-things-we-learned-about-ai-visibility-in-the-last-12-months | work talking about → worth talking about
+- 4-steps-to-better-ai-visibility | 200-300 FAQ section → 200-300 word FAQ section
+- 4-steps-to-better-ai-visibility | Hi! greeting deleted
+- 4-steps-to-better-ai-visibility | NEEDS GARRETT | Step 4 Note: inserted 'word' in '200-300 [word] FAQ section' (assumed); confirm
+- 4-steps-to-better-ai-visibility | hero image + comment + italic caption deleted
+- 4-steps-to-better-ai-visibility | pinpointing exact who → exactly who
+- 4-steps-to-better-ai-visibility | standout → stand out
+- ai-search-doesn-t-work-like-google-search | Happy Monday — greeting deleted
+- ai-search-doesn-t-work-like-google-search | hero image + comment deleted
+- ask-google-maps-just-changed-local-search | Happy Monday 👍 greeting deleted
+- ask-google-maps-just-changed-local-search | hero image + comment deleted
+- ask-google-maps-just-changed-local-search | reply and let's look → get in touch (linked /#access) and let's look
+- google-gets-more-yelpian-with-new-review-policies | Hey — greeting deleted
+- google-gets-more-yelpian-with-new-review-policies | Reply and tell me what happened → Get in touch (linked /#access) and tell me what happened
+- google-gets-more-yelpian-with-new-review-policies | hero image + comment deleted
+- google-is-killing-the-lsa-platform | We see this is in → We see this in
+- google-is-killing-the-lsa-platform | frontmatter → added description, ask
+- google-is-killing-the-lsa-platform | greeting "Hi —" → (deleted)
+- google-is-killing-the-lsa-platform | hero image + comment → (deleted)
+- how-ai-agents-will-browse-the-web-in-6-months | NEEDS GARRETT | Title says 6 months but the P.S. says 'how agents will browse in a couple years'; timeline section says 2027. Left as written.
+- how-ai-agents-will-browse-the-web-in-6-months | frontmatter → added description, ask
+- how-ai-agents-will-browse-the-web-in-6-months | greeting "Hi —" → (deleted)
+- how-ai-agents-will-browse-the-web-in-6-months | hero image + comment → (deleted)
+- how-to-start-measuring-ai-visibility | frontmatter → added description, ask
+- how-to-start-measuring-ai-visibility | greeting "Hi —" → (deleted)
+- how-to-start-measuring-ai-visibility | hero image + comment → (deleted)
+- how-to-start-measuring-ai-visibility | subtitle: Here are few ... started " → Here are a few ... started"
+- reddit-for-local-seo | NEEDS GARRETT | 'You can control whether or not your brand will show up on Reddit.' (Uncomfortable part) reads like it may mean 'can't control'. Left as written.
+- reddit-for-local-seo | don’t want customer going → don’t want customers going
+- reddit-for-local-seo | frontmatter → added description, ask
+- reddit-for-local-seo | greeting "Howdy —" → (deleted)
+- reddit-for-local-seo | hero image + comment → (deleted)
+- reddit-for-local-seo | outrank your other good thing said → outrank the other good things said
+- reddit-for-local-seo | recommend business that have → recommend businesses that have
+- stop-writing-blog-posts-no-one-reads | Besides, if they want t → (removed fragment)
+- stop-writing-blog-posts-no-one-reads | Long form blog post are often → Long form blog posts are often
+- stop-writing-blog-posts-no-one-reads | NEEDS GARRETT | Sentence cut off mid-word, removed: 'Besides, if they want t' (after 'Those searches don't need 2,000 words...' paragraph, before 'What actually ranks for local intent').
+- stop-writing-blog-posts-no-one-reads | easier to write then digging → easier to write than digging
+- stop-writing-blog-posts-no-one-reads | frontmatter → added description, ask
+- stop-writing-blog-posts-no-one-reads | greeting "Happy Monday 👍" → (deleted)
+- stop-writing-blog-posts-no-one-reads | hero image + comment → (deleted)
+- stop-writing-blog-posts-no-one-reads | reply with your site. → [get in touch](/#access) with your site.
+- the-agent-readiness-checklist-for-local-businesses | If you want us to handle this, reply. → If you want us to handle this, [get in touch](/#access).
+- the-agent-readiness-checklist-for-local-businesses | frontmatter → added description, ask
+- the-agent-readiness-checklist-for-local-businesses | greeting "Howdy —" → (deleted)
+- the-agent-readiness-checklist-for-local-businesses | hero image + comment → (deleted)
+- the-citation-myth | Reply with your business type. I'll → [Get in touch](/#access) with your business type. I'll
+- the-citation-myth | frontmatter description and ask added
+- the-citation-myth | greeting deleted
+- the-citation-myth | hero image removed
+- the-citation-myth | onamonapia → onomatopoeia
+- the-citation-myth | syphon → siphon
+- what-if-google-rewrote-your-profile | You probably hate their suggest edits → You probably hate their suggested edits
+- what-if-google-rewrote-your-profile | [please reach out](https://gmbgorilla.com) → [please reach out](/#access)
+- what-if-google-rewrote-your-profile | and is now letting → and are now letting
+- what-if-google-rewrote-your-profile | before the show it on → before they show it on
+- what-if-google-rewrote-your-profile | for you. They also have → for you, they also have
+- what-if-google-rewrote-your-profile | frontmatter description and ask added
+- what-if-google-rewrote-your-profile | hero image removed
+- what-if-google-rewrote-your-profile | inaccurate, canvas → inaccurate canvas
+- what-if-google-rewrote-your-profile | make sure your managing → make sure you’re managing
+- what-seo-taught-you-to-stop-doing | It tries to get the full picture. → They try to get the full picture.
+- what-seo-taught-you-to-stop-doing | frontmatter description and ask added
+- what-seo-taught-you-to-stop-doing | greeting deleted
+- what-seo-taught-you-to-stop-doing | hero image removed
+- what-seo-taught-you-to-stop-doing | marketers faults → marketers’ fault
+- why-ai-picks-them-and-not-you | context then traditional → context than traditional
+- why-ai-picks-them-and-not-you | frontmatter description and ask added
+- why-ai-picks-them-and-not-you | greeting deleted
+- why-ai-picks-them-and-not-you | hero image removed
+- why-ai-picks-them-and-not-you | serving everyone doesn’t work → serving everyone don’t work
+- why-ai-picks-them-and-not-you | verify you claims → verify your claims
+- why-ai-picks-them-and-not-you | wasn’t connect the dots → wasn’t connecting the dots
+- why-your-competitor-ranks-with-fewer-reviews | frontmatter description and ask added
+- why-your-competitor-ranks-with-fewer-reviews | greeting deleted
+- your-contact-form-is-broken | Here’s the four biggest → Here are the four biggest
+- your-contact-form-is-broken | If not join the → If not, join the
+- your-contact-form-is-broken | Let talk → Let's talk
+- your-contact-form-is-broken | frontmatter description and ask added
+- your-contact-form-is-broken | greeting deleted
+- your-contact-form-is-broken | hero image removed
+- your-contact-form-is-broken | in a F pattern → in an F pattern
+- your-contact-form-is-broken | part of form → part of a form
+- your-customer-s-search-started-before-google | It's not just counts most → It's not just the counts most
+- your-customer-s-search-started-before-google | don’t login → don’t log in
+- your-customer-s-search-started-before-google | frontmatter description and ask added
+- your-customer-s-search-started-before-google | greeting deleted
+- your-customer-s-search-started-before-google | hero image removed
+- your-gbp-is-becoming-a-data-feed | Google can now drafts review → Google can now draft review
+- your-gbp-is-becoming-a-data-feed | I'd recommend the later option. → I'd recommend the latter option.
+- your-gbp-is-becoming-a-data-feed | frontmatter → added description and ask
+- your-gbp-is-becoming-a-data-feed | greeting "Happy Thursday —" → deleted
+- your-gbp-is-becoming-a-data-feed | hero image + comment → deleted
+- your-gbp-is-ready-your-website-isn-t | Looks identical to you and I. → Looks identical to you and me.
+- your-gbp-is-ready-your-website-isn-t | Now its filled with → Now it's filled with
+- your-gbp-is-ready-your-website-isn-t | frontmatter → added description and ask
+- your-gbp-is-ready-your-website-isn-t | greeting "Hi!" → deleted
+- your-gbp-is-ready-your-website-isn-t | hero image + comment → deleted
+- your-gbp-photos-are-killing-your-profile | frontmatter → added description and ask
+- your-gbp-photos-are-killing-your-profile | greeting "Hola!" → deleted
+- your-gbp-photos-are-killing-your-profile | hero image + comment → deleted
+- your-service-area-is-too-big | NEEDS GARRETT | "A tremendous success on air to my Local SEO friends" - "on air" unclear (on paper?); left as written
+- your-service-area-is-too-big | frontmatter → added description and ask
+- your-service-area-is-too-big | greeting "Happy April 13th, 2026." → deleted
+- your-service-area-is-too-big | grow after despite targeting → grow after, despite targeting
+- your-service-area-is-too-big | hero image + comment → deleted
+- your-service-area-is-too-big | reply with your GBP link. → [get in touch](/#access) with your GBP link.
+- zero-click-is-rising-so-are-agent-visits-are-you-ready | If you haven’t don’t worry. → If you haven’t, don’t worry.
+- zero-click-is-rising-so-are-agent-visits-are-you-ready | are your optimized for them? → are you optimized for them?
+- zero-click-is-rising-so-are-agent-visits-are-you-ready | frontmatter → added description and ask
+- zero-click-is-rising-so-are-agent-visits-are-you-ready | greeting "Howdy —" → deleted
+- zero-click-is-rising-so-are-agent-visits-are-you-ready | hero image + comment → deleted
+- zero-click-is-rising-so-are-agent-visits-are-you-ready | pages to completing tasks → pages to complete tasks
+- zero-click-is-rising-so-are-agent-visits-are-you-ready | standard practice anyone building → standard practice for anyone building

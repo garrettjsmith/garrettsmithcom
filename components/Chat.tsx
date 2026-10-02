@@ -7,7 +7,7 @@ import type { OfferCard } from "@/lib/human.ts";
 import { escapeHtml, renderChatHtml, visiblePartial } from "@/lib/garrett/format.ts";
 import { openPortal, requestSignIn } from "./billing.ts";
 import { Gate } from "./Gate.tsx";
-import { LandingSections } from "./Landing.tsx";
+import { LandingSections, type LatestNote } from "./Landing.tsx";
 import { Mark } from "./Mark.tsx";
 import { Offer } from "./Offer.tsx";
 import { SignIn } from "./SignIn.tsx";
@@ -141,7 +141,7 @@ function Bot({ m }: { m: BotMsg }) {
   );
 }
 
-export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
+export function Chat({ banner, latest = [] }: { banner?: { text: string; bad?: boolean }; latest?: LatestNote[] }) {
   const [view, setView] = useState<"landing" | "chat">("landing");
   const [items, setItems] = useState<Item[]>([]);
   const [followups, setFollowups] = useState<string[]>([]);
@@ -179,6 +179,19 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
     const onPop = () => setView(location.hash === "#chat" ? "chat" : "landing");
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  // "Ask vGarrett" links from Search Notes arrive as /?q=…: ask it once, then tidy the URL.
+  const askedFromLink = useRef(false);
+  useEffect(() => {
+    const q = new URLSearchParams(location.search).get("q")?.trim();
+    if (!q || askedFromLink.current) return;
+    askedFromLink.current = true;
+    const params = new URLSearchParams(location.search);
+    params.delete("q");
+    window.history.replaceState(null, "", location.pathname + (params.size ? `?${params}` : ""));
+    void ask(q.slice(0, 500));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Members skip the free-question gate entirely.
@@ -388,6 +401,9 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
               <Wordmark />
             </div>
             <div className="hdr-right">
+              <a className="linkish" href="/notes">
+                Search Notes
+              </a>
               {aboutBtn}
               {cta(() => document.getElementById("pricing")?.scrollIntoView({ block: "start" }))}
             </div>
@@ -417,7 +433,7 @@ export function Chat({ banner }: { banner?: { text: string; bad?: boolean } }) {
                 <HeroStage />
               </div>
             </div>
-            <LandingSections />
+            <LandingSections latest={latest} />
           </main>
         </section>
       ) : (
