@@ -14,8 +14,10 @@ const STATS = [
 
 const PLAYBOOK_FILES = ["gbp-optimization", "review-management", "gbp-suspension-recovery", "ai-local-search"];
 
+export type LatestNote = { slug: string; title: string; description: string; date: string };
+
 // Everything below the hero.
-export function LandingSections() {
+export function LandingSections({ latest = [] }: { latest?: LatestNote[] }) {
   const { how, pricing, team, letter } = COPY;
   return (
     <>
@@ -113,6 +115,29 @@ export function LandingSections() {
         </div>
       </section>
 
+      {latest.length > 0 && (
+        <section className="sec latest" aria-labelledby="latest-title">
+          <div className="wrap">
+            <p className="eyebrow">Search Notes</p>
+            <h2 id="latest-title">What I&rsquo;m seeing lately.</h2>
+            <ol className="latest-list">
+              {latest.map((n) => (
+                <li key={n.slug}>
+                  <a href={`/notes/${n.slug}`}>
+                    <span className="nl-meta">{n.date}</span>
+                    <span className="nl-title">{n.title}</span>
+                    <span className="nl-desc">{n.description}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+            <p className="latest-more">
+              <a href="/notes">All Search Notes →</a>
+            </p>
+          </div>
+        </section>
+      )}
+
       <section className="sec" id="pricing" aria-labelledby="pricing-title">
         <div className="wrap">
           <p className="eyebrow">{pricing.eyebrow}</p>
@@ -190,7 +215,7 @@ export function LandingSections() {
           </p>
           <p>{COPY.disclaimer}</p>
           <p>
-            <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · &copy; Garrett Smith
+            <a href="/notes">Search Notes</a> · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · &copy; Garrett Smith
           </p>
         </div>
       </footer>

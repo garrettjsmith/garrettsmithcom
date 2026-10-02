@@ -236,6 +236,21 @@ existing Stripe webhook already receives `checkout.session.completed`; also
 add `checkout.session.async_payment_succeeded` if you enable delayed payment
 methods.
 
+## Search Notes (the essays)
+
+`/notes` publishes Garrett's newsletter essays from `content/notes/*.md`
+(Markdown with frontmatter: title, subtitle, date, topics, description, and
+`ask`, the question the "Try it on your business" box sends to vGarrett).
+Only `kind: essay` is shown; roundups and announcements stay in the folder.
+`content/notes/_proofread-log.md` lists every edit made when they were moved
+from beehiiv. Images live in `public/notes/<slug>/`; diagrams are HTML in
+`lib/notes-diagrams.ts`, placed with `<div data-diagram="id"></div>`.
+
+To add a new one, drop a Markdown file in `content/notes/` with the same
+frontmatter and deploy. vGarrett sees the index automatically and can open
+and cite any note (`open_note`). Each note gets a share image, Article
+schema with Garrett as author, and a sitemap entry.
+
 ## Updating the playbooks
 
 The playbooks live in `content/skills/`, copied from the Local SEO Skills repo.

@@ -1,5 +1,6 @@
 import { Chat } from "@/components/Chat.tsx";
 import { ASK_EMAIL } from "@/content/site.ts";
+import { formatDate, getNotes } from "@/lib/notes.ts";
 
 type Search = Promise<Record<string, string | string[] | undefined>>;
 
@@ -21,5 +22,8 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
   else if (one(q.installed)) banner = { text: `vGarrett is in ${one(q.installed)}. Mention @vGarrett in any channel or DM it.` };
   else if (one(q.invite) === "invalid") banner = { text: "That invite link is invalid or expired. Request access and I'll send a fresh one.", bad: true };
   else if (one(q.install) === "failed") banner = { text: "Slack install didn't go through. Try the link again.", bad: true };
-  return <Chat banner={banner} />;
+  const latest = getNotes()
+    .slice(0, 3)
+    .map((n) => ({ slug: n.slug, title: n.title, description: n.description, date: formatDate(n.date) }));
+  return <Chat banner={banner} latest={latest} />;
 }

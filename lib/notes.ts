@@ -112,7 +112,9 @@ export function renderNote(body: string): string {
         caption ? `<figcaption>${caption}</figcaption>` : alt ? `<figcaption>${alt}</figcaption>` : ""
       }</figure>`,
   );
-  let html = marked.parse(withFigures.replace(/<!--[\s\S]*?-->/g, ""), { async: false }) as string;
+  // Blank lines around diagram placeholders so the Markdown after them still parses.
+  const md = withFigures.replace(/<!--[\s\S]*?-->/g, "").replace(/\n*(<div data-diagram="[\w-]+"><\/div>)\n*/g, "\n\n$1\n\n");
+  let html = marked.parse(md, { async: false }) as string;
   html = html.replace(/<div data-diagram="([\w-]+)"><\/div>/g, (_m, id: string) => DIAGRAMS[id] ?? "");
   html = html.replace(/<a href="(https?:\/\/[^"]+)"/g, (_m, href: string) =>
     /^https?:\/\/(www\.)?garrettsmith\.com/.test(href) ? `<a href="${href}"` : `<a href="${href}" target="_blank" rel="noopener"`,
