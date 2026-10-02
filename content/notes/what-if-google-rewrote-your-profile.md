@@ -7,10 +7,9 @@ beehiiv_id: post_051f8a14-16f8-41fa-a11b-79bd8c6dc427
 source: https://coconotes.beehiiv.com/p/what-if-google-rewrote-your-profile
 kind: essay
 topics: [gbp, ai-visibility, reviews]
+description: "Google is using AI to write parts of your business profile, and why feeding it good, current inputs matters more than ever."
+ask: "How complete and current is my Google profile compared to my top competitors?"
 ---
-
-![Google rewrote your profile](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/b6984a17-c48f-47a0-b9ee-5d635900aeb9/google-rewrote-email__1_.png?t=1774973969)
-<!-- image: hero; Dark, moody illustration: a wide-eyed man in a red "SEO" helmet and a "BUSINESS OWNER" jacket sits at a cluttered desk while a Google "G" character with glowing red eyes marks up a document titled "Your Business Profile As Written by Google". The page has a "You wrote" column ("Family-owned since 1998", "High-quality, reliable service", "5-star rated by our customers!") against a "Google says" column with red-pen edits ("Mixed experiences. Some complaints about pricing.", "Many reviews mention late arrivals."), ending in "Google's Final Summary: Decent local option. Inconsistent. Pricey." with two stars. Background text includes "Google's Black Box", "Entity Confidence", "AI Interpretation", a monitor reading "Your profile, rewritten. Engagement: 38%", a notebook "Google's Secret Formula: Reviews, Website, Citations, User Behavior, ??? (Vibes)", and a mug "But that's not what I said...". -->
 
 **GOOGLE'S QUIET TAKEOVER OF YOUR PROFILE**
 
@@ -20,7 +19,7 @@ But I've watched the pattern long enough to have a working hypothesis — and I 
 
 Here's what I've observed.
 
-- Google has been making edits to Google Business Profiles for years when they believed their data was more accurate than yours. You probably hate their suggest edits. Most do.
+- Google has been making edits to Google Business Profiles for years when they believed their data was more accurate than yours. You probably hate their suggested edits. Most do.
 - Then Google started rolling out AI-generated business descriptions since many profile owners never bother to write them.
 - Next they replaced the Q&A section — which was genuinely a business-controlled surface — with AI-generated answers synthesized from whatever Google knows about you.
 - Now they’re offering up AI-generated review responses to those without one.
@@ -39,11 +38,11 @@ Google appears to be building toward a model where your profile functions less l
 
 The information goes in but instead of it being displayed like a traditional listing a la Yellow Page, Google’s adding another layer that changes what users see.
 
-Google's AI may increasingly determine what actually surfaces to the searcher from your profile inputs — synthesizing them alongside everything else it knows about your business from across the web before the show it on the profile.
+Google's AI may increasingly determine what actually surfaces to the searcher from your profile inputs — synthesizing them alongside everything else it knows about your business from across the web before they show it on the profile.
 
 Posts could be next to get the AI generation treatment.
 
-It's not a stretch. If Google is already generating descriptions, answering questions, and drafting review responses for you. They also have the AI tools to do it today.
+It's not a stretch. If Google is already generating descriptions, answering questions, and drafting review responses for you, they also have the AI tools to do it today.
 
 What’s left then?
 
@@ -65,7 +64,7 @@ And if that's the continued direction, the businesses feeding Google the richest
 
 Here's where I'd push back on the instinct to disengage or get discouraged.
 
-If Google's AI is synthesizing your profile from your inputs, then stepping back from those inputs isn't smart — it's handing Google a blank, incomplete, or inaccurate, canvas. The algorithm doesn't wait. It fills gaps with whatever it finds, or whatever it infers.
+If Google's AI is synthesizing your profile from your inputs, then stepping back from those inputs isn't smart — it's handing Google a blank, incomplete, or inaccurate canvas. The algorithm doesn't wait. It fills gaps with whatever it finds, or whatever it infers.
 
 The game may be shifting from _optimize your profile to control what people see_ toward _feed the machine consistently to maximize your influence over what it surfaces_.
 
@@ -74,7 +73,7 @@ Active management matters more in this model, not less. The lever just changes.
 - Old lever: craft your messaging, publish it, make sure it never changes.
 - New lever: maintain rich, consistent, current inputs and give Google's AI the best possible raw material to work with.
 
-The businesses most at risk will be the ones with _neglected_ profiles — businesses that set it up in 2019, got comfortable with occasional calls, and is now letting Google use seven year old information and stale reviews to power answers.
+The businesses most at risk will be the ones with _neglected_ profiles — businesses that set it up in 2019, got comfortable with occasional calls, and are now letting Google use seven year old information and stale reviews to power answers.
 
 **The uncomfortable truth**
 
@@ -92,4 +91,4 @@ See you next,
 
 Garrett
 
-_P.S. — This is what we're watching closely at GMB Gorilla. If you’re not currently working with us and want to make sure your managing and monitoring your profiles, [please reach out](https://gmbgorilla.com)._
+_P.S. — This is what we're watching closely at GMB Gorilla. If you’re not currently working with us and want to make sure you’re managing and monitoring your profiles, [please reach out](/#access)._

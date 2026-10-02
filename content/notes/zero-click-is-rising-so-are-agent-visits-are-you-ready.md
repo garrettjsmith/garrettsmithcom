@@ -7,12 +7,9 @@ beehiiv_id: post_ff879f9c-7a06-4294-a4ce-90d3479a8641
 source: https://coconotes.beehiiv.com/p/zero-click-is-rising-so-are-agent-visits-are-you-ready
 kind: essay
 topics: [website, ai-visibility, local-search]
+description: "AI agents now visit websites to complete tasks like booking. Here's what they need from your site and why local businesses should care."
+ask: "How agent-friendly is my website compared to my local competitors?"
 ---
-
-![Agent Optimization Series](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/022d4a5a-1afa-4617-8bb0-33f462bae73e/Agent_Optimization_Series_Start.png?t=1780334961)
-<!-- image: hero; Pen-and-ink style cartoon headed "AGENT OPTIMIZATION SERIES". Garrett in an "SEO" helmet and hoodie, with a "Local SEO" mug and a laptop marked "LSS", looks startled at a friendly robot whose speech bubble says "I don't need to browse. I just need to book." The robot points at a laptop checklist "COMPLETE TASK: Find, Evaluate, Confirm, Book" (all checked); a book on the desk reads "ACTIONS > IMPRESSIONS". Signed "G. SMITH". -->
-
-Howdy —
 
 You've probably seen the zero-click headlines.
 
@@ -38,7 +35,7 @@ How is that possible? The visitors have changed.
 
 Not all of them are human anymore. _Agents are here_.
 
-But are your optimized for them?
+But are you optimized for them?
 
 ## **Your site has a new type of visitor**
 
@@ -46,7 +43,7 @@ That's not my phrase. That's Google's.
 
 They [published official guidance](https://web.dev/articles/ai-agent-site-ux) in April titled "Build agent-friendly websites."
 
-AI agents — Claude, ChatGPT, Gemini, Copilot — are browsing sites on behalf of users. Not just to answer their questions. Actually visiting pages to completing tasks.
+AI agents — Claude, ChatGPT, Gemini, Copilot — are browsing sites on behalf of users. Not just to answer their questions. Actually visiting pages to complete tasks.
 
 When someone tells an AI _"book me a plumber for Tuesday who can fix a burst pipe,"_ that agent needs to:
 
@@ -89,7 +86,7 @@ Google's guidance is surprisingly specific. Seven rules:
 
 If you've ever done accessibility work, this list looks familiar. It's the same list.
 
-If you haven’t don’t worry. Most of this work is standard practice anyone building or managing websites in 2026.
+If you haven’t, don’t worry. Most of this work is standard practice for anyone building or managing websites in 2026.
 
 It might be time for an audit and refresh if you haven’t touched your site in some time.
 

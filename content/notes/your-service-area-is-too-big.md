@@ -7,12 +7,9 @@ beehiiv_id: post_91be4152-5a00-40ff-ae9f-cd7fcf33ad3a
 source: https://coconotes.beehiiv.com/p/your-service-area-is-too-big
 kind: essay
 topics: [gbp, local-search]
+description: "A huge service area dilutes your relevance. Here's why a tighter one ranks better, and how to pick where to focus."
+ask: "Where do I actually rank across the service area I've claimed?"
 ---
-
-![Your Service Area is Too Big](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/94d8e677-da7c-4b53-9c99-74ab62ecbbb1/service-area-too-big.png?t=1776091368)
-<!-- image: hero; Garrett in a red "SEO" helmet clutching his head in panic over a map of the US with a huge blue circle labeled "Local Service Area" and a tiny pin labeled "ACTUAL Service Area" far below it. Headline text: "Your Service Area is Too Big." -->
-
-Happy April 13th, 2026.
 
 Hope this finds you well.
 
@@ -87,7 +84,7 @@ But the majority of leads we couldn’t actually serve. After 3 years of this, w
 
 The towns where we had the highest concentration of business.
 
-Revenues continued to grow after despite targeting fewer geographies. Your results may vary, but it’s something to think about.
+Revenues continued to grow after, despite targeting fewer geographies. Your results may vary, but it’s something to think about.
 
 The instinct most have with their GBP and SEO is to try and inflate their service area — not decrease it.
 
@@ -101,4 +98,4 @@ Tight and dominant beats wide and invisible.
 
 Talk soon, Garrett
 
-**P.S.** — If you want to see how you actually rank across your claimed service area, reply with your GBP link. A grid-based scan shows you the real picture — not the view from your office.
+**P.S.** — If you want to see how you actually rank across your claimed service area, [get in touch](/#access) with your GBP link. A grid-based scan shows you the real picture — not the view from your office.

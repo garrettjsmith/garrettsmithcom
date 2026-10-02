@@ -7,12 +7,9 @@ beehiiv_id: post_fce2439e-c87c-45d5-b658-2e71ec3c8213
 source: https://coconotes.beehiiv.com/p/your-gbp-is-ready-your-website-isn-t
 kind: essay
 topics: [website, ai-visibility, gbp]
+description: "AI agents read your website's structure, not its design. Here's what they see, why it matters, and a free tool to check your site."
+ask: "Can AI agents actually use my website to book or contact me?"
 ---
-
-![Agent Optimization Series hero: a worried man at a laptop while a robot holds a clipboard](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/60263436-71b9-41e9-90ee-aae4e804728b/aos2-2.png?t=1781194263)
-<!-- image: hero; Hand-drawn "Agent Optimization Series" header illustration. A worried man sits at a laptop (coffee mug reads "LOCAL SEO") while a robot holding a magnifying glass and a clipboard says "I'm afraid your website is not agent friendly." The clipboard shows "Google Business Profile" checked and "Website" crossed out. -->
-
-Hi!
 
 Last week [I talked about the shift happening in local search](https://www.linkedin.com/pulse/zero-click-rising-so-agent-visits-you-ready-garrett-smith-btmcc/). 
 
@@ -74,7 +71,7 @@ Built right:
 → button "Book now" — agent can act
 ```
 
-Looks identical to you and I. Works opposite for our silicon friend. Markup is the only difference and unless you’re looking for it you wouldn’t think twice about it.
+Looks identical to you and me. Works opposite for our silicon friend. Markup is the only difference and unless you’re looking for it you wouldn’t think twice about it.
 
 Most local business websites are full of this. 
 
@@ -90,7 +87,7 @@ Crazy thing is you never knew you lost the lead!
 
 Google and I spent years yelling at you to fill out your Business Profile. 
 
-Now its filled with your services. Correct hours. The products you offer. And of course your phone number and booking links. All of it structured to form an entity.
+Now it's filled with your services. Correct hours. The products you offer. And of course your phone number and booking links. All of it structured to form an entity.
 
 Of course this data was meant for human users of the Maps app and search. 
 

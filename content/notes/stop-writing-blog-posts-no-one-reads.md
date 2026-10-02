@@ -7,12 +7,9 @@ beehiiv_id: post_a16745fe-d2de-4363-87d0-db7c1c987b36
 source: https://coconotes.beehiiv.com/p/stop-writing-blog-posts-no-one-reads
 kind: essay
 topics: [website, local-search, ai-visibility]
+description: "Why location pages beat blog posts for local search, and what makes a location page work."
+ask: "Which service and area searches am I missing without location pages?"
 ---
-
-![Man asleep in a rocking chair holding a newspaper titled Blog Posts](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/ebdabdf6-8c21-45a7-b487-b9564b2dd319/ChatGPT_Image_Mar_9__2026__09_48_13_AM.png?t=1773064252)
-<!-- image: hero; Photorealistic rustic porch scene: a man in a red glitter helmet reading "SEO" snoozes mid-yawn in a wooden rocking chair, holding a newspaper headlined "BLOG POSTS". A dog sleeps at his feet, with a cooler, an IPA can, a jar of drink, a bowl of chips, a banjo, work boots, and American flags around. -->
-
-Happy Monday 👍
 
 Here's where most locally focused businesses waste their content budget in 2026.
 
@@ -37,8 +34,6 @@ Here's why:
 Your customers aren't searching "how to unclog a drain." They're searching "plumber in Riverside" or "emergency plumber near me."
 
 Those searches don't need 2,000 words of education. They need proof you serve that area and you're legit, open now, and can unclog the drain.
-
-Besides, if they want t
 
 **What actually ranks for local intent:**
 
@@ -74,7 +69,7 @@ That's it. Not complicated. Just specific.
 
 **The uncomfortable part:**
 
-Your writer likes producing blog posts because they don’t know any better and are a writer, not an SEO. Long form blog post are often easier to write then digging into unique aspects of a business in a geography. Generic advice found anywhere also doesn't require as much research or risk of error.
+Your writer likes producing blog posts because they don’t know any better and are a writer, not an SEO. Long form blog posts are often easier to write than digging into unique aspects of a business in a geography. Generic advice found anywhere also doesn't require as much research or risk of error.
 
 Location pages require knowing your actual service areas, understanding local context, and building 30-50 pages in a procedural fashion instead of 12 freeform creative essays.
 
@@ -84,4 +79,4 @@ And doesn’t require you to be on the content hamster wheel.
 
 Talk soon, Garrett
 
-**P.S.** — If you want to see which searches you're missing because you don't have location pages, reply with your site. I built an agent that can spot the gaps in minutes.
+**P.S.** — If you want to see which searches you're missing because you don't have location pages, [get in touch](/#access) with your site. I built an agent that can spot the gaps in minutes.

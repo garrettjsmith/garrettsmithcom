@@ -7,12 +7,9 @@ beehiiv_id: post_e351a4b9-858c-46ea-8d80-271eebb49246
 source: https://coconotes.beehiiv.com/p/ai-search-doesn-t-work-like-google-search
 kind: essay
 topics: [ai-visibility, tools]
+description: "Real AI prompts are long, messy and full of constraints, so tracking 'best plumber in Dallas' misses how people actually search."
+ask: "What would a real customer prompt in my industry return in ChatGPT?"
 ---
-
-![Wrong Prompts](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/715be38e-1075-423a-b11b-3141cdbb365f/tracking-wrong-prompts.png?t=1776706029)
-<!-- image: hero; Garrett in a red "SEO" helmet and muddy clothes celebrating from a freshly dug hole, holding a shovel, while a glowing treasure chest sits untouched in the distance. A treasure map in the foreground has a red X and is labeled "WRONG PROMPTS". -->
-
-Happy Monday —
 
 There's a lie floating around the AI search optimization world.
 

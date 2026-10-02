@@ -7,12 +7,9 @@ beehiiv_id: post_c7986d46-56d0-4b37-87bf-d0c7a2ffaf96
 source: https://coconotes.beehiiv.com/p/ask-google-maps-just-changed-local-search
 kind: essay
 topics: [local-search, ai-visibility, gbp]
+description: "Ask Google Maps makes local search conversational, so Google reasons about your business as an entity instead of matching keywords."
+ask: "How consistent is my business description across my GBP, website, and citations?"
 ---
-
-![Google Maps changes](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/05e1fe9f-e9ca-48e0-b931-76e452d00a12/google_maps_changes.png?t=1773685473)
-<!-- image: hero; Photorealistic city street scene: an excited man in a red glitter "SEO" helmet holds up a paper "Google Maps" map showing pins and labels for "Italian Restaurant", "Coffee Shop" and "Local Bookstore", each with four stars. -->
-
-Happy Monday 👍
 
 Google just announced Ask Google Maps.
 
@@ -20,7 +17,7 @@ Conversational AI search, built directly into the app. Not a beta. Not a Search 
 
 Watch the demo and pay attention to how the user searches.
 
-![Ask Google Maps](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/c81a3ab0-9622-41bf-ad50-f415a092a267/ask_google_maps.png?t=1773682686)
+![Ask Google Maps](/notes/ask-google-maps-just-changed-local-search/ask-maps-button.jpg)
 <!-- image: screenshot; Cropped frame from Google's Ask Maps demo video: a phone map UI at 9:30 with a "Search here" bar, a blue "Ask Maps" button with a sparkle icon next to a "Home" chip, and map labels "Birdland Jazz Club" and "Times Square". The image links to Garrett's LinkedIn post with the demo video. -->
 <!-- embed: linkedin-video-post https://www.linkedin.com/posts/garrettsmith_stop-what-you-are-doing-and-watch-this-ugcPost-7438217940778311681-DyLa?utm_source=share&utm_medium=member_desktop&rcm=ACoAAABfBYIBj_X3III8Mv278Qh5XTcq7Xg7-Xo -->
 [Watch the demo on LinkedIn](https://www.linkedin.com/posts/garrettsmith_stop-what-you-are-doing-and-watch-this-ugcPost-7438217940778311681-DyLa?utm_source=share&utm_medium=member_desktop&rcm=ACoAAABfBYIBj_X3III8Mv278Qh5XTcq7Xg7-Xo)
@@ -67,4 +64,4 @@ Next week I'm going to talk about where that entity depth actually comes from. T
 
 Talk soon, Garrett
 
-P.S. — Entity consistency across GBP, website, and citations is exactly what we audit at GMB Gorilla. If you want to see where your clients are fragmented before this rolls out broadly, reply and let's look.
+P.S. — Entity consistency across GBP, website, and citations is exactly what we audit at GMB Gorilla. If you want to see where your clients are fragmented before this rolls out broadly, [get in touch](/#access) and let's look.

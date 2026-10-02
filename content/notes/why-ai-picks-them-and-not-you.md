@@ -7,13 +7,9 @@ beehiiv_id: post_9af764dc-26d4-46cc-b60e-c812f210670e
 source: https://coconotes.beehiiv.com/p/why-ai-picks-them-and-not-you
 kind: essay
 topics: [ai-visibility, reviews, website]
+description: "The signals AI looks at when it recommends a local business, and a checklist to see where you stand."
+ask: "Which of the AI recommendation signals is my business weakest on?"
 ---
-
-![Why AI picks them and not you](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/ff674289-7752-4e57-a7ce-3a51a4f23a1d/why_ai_picks_them.jpg?t=1788194711)
-<!-- image: hero; Header graphic with the title "Why AI picks them and not you" (AI, picks, and not you in purple). On the right a purple "AI" circle with rays branches by dotted lines to three profile cards: the outer two are grey with 3 stars and crossed out with an X, the center one is highlighted purple with 5 stars. -->
-*Most businesses are findable. Few are recommendable. Which one are you?*
-
-Happy Monday —
 
 [Last week I talked about the Lost Decade](https://www.linkedin.com/pulse/what-seo-taught-you-stop-doing-garrett-smith-dwhkc/). The marketing many stopped doing because it didn't help Google rankings.
 
@@ -50,7 +46,7 @@ Entity clarity means:
 
 A regional auto dealer group I work with had a problem: their individual dealership names appeared nowhere except their own websites. Corporate press releases mentioned the parent company. Reviews mentioned salespeople by name but not the dealership. Local directories had inconsistent naming.
 
-Google figured it out through GBP. ChatGPT wasn’t connect the dots. The dealerships were invisible in recommendations until we fixed the fragmentation.
+Google figured it out through GBP. ChatGPT wasn’t connecting the dots. The dealerships were invisible in recommendations until we fixed the fragmentation.
 
 AI needs sources to verify against. Give it them!
 
@@ -72,11 +68,11 @@ AI is reading the text. It's extracting what you're good at, who you help, what 
 
 ## **Signal 3: Service specificity**
 
-AI knows a lot more about context then traditional search provides.
+AI knows a lot more about context than traditional search provides.
 
 This allows AI to be more exact in matching specific queries to specific capabilities. It’s looking for what differentiates you as a business from your competitors doing the same things.
 
-Which means vague service descriptions and serving everyone doesn’t work well.
+Which means vague service descriptions and serving everyone don’t work well.
 
 "We offer comprehensive financial planning services" matches nothing specific.
 
@@ -96,7 +92,7 @@ Your website says you're "the region's leading provider of wealth management ser
 
 Okay. Says who?
 
-If your managing director was quoted in the local business journal about market trends, if your firm won a regional "Best Wealth Manager" award, if you're mentioned in a financial planning subreddit as someone who actually knows what they're doing well, AI has something to verify you claims.
+If your managing director was quoted in the local business journal about market trends, if your firm won a regional "Best Wealth Manager" award, if you're mentioned in a financial planning subreddit as someone who actually knows what they're doing well, AI has something to verify your claims.
 
 **Third-party mentions:**  
 → Press coverage (local and trade)  

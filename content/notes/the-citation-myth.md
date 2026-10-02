@@ -7,12 +7,9 @@ beehiiv_id: post_288c53ff-d79a-416d-9128-b66d68f03830
 source: https://coconotes.beehiiv.com/p/the-citation-myth
 kind: essay
 topics: [local-search, gbp, tools]
+description: "Why paying monthly for directory citations rarely helps, and the few cases where citations still matter."
+ask: "Do my citations and directory listings look right compared to my competitors?"
 ---
-
-![The Citation Myth](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/fecd6dda-58c0-44a4-8f65-76294aafe33b/the-citation-myth__1_.png?t=1774282190)
-<!-- image: hero; Photorealistic close-up of an excited man in a red glitter "SEO" helmet flipping through a wooden card-catalog drawer whose index cards are labeled with business directories: Google, Yelp, Yellowpages.com, BBB Business Profile, Mapquest, Facebook, Foursquare (with five stars), Manta, HotFrog, Angie's List, Yellow UK, and a few garbled labels. -->
-
-Happy Monday 👍
 
 I'm about to save you money. And time.
 
@@ -22,7 +19,7 @@ It still gets sold that way. Agencies love it because it's easy to automate and 
 
 Lots of fear mongering too about bad NAP causing GBP suspensions, world wars, nuclear fallout, etc.
 
-And now the AI GEO NEO onamonapia set is pushing post after post about what sites AI LLMs are citing THAT YOU NEED TO BE ON 🫵
+And now the AI GEO NEO onomatopoeia set is pushing post after post about what sites AI LLMs are citing THAT YOU NEED TO BE ON 🫵
 
 (If you want to be mentioned….)
 
@@ -32,7 +29,7 @@ But here's the truth: for most businesses, adding citations on directories barel
 
 Citations help Google confirm your business exists. That's it.
 
-(_It also allows the site in question to rank for your brand name and potentially syphon traffic away from your website, but hey who is watching._)
+(_It also allows the site in question to rank for your brand name and potentially siphon traffic away from your website, but hey who is watching._)
 
 In the early days of local SEO, more citations = more trust signals = higher rankings. There was a real correlation.
 
@@ -84,4 +81,4 @@ Back to the future,
 
 Garrett
 
-**P.S.** — Want to know which directories actually matter for your industry? Reply with your business type. I'll send you the short list worth being on.
+**P.S.** — Want to know which directories actually matter for your industry? [Get in touch](/#access) with your business type. I'll send you the short list worth being on.

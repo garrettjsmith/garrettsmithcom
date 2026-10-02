@@ -7,12 +7,9 @@ beehiiv_id: post_f091ba3d-4a7f-4982-a0ba-a7cc1b2baaf0
 source: https://coconotes.beehiiv.com/p/google-is-killing-the-lsa-platform
 kind: essay
 topics: [ads, local-search]
+description: "Google is folding Local Services Ads into Performance Max, and I explain what changes and why I'm cautious."
+ask: "How are my LSA rankings and competitors in my market right now?"
 ---
-
-![Google is killing the LSA platform](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/a9dfa8d0-fa3b-49d5-a287-ad39df7ff746/google-lsa-platform-dead.png?t=1784564977)
-<!-- image: hero; Banner graphic with the headline "Google is KILLING the LSA platform" (KILLING in large red distressed type). A tombstone reading "LSA Platform 2015-2026" has an arrow pointing to the Google Ads logo labeled "Performance Max". -->
-
-Hi —
 
 Big news just dropped. Google is killing the standalone Local Services Ads platform. They’re [rolling LSA into Performance Max campaigns](https://www.searchenginejournal.com/google-is-bringing-local-services-ads-into-google-ads/582816/).
 
@@ -58,7 +55,7 @@ Here's my fundamental issue with Local Services Ads, and this change does nothin
 
 _LSA oversaturated the marketplace from day one._
 
-We see this is in [LSA Spy reports](https://lsaspy.com) every month.
+We see this in [LSA Spy reports](https://lsaspy.com) every month.
 
 There are only so many leads in a given market at a given time. But there are often hundreds of businesses in popular LSA categories fighting for a 20-pack that barely rotates advertisers around.
 

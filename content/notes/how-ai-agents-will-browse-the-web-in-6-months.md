@@ -7,12 +7,9 @@ beehiiv_id: post_8b2ea578-2fae-4081-b5cb-2933af8953a2
 source: https://coconotes.beehiiv.com/p/how-ai-agents-will-browse-the-web-in-6-months
 kind: essay
 topics: [website, ai-visibility]
+description: "WebMCP could let AI agents call your site's functions directly, and why the basics you fix today still matter."
+ask: "Is my website's forms and HTML ready for AI agents today?"
 ---
-
-![Agent Optimization Series: the web is becoming agent native](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/5db60991-b034-4834-8ef8-2b3acf2f1f99/aia-3.png?t=1782741465)
-<!-- image: hero; Hand-drawn "Agent Optimization Series" header illustration. A robot at a desk thinks "I don't search. I browse the web through other agents." Its tablet shows a central AGENT node linked by "A2A" arrows to Maps, Reviews, Pricing, Local Data, Content and Business Info agents. Behind it, signs for Web Search (MCP), Maps MCP, Places API (MCP), Reviews MCP, Pages MCP and Business Data (MCP) connect small robots. A sign reads "The web is becoming agent native." The mug reads "A2A first." -->
-
-Hi —
 
 Two weeks in. You've **[checked your agent readiness score](https://amiagentready.com/)**. You've audited your forms and buttons. Maybe you've even fixed a few things.
 

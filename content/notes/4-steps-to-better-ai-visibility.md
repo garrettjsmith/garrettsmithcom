@@ -7,13 +7,9 @@ beehiiv_id: post_909ad4a8-602e-4c2a-bfeb-f3b9cd703b20
 source: https://coconotes.beehiiv.com/p/4-steps-to-better-ai-visibility
 kind: essay
 topics: [ai-visibility, reviews, website]
+description: "A four-step Local SEO workflow to check, define, spread, and build your AI visibility over about five weeks."
+ask: "Do I show up in ChatGPT and Gemini for my real customer questions?"
 ---
-
-![4 steps to better AI visibility](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/f5a55145-0d17-4c2b-a55b-86ab3ebfaab0/4_steps_to_better_ai_visibility.jpg?t=1789061017)
-<!-- image: hero; Header graphic titled "4 STEPS TO BETTER AI VISIBILITY" with four numbered purple circles connected by arrows: 1 a magnifying glass over a search result, 2 a fingerprint with a flag on top, 3 a central text card with arrows out to a storefront, a web page, a map pin and a review bubble, 4 an award ribbon, newspaper and review card above a rising bar chart. -->
-*You can improve your AI visibility in the next few weeks with this Local SEO workflow*
-
-Hi!
 
 I provided you with a lot of context around AI visibility throughout August. Now that September is here let’s talk about some steps you can take to improve yours!
 
@@ -110,7 +106,7 @@ Your Phoenix locations might emphasize AC expertise. Your Minneapolis locations 
 
 Or you might have a brand-level positioning that applies everywhere. Either way, you need to be able to articulate it clearly everywhere.
 
-Otherwise you won’t standout for what you’re best at and get lumped in with the rest of the “pretty good companies” doing the “exact same thing.”
+Otherwise you won’t stand out for what you’re best at and get lumped in with the rest of the “pretty good companies” doing the “exact same thing.”
 
 ---
 
@@ -202,7 +198,7 @@ Build out content around the specific situations you handle:
 
 These become source material for AI when someone asks a question that matches.
 
-**Note:** _Go beyond the normal 200-300 FAQ section and really flesh these out. Bring in unique personal experiences from the business using real-life scenarios or “case studies” from the past that other companies couldn’t use or claim as a backdrop._
+**Note:** _Go beyond the normal 200-300 word FAQ section and really flesh these out. Bring in unique personal experiences from the business using real-life scenarios or “case studies” from the past that other companies couldn’t use or claim as a backdrop._
 
 **For multi-location: turn your best locations into case studies**
 
@@ -264,7 +260,7 @@ AI visibility isn't complicated. It's just different from what most businesses h
 
 Most businesses fail at step 2. They've never articulated a clear positioning. 
 
-So they show up everywhere sounding like everyone else in an attempt to capture all of the market, rather than clearly pinpointing exact who they serve and why they are different.
+So they show up everywhere sounding like everyone else in an attempt to capture all of the market, rather than clearly pinpointing exactly who they serve and why they are different.
 
 Fix that first. Everything else follows.
 

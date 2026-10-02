@@ -7,13 +7,9 @@ beehiiv_id: post_6aa4d730-d92e-4d62-9d0d-92f80cc32659
 source: https://coconotes.beehiiv.com/p/what-seo-taught-you-to-stop-doing
 kind: essay
 topics: [ai-visibility, local-search, reviews]
+description: "Press, awards and community work stopped feeling worth it for SEO, and they're exactly what AI recommendations draw on."
+ask: "What can AI say about my business that comes from outside my own website?"
 ---
-
-![The lost decade of local marketing](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/ec773334-956d-4964-9f40-648a051ac179/the-lost-decade-local-marketing.jpg?t=1787584615)
-<!-- image: hero; Header graphic titled "THE LOST DECADE OF LOCAL MARKETING" (LOST and MARKETING in purple). A cardboard box of old-school marketing items (newspaper, award ribbon, trophy, team pennant and jersey, vintage microphone) has an arrow pointing to a storefront with a purple awning, a checkmark badge above it, and four review cards with star ratings connected by dashed lines. -->
-*Many of the brands winning AI visibility today spent the past decade building a brand, not just links.*
-
-Hi!
 
 For at least the past ten years, local marketing meant one thing: **optimize for Google**.
 
@@ -80,7 +76,7 @@ There’s nothing being said about them except what's on their own website and w
 
 ## **Why this happened**
 
-This isn't Google's fault. It’s not even marketers faults. They built a game, and we optimized for it.
+This isn't Google's fault. It’s not even marketers’ fault. They built a game, and we optimized for it.
 
 Google's local algorithm rewards proximity, relevance, and prominence. Prominence mostly meant reviews and links. So that's what we focused on.
 
@@ -92,7 +88,7 @@ Now there's a new system. And it rewards different things.
 
 ## **What AI visibility actually requires**
 
-AI models form opinions about businesses based on what they can find across the web. Not just your website. Not just your GBP. It tries to get the full picture.
+AI models form opinions about businesses based on what they can find across the web. Not just your website. Not just your GBP. They try to get the full picture.
 
 A business with:  
 → Press mentions describing what they do  

@@ -7,12 +7,9 @@ beehiiv_id: post_dbc39f71-5538-4687-8ffc-6f7e1d279673
 source: https://coconotes.beehiiv.com/p/google-gets-more-yelpian-with-new-review-policies
 kind: essay
 topics: [reviews, gbp]
+description: "Google's new review policies sound reasonable but enforcement looks Yelp-like, plus what to stop, keep, and document."
+ask: "Do my review requests and review patterns risk tripping Google's new policies?"
 ---
-
-![Google review policy enforcement](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/bb274052-e871-4674-80ec-a5b02dae9d01/google-review-policy-email.jpg?t=1777308825)
-<!-- image: hero; Garrett in a red "SEO" helmet being arrested by two Google-branded robot enforcers outside a "Google Review Correctional Facility". He wears a sign reading "CHARGED: Telling customers what to write in reviews / Incentivizing staff to ask for reviews with their names"; a wall poster lists "Google Review Policy Violations ... BANNED" and a police car with flashing lights is parked nearby. -->
-
-Hey —
 
 Google [updated its review policies](https://support.google.com/contributionpolicy/answer/7400114#zippy=%2Cfake-misleading-content-reviews%2Crating-manipulation) last month. You may have already heard.
 
@@ -135,4 +132,4 @@ Plan accordingly.
 
 Talk soon, Garrett
 
-**P.S.** — If you've already seen reviews disappear since April, I'd love to hear about it. Reply and tell me what happened. I'm trying to understand how aggressive enforcement actually is in the wild.
+**P.S.** — If you've already seen reviews disappear since April, I'd love to hear about it. [Get in touch](/#access) and tell me what happened. I'm trying to understand how aggressive enforcement actually is in the wild.

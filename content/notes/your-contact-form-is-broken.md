@@ -7,19 +7,15 @@ beehiiv_id: post_b0ba4dad-fa6a-4cd0-b971-79db5c8fa6cb
 source: https://coconotes.beehiiv.com/p/your-contact-form-is-broken
 kind: essay
 topics: [website, ai-visibility]
+description: "Common contact form and booking mistakes that make your site unusable for AI agents, and how to fix each one."
+ask: "Can AI agents actually understand and use my website's contact form?"
 ---
-
-![Agents and humans are probably seeing too different things when viewing your website.](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/7dc11db5-766f-4ac0-a9ac-2ecbfb334589/aos-3.png?t=1781543456)
-<!-- image: hero; Hand-drawn "Agent Optimization Series" header illustration. A worried man at a laptop showing a "Contact Us" form (Name, Email, Phone, Your message, Submit) with purple question marks ("What is this for?", "Phone number?", "Message about what?"). A robot with a magnifying glass says "I can't reliably understand this. Your form isn't agent friendly." Its "Agent Readiness Checklist" clipboard (Semantic Markup, Field Labels, Purpose Clarity, Structured Data, Machine Readable) is all crossed out. -->
-*Agents and humans are probably seeing too different things when viewing your website.*
-
-Hey there,
 
 Last week I showed you how to [check your site's agent readiness score](https://amiagentready.com). Hopefully you plugged your domain into [amiagentready.com](https://amiagentready.com) and saw where you stand.
 
-If not join the 100+ who have already gotten their Agent Readiness Score.
+If not, join the 100+ who have already gotten their Agent Readiness Score.
 
-This week? Let talk about the most common issues and their fixes.
+This week? Let's talk about the most common issues and their fixes.
 
 Most of this isn't complicated. 
 
@@ -29,9 +25,9 @@ They're not invisible anymore.
 
 ## **Agents don't read paragraphs. They parse structure.**
 
-When a human visits your site, they scan visually. Usually in a F pattern.
+When a human visits your site, they scan visually. Usually in an F pattern.
 
-If a human user sees a box, they know it's a field to fill out or part of form. Humans see words next to the box, they know what to type.
+If a human user sees a box, they know it's a field to fill out or part of a form. Humans see words next to the box, they know what to type.
 
 Agents can't do that. 
 
@@ -39,7 +35,7 @@ They read the code underneath. And if the code doesn't explicitly say "this fiel
 
 It bounces. You lose the lead. You never knew.
 
-Here’s the four biggest problems we see and how to fix them.
+Here are the four biggest problems we see and how to fix them.
 
 ## **The label problem**
 

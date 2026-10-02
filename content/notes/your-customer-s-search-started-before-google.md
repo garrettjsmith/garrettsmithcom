@@ -7,13 +7,9 @@ beehiiv_id: post_eb8660b7-377c-425b-b442-b3052dbd3995
 source: https://coconotes.beehiiv.com/p/your-customer-s-search-started-before-google
 kind: essay
 topics: [ai-visibility, local-search, reviews]
+description: "Customers now often ask AI first and use Google to verify, so you can rank well on Google and still be invisible to AI."
+ask: "Does ChatGPT recommend my business when someone asks for my service in my city?"
 ---
-
-![Awareness and verification](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/edcf6d03-78bc-45c9-abcc-2d21aab3a1e4/awareness-verification-sm.jpg?t=1786378184)
-<!-- image: hero; Illustration on a cream background of three panels connected by purple arrows: a chat bubble with a user avatar and lines of text (a long question, with a small house icon), then a shortlist of three storefront listings with the top one highlighted and checked, then a map card with three pins and a five-star listing marked with a check. No readable text. -->
-*Google is no longer the place everyone starts when they’re looking for something online.*
-
-Hi —
 
 Got a question from a client last week: "Can we ramp up the SEO?"
 
@@ -55,8 +51,7 @@ References their services, their approach, what customers have said about them.
 
 ## **The journey now has two steps**
 
-![Old customer journey vs new customer journey](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/dee392ef-ab8f-480f-82b5-d3df1ec08200/old_customer_journey_vs_new_customer_journey.jpg?t=1786379120)
-<!-- image: diagram; Two-row comparison. Top row "THE OLD JOURNEY": Google discovers (map pin with magnifier) -> Customer filters (person weighing a list) -> Customer chooses (phone with checkmark). Bottom row "THE NEW JOURNEY" in purple: AI discovers (chat bubble with question mark) -> AI filters (stacked review cards with stars) -> Google verifies (map pin with checkmark). -->
+<div data-diagram="journey"></div>
 *The new journey is impacted by AI filtering…and may one day end with an agent choosing!*
 
 Here's what's actually happening:
@@ -90,12 +85,11 @@ That means:
 
 A company with 200 generic 5-star reviews might lose to a company with 80 reviews that specifically mention "same-day service," "no pressure," "explained everything before starting."
 
-The AI is reading the content. It's not just counts most humans obsess over.
+The AI is reading the content. It's not just the counts most humans obsess over.
 
 ## **For multi-location businesses, this compounds**
 
-![Multilocation mess](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/5bf44430-4837-4430-af44-35112d895e3c/multilocation-mess.jpg?t=1786379306)
-<!-- image: diagram; Hub-and-spoke graphic titled "SAME BRAND. DIFFERENT AI VISIBILITY." with a central storefront icon connected to four city boxes: Phoenix and Denver (purple, checkmarks, visible) and Scottsdale and Dallas (greyed out, crossed-out eye, invisible). Footer reads "One network. Four very different answers." -->
+<div data-diagram="network"></div>
 *AI knows where users are located creating the potential for every location to have different visibility.*
 
 If you're managing a regional chain or franchise network, the AI visibility problem multiplies.
@@ -135,4 +129,4 @@ More on what that actually looks like next week.
 Talk soon,  
 Garrett
 
-**P.S.** — Quick check you can do right now: go to ChatGPT, don’t login, pick your toughest market, and type a query with specifics — not just "plumber in Dallas" but "who's a reliable plumber in North Dallas for a slab leak who can come this week?" See what comes back. That's your current AI visibility in that market. Now imagine doing that for all your locations.
+**P.S.** — Quick check you can do right now: go to ChatGPT, don’t log in, pick your toughest market, and type a query with specifics — not just "plumber in Dallas" but "who's a reliable plumber in North Dallas for a slab leak who can come this week?" See what comes back. That's your current AI visibility in that market. Now imagine doing that for all your locations.

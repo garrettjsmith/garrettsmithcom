@@ -7,12 +7,9 @@ beehiiv_id: post_22e1be35-dee2-4903-9c89-7c0a308b7548
 source: https://coconotes.beehiiv.com/p/your-gbp-photos-are-killing-your-profile
 kind: essay
 topics: [gbp, local-search]
+description: "Google reads your profile photos to judge what you do and whether you're real. Here's what to upload, and how often."
+ask: "How do my Google profile photos compare to my top competitors?"
 ---
-
-![GBP photographer cartoon-style hero](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/1bd3c187-6e5a-4999-bfbd-2699fbdad29c/ChatGPT_Image_Mar_3__2026__09_32_49_AM.png?t=1772558126)
-<!-- image: hero; Photorealistic, motion-blurred street scene: a man in a red glitter helmet labeled "SEO" and a dark jacket sprints forward gleefully aiming a DSLR camera, while a startled man in a navy blazer runs beside him holding a Google Business Profile storefront sign (blue awning with a white "G"). A smiling banana peel sits on the ground at lower right. No other text. -->
-
-Hola!
 
 Quick test.
 

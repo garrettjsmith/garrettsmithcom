@@ -1,18 +1,15 @@
 ---
 title: "How to start measuring AI visibility"
-subtitle: "Here are few straightforward steps you can take to get started "
+subtitle: "Here are a few straightforward steps you can take to get started"
 date: 2026-08-19
 slug: how-to-start-measuring-ai-visibility
 beehiiv_id: post_e31cb44c-33cc-4167-b9d9-cff681b5b52c
 source: https://coconotes.beehiiv.com/p/how-to-start-measuring-ai-visibility
 kind: essay
 topics: [ai-visibility, tools]
+description: "A five-step way to measure whether ChatGPT, Gemini, Perplexity and AI Overviews recommend your business."
+ask: "Does my business show up in ChatGPT and Gemini for my top services?"
 ---
-
-![How to measure AI visibility](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/a01ee28a-cde7-4f22-a33e-d40f74b45ccf/how-to-measure-ai-visibility.png?t=1787165046)
-<!-- image: hero; Cream-background header graphic with the title "HOW TO START MEASURING AI VISIBILITY" (the last two words in purple). Below it are three chat bubbles (question mark, star, location pin) with a dashed arrow leading to a clipboard showing four storefront tiles, two with checkmarks, one greyed with a crossed-out eye, one plain, plus tally marks and a small bar chart and magnifying glass. -->
-
-Hi —
 
 Last week I talked about [how the customer journey changed](https://www.linkedin.com/pulse/your-customers-search-starts-before-google-garrett-smith-yhvne). AI first, then Google to verify.
 

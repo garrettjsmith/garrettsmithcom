@@ -7,12 +7,9 @@ beehiiv_id: post_be5ead0f-0917-4878-9187-8ec222814f6b
 source: https://coconotes.beehiiv.com/p/the-agent-readiness-checklist-for-local-businesses
 kind: essay
 topics: [website, ai-visibility, local-search]
+description: "A checklist of what to fix on your website so AI agents can read, book and choose your local business."
+ask: "How agent-ready is my website compared to my competitors'?"
 ---
-
-![Agent Optimization Series: Agent Readiness Checklist for Local Businesses](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/e6f1230b-bc60-4889-9622-f9399e397f7f/aos-4.png?t=1783345659)
-<!-- image: hero; Hand-drawn "Agent Optimization Series" header illustration. A local business owner (mug reads "Local Business Owner") in front of a storefront looks at a large clipboard held by a robot that says "Here's your Agent Readiness Checklist." The checked items are: Accurate Business Information, Clear Services & Products, Agent Friendly Website, Accessible Contact Options, Reviews & Reputation Signals, Structured Data & Feeds, Consistent Across the Web, Content That Answers Questions. A notebook reads "Be found. Be understood. Be chosen." and a sign reads "Ready for Agent Discovery." -->
-
-Howdy —
 
 Three weeks in. Time to bring it home.
 
@@ -110,4 +107,4 @@ Go fix your site.
 Back to the future,  
 Garrett
 
-**P.S.** — If you want us to handle this, reply. We're doing agent readiness implementations for local businesses now — audit, fixes, and ongoing monitoring. But honestly, most of this your current developer can knock out in a day or two with the checklist above.
+**P.S.** — If you want us to handle this, [get in touch](/#access). We're doing agent readiness implementations for local businesses now — audit, fixes, and ongoing monitoring. But honestly, most of this your current developer can knock out in a day or two with the checklist above.

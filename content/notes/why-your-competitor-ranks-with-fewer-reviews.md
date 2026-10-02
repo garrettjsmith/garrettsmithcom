@@ -7,9 +7,9 @@ beehiiv_id: post_dcff21a8-b80e-4523-b81c-2fff964a76b2
 source: https://coconotes.beehiiv.com/p/why-your-competitor-ranks-with-fewer-reviews
 kind: essay
 topics: [reviews, gbp, local-search]
+description: "Why review velocity and recency can beat a bigger review count in the local pack, and how to fix yours."
+ask: "How does my review velocity compare to my top competitors in the last 90 days?"
 ---
-
-Happy Monday!
 
 Does this drive you crazy? (No, not the snow.)
 

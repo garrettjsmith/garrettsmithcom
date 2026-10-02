@@ -7,12 +7,9 @@ beehiiv_id: post_cc69e91e-4ca5-4a91-84c7-a46e6da7ddbd
 source: https://coconotes.beehiiv.com/p/your-gbp-is-becoming-a-data-feed
 kind: essay
 topics: [gbp, ai-visibility, reviews]
+description: "Google's new GBP features make profiles easier to run and also turn them into a data feed for AI. Here's what that means and what to do."
+ask: "How fresh and complete is my Google profile data compared to my competitors?"
 ---
-
-![GBP data factory](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/38ce16a7-ee7c-477e-a00e-b904b6913490/gbp-data-factory.png?t=1779293773)
-<!-- image: hero; A man in a gray hoodie stands beside a conveyor belt in a data center, watching cards labeled Review ("Great service and friendly staff!"), "Joe's Coffee" (4.6 stars), Photo, Hours (Mon-Fri 7am-7pm, Sat-Sun 8am-6pm) and Services (Coffee, Pastries, Catering) feed into a machine labeled "DATA PROCESSING - Turning Business Info into Structured Data". Pipes from the machine lead to signs for Google Maps, AI Overviews & Gemini, Google Search, Voice Assistants, Google Ads, and Third-Party Apps & Sites. A "Google Business Profile" sign hangs on the left wall. -->
-
-Happy Thursday —
 
 If you've been [managing Google Business Profiles like us](https://gmbgorilla.com/google-my-business-management-service) for a while, you've probably noticed something.
 
@@ -30,7 +27,7 @@ Let's start with what Google gave us this year.
 
 This was the most-requested feature for years. One of the biggest reasons to work with a third party software vendor or agency. Google finally delivered.
 
-**AI-suggested review replies.** Google can now drafts review responses for you. You review, edit, and submit. For businesses drowning in reviews they never respond to, this is a lifeline.
+**AI-suggested review replies.** Google can now draft review responses for you. You review, edit, and submit. For businesses drowning in reviews they never respond to, this is a lifeline.
 
 **AI menu extraction.** Upload a photo of your menu, and Google's AI extracts the items, prices, and categories into a structured digital format. No more manual data entry.
 
@@ -124,7 +121,7 @@ The features they're adding make that easier. The policies they're enforcing mak
 
 You can fight it. You can build systems that keep the machine fed with minimal ongoing effort. Or you can hire the [Google Business Profile specialists](https://gmbgorilla.com) to do it for you 🦍
 
-I'd recommend the later option.
+I'd recommend the latter option.
 
 Talk soon, Garrett
 

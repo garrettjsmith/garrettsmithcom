@@ -7,16 +7,13 @@ beehiiv_id: post_2cbea21e-fea7-4d2e-b15e-c45bb0ed69dd
 source: https://coconotes.beehiiv.com/p/19-things-we-learned-about-ai-visibility-in-the-last-12-months
 kind: essay
 topics: [ai-visibility, website, local-search]
+description: "Lessons from a year of AI visibility audits: crawlers, site speed, content, PR, and why results take months to show."
+ask: "How is my site doing with AI crawlers, server logs, and page speed?"
 ---
-
-![19 AI visibility lessons learned](https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/55d5d805-f728-4849-9b19-aeef0c3b03f8/19_ai_visibility_lessons_learned.jpg?t=1789497325)
-<!-- image: hero; Header graphic reading "19 things we learned about AI visibility in the last 12 months" with the tagline "The biggest lessons from our own optimization efforts and 50+ audits." On the right a line-drawn robot labeled "AI" lifts one highlighted five-star profile card from a row of five review/profile cards. Note: the image says "50+ audits" while the post subtitle says "30+ audits". -->
-
-Hi!
 
 We've spent the past year going deep into AI visibility.
 
-Figuring out how to improve it for own software and services through trial and error.
+Figuring out how to improve it for our own software and services through trial and error.
 
 Auditing clients, benchmarking visibility, helping them set strategy, figuring out what works, trying to stop doing what doesn’t.
 
@@ -146,9 +143,9 @@ We had a client with a content strategy built around volume. Fifty 500-word blog
 
 Engines rarely cite two pages from the same domain. When you spread your expertise across 50 shallow posts, they often cannibalize each other. None of them are comprehensive enough to be the answer.
 
-We consolidated their best content into a few definitive guides, the 3,000+ words, genuinely useful, the kind of page you'd bookmark type. Low and behold, citations increased. 
+We consolidated their best content into a few definitive guides, the 3,000+ words, genuinely useful, the kind of page you'd bookmark type. Lo and behold, citations increased. 
 
-One authoritative piece on a topic beats 50 that just talked a small aspect of the topic.
+One authoritative piece on a topic beats 50 that just talked about a small aspect of the topic.
 
 **11. Recency matters for retrieval**
 
@@ -158,7 +155,7 @@ A guide last updated in 2022 might lose to a thinner piece penned in 2026.
 
 Not always true, but we see it often enough that we now build content refresh cycles into every engagement (often using AI agents). 
 
-Updating existing pages, even just  adding recent context, has always been a good move and today can help improve your AI visibility.
+Updating existing pages, even just adding recent context, has always been a good move and today can help improve your AI visibility.
 
 **12. Optimize for the queries the engines write, not the prompts users type**
 
@@ -180,7 +177,7 @@ A CFO and a developer can describe the same thing completely differently. Which 
 
 Now we map out buyer personas and make sure there's different prompts and content that matches how each one asks.
 
-This is a sneaky good one if you’re selling multiple products and service or working across different geographies.
+This is a sneaky good one if you’re selling multiple products and services or working across different geographies.
 
 **14. AI visibility relies on organic strength**
 
@@ -198,7 +195,7 @@ We tracked a client's AI visibility before and after a press campaign. Mentions 
 
 This is different from traditional link building. Mentions in trusted publications can feed both the training data and the retrieval system, whether they include a link or not.
 
-Turn your brand into something work talking about. That's the game.
+Turn your brand into something worth talking about. That's the game.
 
 **16. For some verticals, build expert entities, not just brand entities**
 
@@ -248,11 +245,11 @@ The next year ahead is going to be much the same. Benchmark, test, review, repea
 
 With each new model release comes changes requiring new ways of thinking and doing as AI companies continue to innovate how they approach generating responses.
 
-If you haven’t got started there’s no better time than now. 
+If you haven’t gotten started there’s no better time than now. 
 
-Don’t be intimated. We’re all out here trying to figure it out.
+Don’t be intimidated. We’re all out here trying to figure it out.
 
 Talk soon,  
 Garrett
 
-**P.S.** — If you’re trying to get started with AI visibility and feel lost or are stuck somewhere along the journey, feel free to reach out. Always happy to see if we can help! Maybe something we’ll learn ends up in the next email 😉 
+**P.S.** — If you’re trying to get started with AI visibility and feel lost or are stuck somewhere along the journey, feel free to reach out. Always happy to see if we can help! Maybe something we’ll learn ends up in the next note 😉 
