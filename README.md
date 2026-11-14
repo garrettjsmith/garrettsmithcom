@@ -158,6 +158,10 @@ Workspace or Fastmail).
 5. Approve someone: `SITE_URL=https://garrettsmith.com INVITE_SECRET=... npm run invite -- them@company.com`
    prints an install link that works for 14 days.
 
+Signed-in Teams members also get an **Add to Slack** link in the site header.
+It goes to `/api/slack/install` with no invite, and the route issues them a
+fresh one, so a lost welcome email or an expired link isn't a dead end.
+
 ## Terms and Privacy
 
 `/terms` and `/privacy` are drafted from how the app actually handles data

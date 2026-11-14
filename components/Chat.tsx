@@ -364,6 +364,11 @@ export function Chat({ banner, latest = [] }: { banner?: { text: string; bad?: b
   const cta = (onClick: () => void) =>
     member ? (
       <div className="account">
+        {member.plan === "teams" && (
+          <a className="linkish always" href="/api/slack/install">
+            Add to Slack
+          </a>
+        )}
         {member.billing && (
           <button className="linkish" onClick={() => void openPortal()}>
             Billing
