@@ -10,6 +10,7 @@ import { Gate } from "./Gate.tsx";
 import { LandingSections, type LatestNote } from "./Landing.tsx";
 import { Mark } from "./Mark.tsx";
 import { Offer } from "./Offer.tsx";
+import { ApiAccess, openApiAccess } from "./ApiAccess.tsx";
 import { SignIn } from "./SignIn.tsx";
 import { HeroStage } from "./Stage.tsx";
 
@@ -364,9 +365,13 @@ export function Chat({ banner, latest = [] }: { banner?: { text: string; bad?: b
   const cta = (onClick: () => void) =>
     member ? (
       <div className="account">
+        <button className="linkish always" onClick={openApiAccess}>
+          API
+        </button>
         {member.plan === "teams" && (
           <a className="linkish always" href="/api/slack/install">
-            Add to Slack
+            <span className="long">Add to Slack</span>
+            <span className="short">Slack</span>
           </a>
         )}
         {member.billing && (
@@ -506,6 +511,7 @@ export function Chat({ banner, latest = [] }: { banner?: { text: string; bad?: b
       </p>
 
       <SignIn />
+      {member && <ApiAccess />}
 
       <dialog ref={about}>
         <h2>What this is</h2>

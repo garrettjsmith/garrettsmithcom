@@ -13,8 +13,8 @@ vGarrett (virtual Garrett) = Garrett's rules (`lib/garrett/persona.ts`)
 ```
 garrettsmith.com chat ──► /api/chat ──────┐
                                           ├──► lib/garrett/brain.ts ──► Claude
-Slack @mention / DM ───► /api/slack/events┘        │  ├─ open_playbook   (Local SEO Skills, loaded on demand)
-                                                   │  ├─ Local SEO Data  (REST API: allowlisted, trimmed, cached)
+Slack @mention / DM ───► /api/slack/events┤        │  ├─ open_playbook   (Local SEO Skills, loaded on demand)
+Members' agents ──► /api/mcp, /api/v1/ask ┘        │  ├─ Local SEO Data  (REST API: allowlisted, trimmed, cached)
                                                    │  └─ save_team_note  (Slack only: remembers the team's business)
                                                    └─ Redis: team notes, Slack installs, rate limits, access requests
 ```
@@ -161,6 +161,35 @@ Workspace or Fastmail).
 Signed-in Teams members also get an **Add to Slack** link in the site header.
 It goes to `/api/slack/install` with no invite, and the route issues them a
 fresh one, so a lost welcome email or an expired link isn't a dead end.
+
+## API and MCP (members' own agents)
+
+Every member can plug vGarrett into their own AI agents. It's another channel
+on the same brain (`channel: "agent"` in `lib/garrett/persona.ts`), so it
+shares the member's brief, notes, monthly question cap, and data budget with
+web and email.
+
+- **Keys.** A signed-in member opens **API** in the site header to create,
+  name, and revoke keys (up to 5). A key looks like `vg_…`, is shown once, and
+  is stored only as a SHA-256 hash (`lib/apikeys.ts`). Keys follow the
+  membership: cancel the plan and they stop working.
+- **MCP server:** `https://garrettsmith.com/api/mcp` (Streamable HTTP,
+  stateless, key sent as `Authorization: Bearer vg_…`). Two tools:
+  `ask_vgarrett` (`question`, optional `thread_id`) and `get_brief`. Tool
+  calls stream status updates so long live checks don't time out. In Claude
+  Code: `claude mcp add --transport http vgarrett https://garrettsmith.com/api/mcp --header "Authorization: Bearer vg_…"`.
+- **HTTP:** `POST /api/v1/ask` with `{"question": "...", "thread_id": "optional"}`
+  returns `{answer, thread_id, checked, playbooks, offline}`.
+  `GET /api/v1/brief` returns the member's brief and doesn't count as a
+  question.
+- **Threads.** Send back the `thread_id` from an answer to ask a follow-up.
+  Threads are kept in Redis for 30 days (`agent:conv:<email>:<thread>`).
+- **What makes it more than the building blocks.** The agent channel rules
+  tell vGarrett to commit to a diagnosis and rank the fixes rather than list
+  options. That file is the place to add more of Garrett's judgment.
+
+Not built: one-click connector sign-in (OAuth), which is what Claude and
+ChatGPT's connector directories need. Today a member pastes a key.
 
 ## Terms and Privacy
 

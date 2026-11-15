@@ -76,6 +76,7 @@ export const COPY = {
           `Web chat and email (${ASK_EMAIL})`,
           "Audits, research, and a plan for your business",
           "Monday check-ins: rankings, new reviews, reminders",
+          "API and MCP: plug vGarrett into your own AI agents",
           "Text and WhatsApp coming soon",
         ],
         featured: true,

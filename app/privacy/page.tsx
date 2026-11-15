@@ -10,7 +10,7 @@ export default function Privacy() {
   return (
     <LegalPage title="Privacy Policy" effective={LEGAL.effective}>
       <p>
-        This policy explains what vGarrett (the web chat at garrettsmith.com, {ASK_EMAIL}, and the Slack app)
+        This policy explains what vGarrett (the web chat at garrettsmith.com, {ASK_EMAIL}, the Slack app, and the API and MCP server)
         collects, why, who we share it with, and how long we keep it. It&rsquo;s provided by {LEGAL.entity}. The short
         version: we use what you send us to answer you, we don&rsquo;t sell it, and we keep as little as we can.
       </p>
@@ -70,6 +70,18 @@ export default function Privacy() {
           access token, which is deleted when the app is uninstalled.
         </li>
         <li>Slack user IDs, so the AI can tell teammates apart within a thread.</li>
+      </ul>
+      <h3>When you connect your own AI agents (API and MCP)</h3>
+      <ul>
+        <li>
+          <b>The questions your agent sends and the answers</b>, kept by conversation thread for 30 days after the
+          thread was last used, so follow-up questions have context. Your agent decides what it sends; we only receive
+          what&rsquo;s in the request.
+        </li>
+        <li>
+          <b>Your API keys</b>, stored only as a one-way hash with a name and the last four characters. Revoking a key
+          deletes it.
+        </li>
       </ul>
       <h3>When you ask for a review by the real Garrett</h3>
       <ul>
