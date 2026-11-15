@@ -70,7 +70,7 @@ function Field({
     if (!el) return;
     el.style.height = "auto";
     el.style.height = el.scrollHeight + "px";
-  }, [value, ref]);
+  }, [value, placeholder, ref]);
   return (
     <div className="field">
       <textarea
@@ -93,6 +93,18 @@ function Field({
         {disabled ? "…" : "Ask"}
       </button>
     </div>
+  );
+}
+
+/** The other ways to reach vGarrett: establishes that the chat is one door among several. */
+function Channels({ label }: { label: string }) {
+  return (
+    <p className="also">
+      {label}
+      {COPY.hero.channels.map((c) => (
+        <i key={c}>{c}</i>
+      ))}
+    </p>
   );
 }
 
@@ -158,6 +170,15 @@ export function Chat({ banner, latest = [] }: { banner?: { text: string; bad?: b
   const scrollTarget = useRef<{ id: number; block: ScrollLogicalPosition } | null>(null);
   const chatInput = useRef<HTMLTextAreaElement>(null);
   const about = useRef<HTMLDialogElement>(null);
+  // Phones get a one-line placeholder. Set after mount so the server and first render agree.
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width:560px)");
+    const sync = () => setNarrow(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
   // Restore the conversation after a refresh, and follow the back button.
   useEffect(() => {
@@ -430,12 +451,30 @@ export function Chat({ banner, latest = [] }: { banner?: { text: string; bad?: b
                     {COPY.hero.headline} <mark>{COPY.hero.highlight}</mark>
                   </h1>
                   <p className="sub">{COPY.hero.subhead}</p>
-                  <Field value={draft} onChange={setDraft} onSubmit={() => ask(draft)} disabled={busy} placeholder={COPY.hero.placeholder} />
+                  <Channels label={COPY.hero.channelsLabel} />
+                  {/* Phones: the pitch arrives as vGarrett's first message instead of the subhead. */}
+                  <div className="hello">
+                    <Mark />
+                    <div className="bubble">
+                      <p>
+                        I&rsquo;m <b>{COPY.hero.helloName}</b>, {COPY.hero.helloBody} <b>{COPY.hero.helloAsk}</b>
+                      </p>
+                      <Channels label={COPY.hero.channelsLabelShort} />
+                    </div>
+                  </div>
+                  <Field
+                    value={draft}
+                    onChange={setDraft}
+                    onSubmit={() => ask(draft)}
+                    disabled={busy}
+                    placeholder={narrow ? COPY.hero.placeholderShort : COPY.hero.placeholder}
+                  />
                   <p className="try">{COPY.hero.tryLine}</p>
                   <div className="chips">
-                    {COPY.questions.map((q) => (
+                    {COPY.questions.map((q, i) => (
                       <button key={q} className="chip q" onClick={() => ask(q)}>
-                        {q}
+                        <span className="q-long">{q}</span>
+                        <span className="q-short">{COPY.questionsShort[i] ?? q}</span>
                       </button>
                     ))}
                   </div>
