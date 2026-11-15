@@ -521,7 +521,7 @@ export function Chat({ banner, latest = [] }: { banner?: { text: string; bad?: b
           human, it says so and can put your case in front of the real one.
         </p>
         <p>
-          It runs on Claude with Garrett&rsquo;s <a href="https://github.com/garrettjsmith/localseoskills">Local SEO Skills</a>{" "}
+          It uses Garrett&rsquo;s <a href="https://github.com/garrettjsmith/localseoskills">Local SEO Skills</a>{" "}
           as its playbook and <a href="https://localseodata.com">Local SEO Data</a> for live rankings, profiles, and
           reviews, so it pulls real numbers instead of talking in generalities.
         </p>
