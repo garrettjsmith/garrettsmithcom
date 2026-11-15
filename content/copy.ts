@@ -18,11 +18,27 @@ export const COPY = {
       "Companies pay me $36,000+ a year for monthly access. So I built vGarrett, my virtual twin: my playbooks, wired to live ranking data, on call in this chat or your inbox for about the price of lunch.",
     placeholder: "Try it: Smith Plumbing in Buffalo, NY dropped out of the map pack…",
     tryLine: "Free to try right here. No signup.",
+    // On phones the hero opens as a chat: vGarrett's first message replaces the subhead.
+    helloName: "vGarrett",
+    helloBody: "Garrett\u2019s virtual twin: his playbooks, wired to live ranking data. Companies pay him $36,000+ a year; I cost about the price of lunch.",
+    helloAsk: "What\u2019s the business and city?",
+    placeholderShort: "Business name and city\u2026",
+    // The other ways to reach vGarrett, so the chat doesn't read as the whole product.
+    channelsLabel: "Ask here, or by",
+    channelsLabelShort: "Also by",
+    channels: ["Email", "Slack", "MCP", "API"],
   },
   questions: [
     "Why am I not in the map pack?",
     "My listing got suspended. Now what?",
     "Is my website helping or hurting my local rankings?",
+    "Am I showing up in AI answers?",
+  ],
+  // Shorter labels for the same questions, shown on phones so each fits one line. The full question is what gets asked.
+  questionsShort: [
+    "Why am I not in the map pack?",
+    "My listing got suspended",
+    "Is my website hurting my rankings?",
     "Am I showing up in AI answers?",
   ],
   letter: {
