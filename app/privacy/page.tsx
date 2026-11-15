@@ -115,8 +115,8 @@ export default function Privacy() {
       <p>Only the providers that run the Service, and only what each one needs:</p>
       <ul>
         <li>
-          <b>Anthropic</b> (the AI model): your questions, conversation context, and saved notes, to generate answers.
-          Anthropic&rsquo;s commercial terms don&rsquo;t allow it to train its models on this data.
+          <b>Our AI model provider</b>: your questions, conversation context, and saved notes, to generate answers.
+          We only use model providers whose terms don&rsquo;t allow them to train their models on this data.
         </li>
         <li>
           <b>Local SEO Data</b> (a related service Garrett operates): the business names, keywords, locations, and URLs

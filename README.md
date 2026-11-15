@@ -43,10 +43,11 @@ Members' agents ──► /api/mcp, /api/v1/ask ┘        │  ├─ Local SEO
 
 ## Cost controls
 
-- The model is not named anywhere a customer sees (the site, emails, or
-  vGarrett's own answers), so it can be swapped without changing the pitch.
-  The one exception is the privacy policy, which lists the provider that
-  receives people's questions; update it when the provider changes.
+- The model is not named anywhere a customer sees (the site, the legal
+  pages, emails, or vGarrett's own answers), so it can be swapped without
+  changing the pitch. The privacy policy promises that model providers
+  aren't allowed to train on customer data: check that against the
+  provider's terms before any switch.
 - Default model is `claude-sonnet-5` at `medium` effort. Change it with
   `GARRETT_MODEL` / `GARRETT_EFFORT`.
 - The persona, playbook index, and channel rules form a cached prefix.
