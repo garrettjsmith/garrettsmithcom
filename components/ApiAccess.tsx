@@ -72,7 +72,8 @@ export function ApiAccess() {
 
   const mcpUrl = `${origin}/api/mcp`;
   const shown = fresh || "YOUR_KEY";
-  const claudeCmd = `claude mcp add --transport http vgarrett ${mcpUrl} --header "Authorization: Bearer ${shown}"`;
+  // The config shape most MCP clients read; nothing here is tied to one AI vendor.
+  const mcpConfig = JSON.stringify({ mcpServers: { vgarrett: { type: "http", url: mcpUrl, headers: { Authorization: `Bearer ${shown}` } } } }, null, 2);
   const curlCmd = `curl ${origin}/api/v1/ask -H "Authorization: Bearer ${shown}" -H "Content-Type: application/json" -d '{"question":"Why is Acme Plumbing missing from the map pack in Buffalo, NY?"}'`;
   const snippet = (name: string, title: string, value: string) => (
     <div className="api-snip">
@@ -90,8 +91,9 @@ export function ApiAccess() {
     <dialog ref={ref} className="signin api">
       <h2>API and MCP</h2>
       <p>
-        Plug vGarrett into your own AI agents. It answers with the same playbooks, live data, and memory of your
-        business as here. Each question counts toward your monthly questions.
+        Plug vGarrett into whatever agent or tool you already use: anything that speaks MCP or can make an HTTP
+        request. It answers with the same playbooks, live data, and memory of your business as here. Each question
+        counts toward your monthly questions.
       </p>
 
       {fresh && (
@@ -134,7 +136,7 @@ export function ApiAccess() {
           <input
             id="api-label"
             maxLength={40}
-            placeholder="Name it, e.g. Claude Code"
+            placeholder="Name it, e.g. Research agent"
             value={label}
             onChange={(e) => setLabel(e.target.value)}
           />
@@ -151,7 +153,7 @@ export function ApiAccess() {
 
       <h3>Connect</h3>
       {snippet("url", "MCP server URL (send the key as a Bearer token)", mcpUrl)}
-      {snippet("claude", "Claude Code", claudeCmd)}
+      {snippet("config", "MCP config (works in most agents and editors)", mcpConfig)}
       {snippet("curl", "Plain HTTP", curlCmd)}
       <p className="api-muted">
         MCP tools: <code>ask_vgarrett</code> and <code>get_brief</code>. HTTP: <code>POST /api/v1/ask</code> and{" "}

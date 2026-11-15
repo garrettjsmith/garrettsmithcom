@@ -176,8 +176,10 @@ web and email.
 - **MCP server:** `https://garrettsmith.com/api/mcp` (Streamable HTTP,
   stateless, key sent as `Authorization: Bearer vg_…`). Two tools:
   `ask_vgarrett` (`question`, optional `thread_id`) and `get_brief`. Tool
-  calls stream status updates so long live checks don't time out. In Claude
-  Code: `claude mcp add --transport http vgarrett https://garrettsmith.com/api/mcp --header "Authorization: Bearer vg_…"`.
+  calls stream status updates so long live checks don't time out. It's
+  plain MCP, not tied to one AI vendor: the dialog gives members the
+  `mcpServers` config most agents and editors read. (In Claude Code:
+  `claude mcp add --transport http vgarrett https://garrettsmith.com/api/mcp --header "Authorization: Bearer vg_…"`.)
 - **HTTP:** `POST /api/v1/ask` with `{"question": "...", "thread_id": "optional"}`
   returns `{answer, thread_id, checked, playbooks, offline}`.
   `GET /api/v1/brief` returns the member's brief and doesn't count as a
@@ -188,8 +190,8 @@ web and email.
   tell vGarrett to commit to a diagnosis and rank the fixes rather than list
   options. That file is the place to add more of Garrett's judgment.
 
-Not built: one-click connector sign-in (OAuth), which is what Claude and
-ChatGPT's connector directories need. Today a member pastes a key.
+Not built: one-click sign-in (OAuth, the standard MCP way to connect without
+pasting a key, in any client that supports it). Today a member pastes a key.
 
 ## Terms and Privacy
 
