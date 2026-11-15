@@ -10,6 +10,7 @@ import { Gate } from "./Gate.tsx";
 import { LandingSections, type LatestNote } from "./Landing.tsx";
 import { Mark } from "./Mark.tsx";
 import { Offer } from "./Offer.tsx";
+import { ApiAccess, openApiAccess } from "./ApiAccess.tsx";
 import { SignIn } from "./SignIn.tsx";
 import { HeroStage } from "./Stage.tsx";
 
@@ -364,6 +365,15 @@ export function Chat({ banner, latest = [] }: { banner?: { text: string; bad?: b
   const cta = (onClick: () => void) =>
     member ? (
       <div className="account">
+        <button className="linkish always" onClick={openApiAccess}>
+          API
+        </button>
+        {member.plan === "teams" && (
+          <a className="linkish always" href="/api/slack/install">
+            <span className="long">Add to Slack</span>
+            <span className="short">Slack</span>
+          </a>
+        )}
         {member.billing && (
           <button className="linkish" onClick={() => void openPortal()}>
             Billing
@@ -501,6 +511,7 @@ export function Chat({ banner, latest = [] }: { banner?: { text: string; bad?: b
       </p>
 
       <SignIn />
+      {member && <ApiAccess />}
 
       <dialog ref={about}>
         <h2>What this is</h2>
@@ -510,7 +521,7 @@ export function Chat({ banner, latest = [] }: { banner?: { text: string; bad?: b
           human, it says so and can put your case in front of the real one.
         </p>
         <p>
-          It runs on Claude with Garrett&rsquo;s <a href="https://github.com/garrettjsmith/localseoskills">Local SEO Skills</a>{" "}
+          It uses Garrett&rsquo;s <a href="https://github.com/garrettjsmith/localseoskills">Local SEO Skills</a>{" "}
           as its playbook and <a href="https://localseodata.com">Local SEO Data</a> for live rankings, profiles, and
           reviews, so it pulls real numbers instead of talking in generalities.
         </p>

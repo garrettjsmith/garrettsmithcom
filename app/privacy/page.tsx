@@ -10,7 +10,7 @@ export default function Privacy() {
   return (
     <LegalPage title="Privacy Policy" effective={LEGAL.effective}>
       <p>
-        This policy explains what vGarrett (the web chat at garrettsmith.com, {ASK_EMAIL}, and the Slack app)
+        This policy explains what vGarrett (the web chat at garrettsmith.com, {ASK_EMAIL}, the Slack app, and the API and MCP server)
         collects, why, who we share it with, and how long we keep it. It&rsquo;s provided by {LEGAL.entity}. The short
         version: we use what you send us to answer you, we don&rsquo;t sell it, and we keep as little as we can.
       </p>
@@ -71,6 +71,18 @@ export default function Privacy() {
         </li>
         <li>Slack user IDs, so the AI can tell teammates apart within a thread.</li>
       </ul>
+      <h3>When you connect your own AI agents (API and MCP)</h3>
+      <ul>
+        <li>
+          <b>The questions your agent sends and the answers</b>, kept by conversation thread for 30 days after the
+          thread was last used, so follow-up questions have context. Your agent decides what it sends; we only receive
+          what&rsquo;s in the request.
+        </li>
+        <li>
+          <b>Your API keys</b>, stored only as a one-way hash with a name and the last four characters. Revoking a key
+          deletes it.
+        </li>
+      </ul>
       <h3>When you ask for a review by the real Garrett</h3>
       <ul>
         <li>
@@ -103,8 +115,8 @@ export default function Privacy() {
       <p>Only the providers that run the Service, and only what each one needs:</p>
       <ul>
         <li>
-          <b>Anthropic</b> (the AI model): your questions, conversation context, and saved notes, to generate answers.
-          Anthropic&rsquo;s commercial terms don&rsquo;t allow it to train its models on this data.
+          <b>Our AI model provider</b>: your questions, conversation context, and saved notes, to generate answers.
+          We only use model providers whose terms don&rsquo;t allow them to train their models on this data.
         </li>
         <li>
           <b>Local SEO Data</b> (a related service Garrett operates): the business names, keywords, locations, and URLs

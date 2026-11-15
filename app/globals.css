@@ -37,7 +37,7 @@ button.mark{cursor:pointer}
 .hdr-right{display:flex;align-items:center;gap:6px;flex:0 0 auto}
 .linkish{background:none;border:0;font:500 15px var(--body);color:var(--ink-2);cursor:pointer;min-height:var(--tap);padding:0 12px;border-radius:999px;transition:background-color var(--ease)}
 .hdr-cta{font:600 14px var(--body);background:var(--ink);color:#fff;border:0;border-radius:999px;padding:0 18px;min-height:40px;cursor:pointer;box-shadow:var(--shadow-1);transition:background-color var(--ease),color var(--ease),box-shadow var(--ease)}
-.hdr-cta .short{display:none}
+.hdr-cta .short,.account .short{display:none}
 .body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
 .wrap{width:100%;max-width:1160px;margin:0 auto}
 .banner{background:var(--ink);color:#fff;padding:10px 28px;font-weight:600}
@@ -344,7 +344,7 @@ dialog .row{display:flex;gap:10px;align-items:center;margin-top:20px}
   .mark svg{width:32px;height:32px}.mark{font-size:16px;gap:8px}
   .mark .labs{display:none}
   .hdr-cta{padding:0 14px}
-  .hdr-cta .long{display:none}.hdr-cta .short{display:inline}
+  .hdr-cta .long,.account .long{display:none}.hdr-cta .short,.account .short{display:inline}
   .hdr-right .linkish:not(.always){display:none}
   .gate-actions{grid-template-columns:1fr}
   .hero-wrap{padding:32px 16px 48px;align-items:flex-start}
@@ -476,3 +476,22 @@ a.linkish,a.hdr-cta{display:inline-flex;align-items:center;text-decoration:none}
   .note-nav{grid-template-columns:1fr}
   .note-nav .newer{grid-column:1;text-align:left}
 }
+
+/* ---------- API access dialog ---------- */
+dialog.api{max-width:620px;width:calc(100% - 24px);max-height:calc(100dvh - 24px);overflow-y:auto}
+dialog.api h3{font-size:15px;letter-spacing:-.01em;margin:24px 0 8px}
+dialog.api code{font:500 13px var(--mono);overflow-wrap:anywhere}
+.api-muted{color:var(--ink-2);font-size:14px}
+.api-fresh{margin-top:16px;border:1px solid var(--ink);border-radius:var(--r-sm);padding:14px;background:var(--surface)}
+.api-key{display:flex;gap:10px;align-items:center;margin-top:10px}
+.api-key code{flex:1;min-width:0}
+.api-keys{list-style:none;display:grid;gap:6px}
+.api-keys li{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 6px 6px 14px}
+.api-keys small{display:block;color:var(--ink-2);font-size:12px}
+.api-new{display:flex;gap:10px;margin-top:10px}
+dialog.api .api-new input{margin-top:0;flex:1;min-width:0}
+.api-snip{border:1px solid var(--line);border-radius:var(--r-sm);margin-top:8px;overflow:hidden}
+.api-snip-head{display:flex;justify-content:space-between;align-items:center;padding-left:14px;font-size:13px;color:var(--ink-2);border-bottom:1px solid var(--line)}
+.api-snip-head .linkish{min-height:36px;font-size:13px}
+.api-snip pre{margin:0;padding:12px 14px;font:500 12.5px/1.5 var(--mono);white-space:pre-wrap;overflow-wrap:anywhere}
+@media (max-width:640px){dialog.api{padding:22px 18px}.api-new{flex-direction:column}}

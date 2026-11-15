@@ -127,7 +127,7 @@ export default function Terms() {
       <h2>7. Our content and third-party services</h2>
       <p>
         The Service, its design, and its prompts belong to us. Garrett&rsquo;s Local SEO Skills playbooks are separately
-        open source under their own license. The Service relies on third parties, including Anthropic (the AI model),
+        open source under their own license. The Service relies on third parties, including an AI model provider,
         Local SEO Data (live search data), Stripe, Resend, and Slack. Their services have their own terms, and search
         results and third-party data are outside our control.
       </p>
